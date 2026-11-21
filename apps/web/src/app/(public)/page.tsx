@@ -6,6 +6,7 @@ import { HeroRally } from "@/features/home/HeroRally";
 import { HomeTournaments } from "@/features/home/HomeTournaments";
 import { HostShowcase } from "@/features/home/HostShowcase";
 import { RankingsShowcase } from "@/features/home/RankingsShowcase";
+import { HomeMiniCourtSection } from "@/features/home/HomeMiniCourtSection";
 import { HowItWorksRally } from "@/features/home/HowItWorksRally";
 import { JoinModal } from "@/components/common/JoinModal";
 
@@ -32,7 +33,10 @@ export default function HomePage() {
       {/* 4. Earn Your Rank: Glowing AM Player of the Month & Circuit Leaderboard (Image 4) */}
       <RankingsShowcase />
 
-      {/* 5. Three Steps & High-Energy Dark CTA Banner (Image 5) */}
+      {/* 5. Interactive Court Simulator: Warm Up, Beat Robo-Pro & Earn Badges */}
+      <HomeMiniCourtSection />
+
+      {/* 6. Three Steps & High-Energy Dark CTA Banner (Image 5) */}
       <HowItWorksRally onJoin={() => handleOpenJoin("player")} />
 
       {/* Interactive Join / Login Modal */}

@@ -38,62 +38,72 @@ export function QuickActionMenu() {
 
       {/* Popover Dropdown matching Reference Screenshot */}
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 rounded-2xl border border-white/15 bg-[#0E1526] p-3 shadow-2xl z-50 text-white animate-fade-up">
-          <div className="space-y-1">
-            {/* Action 1: Host a Tournament */}
-            <Link
-              href="/host/tournaments/new"
-              onClick={() => setOpen(false)}
-              className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group"
-            >
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime text-[#0B101B] font-bold group-hover:scale-105 transition-transform">
-                <Trophy className="h-5 w-5 stroke-[2.2]" />
-              </div>
-              <div className="min-w-0">
-                <strong className="block text-xs sm:text-sm font-bold text-white group-hover:text-lime transition-colors">
-                  Host a Tournament
-                </strong>
-                <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">
-                  Publish fixtures, collect UPI fees, and score matches live.
-                </p>
-              </div>
-            </Link>
+        <>
+          {/* Mobile backdrop to easily close on tap */}
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs sm:hidden"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
 
-            {/* Action 2: Find & Enter Events */}
+          {/* Popover Card - Fixed centered on mobile, absolute below button on desktop */}
+          <div className="fixed sm:absolute inset-x-4 sm:inset-x-auto sm:right-0 top-16 sm:top-full sm:mt-2 sm:w-80 rounded-2xl border border-white/15 bg-[#0E1526]/95 backdrop-blur-xl p-3 shadow-2xl z-50 text-white animate-fade-up">
+            <div className="space-y-1">
+              {/* Action 1: Host a Tournament */}
+              <Link
+                href="/host/tournaments/new"
+                onClick={() => setOpen(false)}
+                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime text-[#0B101B] font-bold group-hover:scale-105 transition-transform">
+                  <Trophy className="h-5 w-5 stroke-[2.2]" />
+                </div>
+                <div className="min-w-0">
+                  <strong className="block text-xs sm:text-sm font-bold text-white group-hover:text-lime transition-colors">
+                    Host a Tournament
+                  </strong>
+                  <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">
+                    Publish fixtures, collect UPI fees, and score matches live.
+                  </p>
+                </div>
+              </Link>
+
+              {/* Action 2: Find & Enter Events */}
+              <Link
+                href="/tournaments"
+                onClick={() => setOpen(false)}
+                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white font-bold group-hover:scale-105 transition-transform">
+                  <CalendarDays className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <strong className="block text-xs sm:text-sm font-bold text-white group-hover:text-lime transition-colors">
+                    Enter an Event
+                  </strong>
+                  <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">
+                    Browse verified badminton tournaments near you.
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <div className="my-2 h-px bg-white/10" />
+
+            {/* Footer Action */}
             <Link
-              href="/tournaments"
+              href="/host/verify"
               onClick={() => setOpen(false)}
-              className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group"
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
             >
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white font-bold group-hover:scale-105 transition-transform">
-                <CalendarDays className="h-5 w-5" />
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                <span>Become a Verified Host</span>
               </div>
-              <div className="min-w-0">
-                <strong className="block text-xs sm:text-sm font-bold text-white group-hover:text-lime transition-colors">
-                  Enter an Event
-                </strong>
-                <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">
-                  Browse verified badminton tournaments near you.
-                </p>
-              </div>
+              <ArrowRight className="h-3.5 w-3.5 text-gray-400" />
             </Link>
           </div>
-
-          <div className="my-2 h-px bg-white/10" />
-
-          {/* Footer Action */}
-          <Link
-            href="/host/verify"
-            onClick={() => setOpen(false)}
-            className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-xs font-semibold text-gray-300 hover:text-white transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>Become a Verified Host</span>
-            </div>
-            <ArrowRight className="h-3.5 w-3.5 text-gray-400" />
-          </Link>
-        </div>
+        </>
       )}
     </div>
   );

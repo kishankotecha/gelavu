@@ -62,11 +62,35 @@ export function Navbar() {
     (href: string) => {
       if (href === "/tournaments") return pathname.startsWith("/tournaments");
       if (href === "/leaderboard") return pathname.startsWith("/leaderboard");
-      if (href === "/host/verify" || href === "#hosts") return pathname.startsWith("/host");
+      if (href === "/host/verify" || href.includes("host")) return pathname.startsWith("/host");
       return false;
     },
     [pathname]
   );
+
+  const getRouteIndex = useCallback((path: string) => {
+    if (path.startsWith("/tournaments")) return 1;
+    if (path.startsWith("/leaderboard")) return 2;
+    if (path.startsWith("/host")) return 3;
+    if (typeof window !== "undefined") {
+      if (window.location.hash.includes("how")) return 0;
+      if (window.location.hash.includes("host")) return 3;
+    }
+    if (path === "/") return 0;
+    return -1;
+  }, []);
+
+  const [activeTab, setActiveTab] = useState<number>(() => getRouteIndex(pathname));
+  const [prevRoutePath, setPrevRoutePath] = useState(pathname);
+
+  // Sync activeTab during render when pathname changes
+  if (prevRoutePath !== pathname) {
+    setPrevRoutePath(pathname);
+    const idx = getRouteIndex(pathname);
+    if (idx !== -1) {
+      setActiveTab(idx);
+    }
+  }
 
   // Sliding indicator state and refs
   const navRef = useRef<HTMLElement>(null);
@@ -78,8 +102,6 @@ export function Navbar() {
     height: number;
     opacity: number;
   }>({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
-
-  const activeIndex = navTabs.findIndex((tab) => isTabActive(tab.href));
 
   const movePill = useCallback((index: number | null) => {
     if (index === null || index === -1) {
@@ -97,34 +119,58 @@ export function Navbar() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleHash = () => {
+      const idx = getRouteIndex(pathname);
+      if (idx !== -1) {
+        setActiveTab(idx);
+      }
+    };
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, [pathname, getRouteIndex]);
+
+  // When mouse leaves the nav bar, always return to the active tab
   const handleMouseLeave = useCallback(() => {
-    if (activeIndex !== -1) {
-      movePill(activeIndex);
+    if (activeTab !== -1) {
+      movePill(activeTab);
     } else {
       setPillStyle((prev) => ({ ...prev, opacity: 0 }));
     }
-  }, [activeIndex, movePill]);
+  }, [activeTab, movePill]);
 
+  // Position pill on mount and whenever activeTab changes
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      if (activeIndex !== -1) {
-        movePill(activeIndex);
-      } else {
-        setPillStyle((prev) => ({ ...prev, opacity: 0 }));
-      }
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [pathname, activeIndex, movePill]);
+    if (activeTab === -1) return;
+    const updatePosition = () => {
+      movePill(activeTab);
+    };
+    updatePosition();
+    const frame = requestAnimationFrame(updatePosition);
+    const timer = setTimeout(updatePosition, 100);
+    const timer2 = setTimeout(updatePosition, 300);
+
+    // Recompute after web fonts finish loading to ensure pixel-perfect width
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(updatePosition);
+    }
+
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
+  }, [activeTab, movePill]);
 
   useEffect(() => {
     const handleResize = () => {
-      if (activeIndex !== -1) {
-        movePill(activeIndex);
+      if (activeTab !== -1) {
+        movePill(activeTab);
       }
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [activeIndex, movePill]);
+  }, [activeTab, movePill]);
 
   if (hidden) return null;
 
@@ -136,8 +182,8 @@ export function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#070F1E] text-white">
         <div className="w-full h-16 sm:h-[68px] px-4 sm:px-8 lg:px-12 flex items-center justify-between">
           
-          {/* 1. LEFT: Brand Logo + Clean Nav Links (Desktop) */}
-          <div className="flex items-center gap-8 lg:gap-12 h-full">
+          {/* 1. LEFT: Brand Logo + Clean Nav Links (Desktop Only) */}
+          <div className="hidden lg:flex items-center gap-8 lg:gap-12 h-full">
             <GelavuLogo variant="dark" size="lg" href="/" />
 
             {/* Desktop Nav Links - Sliding Crystal Glass Background Pill with Karnataka Accent */}
@@ -158,19 +204,19 @@ export function Navbar() {
                   opacity: pillStyle.opacity,
                 }}
               >
-                {/* Layer 1: Solid Dark Crystal Glass Base (Prevents muddy brown tint) */}
-                <div className="absolute inset-0 rounded-full bg-[#0E182A]/90 backdrop-blur-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)]" />
+                {/* Layer 1: Frosted Crystal Glass Base */}
+                <div className="absolute inset-0 rounded-full bg-white/[0.08] backdrop-blur-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.3)]" />
 
-                {/* Layer 2: Radiant Karnataka Flag Gradient (Pure Gold Yellow -> Warm Saffron -> Vibrant Crimson Red) */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FACC15]/25 via-[#FB923C]/20 to-[#EF4444]/25" />
+                {/* Layer 2: Radiant Karnataka Flag Gradient (Gold Yellow -> Warm Saffron -> Crimson Red) with screen blend to eliminate muddy tint */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FACC15]/35 via-[#FB923C]/25 to-[#EF4444]/35 mix-blend-screen" />
 
                 {/* Layer 3: Top Specular Glass Reflection */}
-                <div className="absolute inset-x-4 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                <div className="absolute inset-x-3 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
               </div>
 
               {/* Navigation Links */}
               {navTabs.map((tab, idx) => {
-                const active = isTabActive(tab.href);
+                const active = activeTab === idx;
                 return (
                   <Link
                     key={tab.label}
@@ -179,7 +225,10 @@ export function Navbar() {
                     }}
                     href={tab.href}
                     onMouseEnter={() => movePill(idx)}
-                    onClick={() => movePill(idx)}
+                    onClick={() => {
+                      setActiveTab(idx);
+                      movePill(idx);
+                    }}
                     className="relative z-10 px-5 py-2 rounded-full text-sm font-semibold tracking-tight transition-colors duration-150 select-none cursor-pointer flex items-center justify-center"
                   >
                     <span
@@ -242,20 +291,16 @@ export function Navbar() {
             )}
           </div>
 
-          {/* 3. MOBILE HEADER BAR (Matches Bottom-Left Screen in Reference) */}
-          <div className="flex lg:hidden items-center justify-between w-full">
-            {/* Mobile Left: Red Action Button (+) */}
-            <div className="flex items-center gap-3">
-              <QuickActionMenu />
-            </div>
-
-            {/* Mobile Center: Centered Logo */}
-            <div className="mx-auto">
+          {/* 3. MOBILE HEADER BAR */}
+          <div className="flex lg:hidden items-center justify-between w-full h-full">
+            {/* Mobile Left: Brand Logo */}
+            <div className="flex items-center">
               <GelavuLogo variant="dark" size="md" href="/" />
             </div>
 
-            {/* Mobile Right: Hamburger Menu Button */}
-            <div className="flex items-center gap-2">
+            {/* Mobile Right: Action Button (+) + Hamburger Menu Button */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <QuickActionMenu />
               <button
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}

@@ -4,7 +4,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { ToastProvider } from "@/components/ui/toast";
 import { siteConfig } from "@/config/site";
 
@@ -35,9 +34,6 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Suspense fallback={null}>
               <Footer />
-            </Suspense>
-            <Suspense fallback={null}>
-              <MobileTabBar />
             </Suspense>
           </div>
         </ToastProvider>
