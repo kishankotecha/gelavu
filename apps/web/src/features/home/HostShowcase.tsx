@@ -27,7 +27,7 @@ export function HostShowcase() {
               <span className="text-xs font-black uppercase tracking-widest text-lime block">
                 BUILT FOR ORGANIZERS
               </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.06] mt-2">
+              <h2 className="font-rogenz text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-wide leading-[1.06] mt-2">
                 From first<br />
                 entry to final<br />
                 <span className="text-lime">point.</span>

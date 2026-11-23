@@ -16,7 +16,11 @@ const config: Config = {
         muted: c("muted"),
         live: c("live"),
       },
-      fontFamily: { sans: ["var(--font-jakarta)", "system-ui", "sans-serif"] },
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-rogenz)", "'Rogenz'", "Impact", "sans-serif"],
+        rogenz: ["var(--font-rogenz)", "'Rogenz'", "Impact", "sans-serif"],
+      },
       boxShadow: {
         card: "0 1px 2px rgb(11 18 32 / .04), 0 8px 24px -14px rgb(11 18 32 / .14)",
         lift: "0 2px 4px rgb(11 18 32 / .06), 0 18px 34px -14px rgb(11 18 32 / .28)",

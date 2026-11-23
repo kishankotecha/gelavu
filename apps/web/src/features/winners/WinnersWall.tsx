@@ -14,7 +14,7 @@ export function WinnersWall({ champions }: { champions: Champion[] }) {
             <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#E6B84F]">
               WINNERS WALL
             </p>
-            <h2 id="winners-title" className="mt-1 text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+            <h2 id="winners-title" className="font-rogenz mt-1 text-2xl sm:text-3xl font-bold tracking-wide text-white">
               Champions of the month
             </h2>
           </div>

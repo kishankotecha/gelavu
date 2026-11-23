@@ -39,7 +39,7 @@ export function HowItWorksRally({ onJoin }: HowItWorksRallyProps) {
             <span className="text-xs font-black uppercase tracking-widest text-[#6366F1] block">
               NO MORE SIDELINES
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B101B] tracking-tight mt-1">
+            <h2 className="font-rogenz text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B101B] tracking-wide mt-1">
               Three steps. Game on.
             </h2>
           </div>
@@ -83,7 +83,7 @@ export function HowItWorksRally({ onJoin }: HowItWorksRallyProps) {
             <span className="text-xs font-black uppercase tracking-widest text-lime block">
               READY WHEN YOU ARE
             </span>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            <h2 className="font-rogenz text-3xl sm:text-5xl lg:text-6xl font-bold tracking-wide text-white leading-tight">
               Don’t just play.<br />
               <span className="text-white">Make it count.</span>
             </h2>

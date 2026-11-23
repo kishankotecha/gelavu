@@ -47,7 +47,7 @@ export function RankingsShowcase() {
                 <small className="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">
                   BENGALURU · MEN&apos;S SINGLES
                 </small>
-                <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">
+                <h3 className="font-rogenz text-3xl sm:text-4xl font-bold text-white tracking-wide mt-1">
                   Arjun Mehta
                 </h3>
               </div>
@@ -78,7 +78,7 @@ export function RankingsShowcase() {
                 <span className="text-xs font-black uppercase tracking-widest text-[#6366F1] block">
                   EARN YOUR RANK
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-black text-[#0B101B] tracking-tight mt-1">
+                <h2 className="font-rogenz text-3xl sm:text-4xl font-bold text-[#0B101B] tracking-wide mt-1">
                   Every match builds your story.
                 </h2>
                 <p className="text-xs sm:text-sm text-muted mt-2 leading-relaxed">

@@ -1,15 +1,38 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/toast";
 import { siteConfig } from "@/config/site";
 
-const jakarta = Plus_Jakarta_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const rogenz = localFont({
+  src: [
+    {
+      path: "../fonts/rogenz/Rogenz.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/rogenz/Rogenz.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/rogenz/Rogenz.otf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-rogenz",
   display: "swap",
 });
 
@@ -24,7 +47,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${rogenz.variable}`}
+    >
       <body className="font-sans antialiased min-h-screen">
         <ToastProvider>
           <div className="flex min-h-screen flex-col">

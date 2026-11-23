@@ -184,7 +184,7 @@ export function Footer() {
         <div>
           
           {/* Mobile Non-Scrolling Responsive Sports Grid */}
-          <div className="py-3 lg:py-4 space-y-2">
+          <div className="py-3 lg:hidden space-y-2">
             <div className="flex items-center justify-between gap-2">
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#84CC16]">
                 ONE ARENA · EVERY SPORT

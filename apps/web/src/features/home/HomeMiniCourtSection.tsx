@@ -23,7 +23,7 @@ export function HomeMiniCourtSection() {
             <span>Interactive Court Simulator</span>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          <h2 className="font-rogenz text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-wide">
             Test your reflexes. <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-lime via-[#A3E635] to-[#FACC15]">
               Beat Robo-Pro.

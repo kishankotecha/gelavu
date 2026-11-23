@@ -86,7 +86,7 @@ export function HomeTournaments({ tournaments }: HomeTournamentsProps) {
             <span className="text-xs font-black uppercase tracking-widest text-[#6366F1] block">
               PLAY NEAR YOU
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0B101B] tracking-tight mt-1">
+            <h2 className="font-rogenz text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B101B] tracking-wide mt-1">
               The court is calling.
             </h2>
           </div>
