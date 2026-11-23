@@ -32,3 +32,11 @@ export function isThisWeekend(iso: string, now: Date = ANCHOR_DATE) {
 }
 
 export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+export function formatHour(h: number) {
+  const hh = Math.floor(h);
+  const mm = Math.round((h - hh) * 60);
+  const h12 = hh % 12 === 0 ? 12 : hh % 12;
+  return `${h12}:${String(mm).padStart(2, "0")} ${hh < 12 || hh === 24 ? "AM" : "PM"}`;
+}
+

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -13,11 +13,25 @@ import {
   UserPlus,
   Check,
   ChevronDown,
+  Users,
+  ShieldCheck,
+  UserCheck,
+  Sparkles,
+  Hand,
+  Trophy,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { GelavuLogo } from "@/components/common/GelavuLogo";
+import { getPartnersForTournament } from "@/data/partners";
 
-export default function TournamentDetailPage() {
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default function TournamentDetailPage({ params }: PageProps) {
+  const resolvedParams = use(params);
+  const slug = resolvedParams?.slug || "bengaluru-open-badminton-2026";
+
   const { showToast } = useToast();
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("md_inter");
@@ -27,6 +41,8 @@ export default function TournamentDetailPage() {
   const [activeTab, setActiveTab] = useState("Overview");
   const [isPaying, setIsPaying] = useState(false);
   const [paidSuccess, setPaidSuccess] = useState(false);
+
+  const partnerCandidates = getPartnersForTournament(slug);
 
   // Countdown timer for Slot held (09:42 format)
   const [timeLeft, setTimeLeft] = useState(582); // 9 mins 42 secs
@@ -46,49 +62,62 @@ export default function TournamentDetailPage() {
   const categories = [
     {
       id: "md_inter",
-      name: "Men's Doubles • Intermediate",
-      sub: "Bring your partner • 32 teams",
+      name: "Men's Doubles (BYOP)",
+      sub: "Bring your partner or pair up in BYOP pool • 32 teams",
       price: 1200,
-      fee: 60,
-      left: "6 left",
+      fee: 40,
+      left: "4 slots left",
       leftColor: "text-amber-600",
-      status: "OPEN",
     },
     {
       id: "xd_open",
-      name: "Mixed Doubles • Open",
-      sub: "Random partner draw • 24 teams",
-      price: 1000,
-      fee: 50,
-      left: "14 left",
-      leftColor: "text-emerald-600",
-      status: "OPEN",
+      name: "Mixed Doubles (BYOP)",
+      sub: "Bring your partner or pair up in BYOP pool • 24 teams",
+      price: 1200,
+      fee: 40,
+      left: "6 slots left",
+      leftColor: "text-amber-600",
     },
     {
-      id: "ws_open",
-      name: "Women's Singles • Open",
-      sub: "16 players",
-      price: 799,
-      fee: 40,
-      left: "Waitlist",
+      id: "ms_open",
+      name: "Men's Singles • Advanced",
+      sub: "Open category • 32 players",
+      price: 800,
+      fee: 30,
+      left: "2 slots left",
       leftColor: "text-red-500",
-      status: "WAITLIST",
+    },
+    {
+      id: "blind_draw",
+      name: "Host Random Draw Doubles 🎯",
+      sub: "Solo entry • All teams randomly drawn by tournament host",
+      price: 1100,
+      fee: 35,
+      left: "8 slots left",
+      leftColor: "text-emerald-600",
     },
   ];
 
   const currentCat = categories.find((c) => c.id === selectedCategory) || categories[0];
-  const totalAmount = paymentMode === "split" ? currentCat.price / 2 + currentCat.fee : currentCat.price + currentCat.fee;
-
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      showToast("Tournament link copied to clipboard!", "success");
-    }
-  };
+  const totalAmount =
+    paymentMode === "split" ? currentCat.price / 2 + currentCat.fee : currentCat.price + currentCat.fee;
 
   const handleBookmark = () => {
     setIsBookmarked(!isBookmarked);
-    showToast(!isBookmarked ? "Tournament saved to your bookmarks" : "Tournament removed from bookmarks", "info");
+    showToast(isBookmarked ? "Removed from saved tournaments" : "Tournament saved to your bookmarks!", "success");
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: "Bengaluru Open Badminton 2026",
+        text: "Join me at Bengaluru Open Badminton! Registration open on Gelavu.",
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      showToast("Tournament link copied to clipboard!", "success");
+    }
   };
 
   const handlePay = () => {
@@ -96,21 +125,21 @@ export default function TournamentDetailPage() {
     setTimeout(() => {
       setIsPaying(false);
       setPaidSuccess(true);
-      showToast("UPI Payment of ₹" + totalAmount + " Successful! Entry Confirmed.", "success");
-    }, 1200);
+      showToast("Payment successful! Registration confirmed.", "success");
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink pb-16 font-sans">
-      {/* Dedicated Header: Back, Gelavu Logo, Actions */}
-      <header className="sticky top-0 z-40 bg-paper/90 backdrop-blur-md border-b border-line px-4 sm:px-8 py-3.5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+    <div className="min-h-screen bg-[#F6F5F0] text-gray-900 pb-20">
+      {/* Top Header */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-1.5 text-xs font-bold text-gray-700 hover:text-black transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
+            <span>Back to Tournaments</span>
           </Link>
 
           <GelavuLogo variant="light" size="md" href="/" />
@@ -145,28 +174,24 @@ export default function TournamentDetailPage() {
           <div className="lg:col-span-7 space-y-6">
             {/* Hero Card */}
             <div className="relative rounded-3xl bg-gradient-to-br from-[#2D2A57] via-[#1E1B3D] to-[#111024] p-7 sm:p-9 text-white shadow-xl overflow-hidden">
-              {/* Subtle background glow */}
               <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
 
-              {/* Status Badge */}
               <div className="inline-flex items-center gap-1 rounded-full bg-[#D4FF00] px-3 py-1 text-[11px] font-black tracking-wider text-black uppercase mb-4 shadow-sm">
                 REGISTRATION OPEN
               </div>
 
-              {/* Title */}
               <h1 className="text-2xl sm:text-4xl lg:text-[40px] font-black leading-tight tracking-tight text-white">
-                Bengaluru Open Badminton 2025
+                Bengaluru Open Badminton 2026
               </h1>
 
-              {/* Date & Location */}
               <div className="flex flex-wrap items-center gap-5 mt-5 text-xs sm:text-sm text-gray-300 font-medium">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-gray-400" />
-                  <span>14–16 Mar</span>
+                  <span>Sat & Sun · Upcoming Weekend</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-gray-400" />
-                  <span>Koramangala Indoor Arena</span>
+                  <span>Game Theory Arena, Indiranagar</span>
                 </div>
               </div>
             </div>
@@ -179,25 +204,25 @@ export default function TournamentDetailPage() {
               </div>
               <div className="rounded-2xl border border-gray-200/90 bg-white p-4 shadow-xs">
                 <span className="text-[11px] font-semibold text-gray-500 block">Format</span>
-                <span className="text-lg font-black text-gray-900 mt-1 block">Knockout</span>
+                <span className="text-lg font-black text-gray-900 mt-1 block">Groups + KO</span>
               </div>
               <div className="rounded-2xl border border-gray-200/90 bg-white p-4 shadow-xs">
                 <span className="text-[11px] font-semibold text-gray-500 block">Scoring</span>
                 <span className="text-lg font-black text-gray-900 mt-1 block">21 • Best of 3</span>
               </div>
               <div className="rounded-2xl border border-gray-200/90 bg-white p-4 shadow-xs">
-                <span className="text-[11px] font-semibold text-gray-500 block">Closes</span>
-                <span className="text-lg font-black text-gray-900 mt-1 block">10 Mar</span>
+                <span className="text-[11px] font-semibold text-gray-500 block">Partners Wanted</span>
+                <span className="text-lg font-black text-amber-600 mt-1 block">{partnerCandidates.length} Seeking</span>
               </div>
             </div>
 
             {/* Tabs Row */}
-            <div className="flex items-center gap-6 border-b border-gray-200 pt-2 text-xs font-bold text-gray-500">
-              {["Overview", "Categories", "Schedule", "Players (86)", "Rules & FAQ"].map((tab) => (
+            <div className="flex items-center gap-6 border-b border-gray-200 pt-2 text-xs font-bold text-gray-500 overflow-x-auto">
+              {["Overview", "BYOP Partner Pool", "Categories", "Players (86)", "Rules & FAQ"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-3 transition-colors ${
+                  className={`pb-3 transition-colors shrink-0 cursor-pointer ${
                     activeTab === tab
                       ? "text-black border-b-2 border-black font-black"
                       : "hover:text-gray-900"
@@ -208,68 +233,201 @@ export default function TournamentDetailPage() {
               ))}
             </div>
 
-            {/* About Card */}
-            <div className="rounded-2xl border border-gray-200/90 bg-white p-6 shadow-xs space-y-4">
-              <h2 className="text-sm font-black text-gray-900">About</h2>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
-                Three days of competitive badminton across singles, doubles and mixed categories. Eight courts,
-                certified umpires, live scoring and a public bracket. Winners get trophies, cash prizes and a
-                shareable winner poster.
-              </p>
+            {/* PARTNER POOL (Seeking Pair) Section */}
+            {(activeTab === "Overview" || activeTab === "BYOP Partner Pool") && (
+              <div className="rounded-3xl border border-amber-500/30 bg-amber-500/5 p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-amber-600" />
+                    <div>
+                      <h2 className="text-sm font-black text-gray-900">
+                        BYOP Partner Pool: Players Seeking a Pair ({partnerCandidates.length})
+                      </h2>
+                      <p className="text-[11px] text-gray-500">
+                        In BYOP, if you don&apos;t have a partner, check playing styles & ratings to pair up before registering!
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/tournaments/${slug}/register?category=BLIND_DRAW_DOUBLES`}
+                    className="inline-flex items-center gap-1 rounded-full bg-white border border-gray-300 px-3 py-1 text-xs font-bold text-gray-800 hover:border-black transition shrink-0"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    Prefer Host Random Draw? 🎯
+                  </Link>
+                </div>
 
-              {/* 3 Podium Badges */}
-              <div className="flex flex-wrap items-center gap-2 pt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-200/70 px-3.5 py-2 text-xs font-bold text-gray-800">
-                  🏆 1st ₹60,000
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-gray-200 px-3.5 py-2 text-xs font-bold text-gray-800">
-                  🥈 2nd ₹30,000
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-300/40 px-3.5 py-2 text-xs font-bold text-gray-800">
-                  🥉 3rd ₹15,000
-                </span>
-              </div>
-            </div>
-
-            {/* Categories Section */}
-            <div className="space-y-3">
-              <h2 className="text-sm font-black text-gray-900">Categories</h2>
-              <div className="space-y-2.5">
-                {categories.map((cat) => {
-                  const isSelected = selectedCategory === cat.id;
-                  return (
+                <div className="grid grid-cols-1 gap-3 pt-1">
+                  {partnerCandidates.map((cand) => (
                     <div
-                      key={cat.id}
-                      onClick={() => setSelectedCategory(cat.id)}
-                      className={`cursor-pointer rounded-2xl p-4 sm:p-4.5 flex items-center justify-between transition-all ${
-                        isSelected
-                          ? "bg-[#F7FDE8] border-2 border-[#A3E635] shadow-xs"
-                          : "bg-white border border-gray-200/90 hover:border-gray-300"
-                      }`}
+                      key={cand.id}
+                      className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xs transition hover:border-black/40 hover:shadow-sm"
                     >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs sm:text-sm font-bold text-gray-900">{cat.name}</span>
-                          {isSelected && (
-                            <span className="h-2 w-2 rounded-full bg-[#84CC16]" />
-                          )}
-                        </div>
-                        <p className="text-[11px] text-gray-500 mt-0.5">{cat.sub}</p>
-                      </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="flex items-start gap-3">
+                          <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black text-white font-bold text-xs shadow-xs">
+                            {cand.initials}
+                            {cand.verified && (
+                              <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-white">
+                                <ShieldCheck className="h-2.5 w-2.5" />
+                              </span>
+                            )}
+                          </div>
 
-                      <div className="text-right">
-                        <span className="text-xs sm:text-sm font-black text-gray-900 block">
-                          ₹{cat.price.toLocaleString("en-IN")}
-                        </span>
-                        <span className={`text-[11px] font-bold ${cat.leftColor} block mt-0.5`}>
-                          {cat.left}
-                        </span>
+                          <div className="space-y-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-sm font-bold text-gray-900">{cand.name}</span>
+                              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-800">
+                                <Trophy className="w-2.5 h-2.5" /> Rank #{cand.circuitRank}
+                              </span>
+                              <span className="text-[11px] text-gray-500 font-mono">
+                                Rating: <strong>{cand.rating}</strong> ({cand.winRate} win)
+                              </span>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+                              <span className="rounded-lg bg-emerald-50 border border-emerald-200/70 px-2 py-0.5 font-bold text-emerald-800">
+                                {cand.playStyle}
+                              </span>
+                              <span className="rounded-lg bg-gray-100 px-2 py-0.5 font-semibold text-gray-700 flex items-center gap-1">
+                                <Hand className="w-3 h-3 text-gray-400" /> {cand.dominantHand}
+                              </span>
+                            </div>
+
+                            <p className="text-xs text-gray-600 italic pt-1">
+                              &ldquo;{cand.lookingForNote}&rdquo;
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-100">
+                          <Link
+                            href={`/players/${cand.id}`}
+                            className="text-xs font-semibold text-gray-500 hover:text-black underline underline-offset-4 cursor-pointer"
+                          >
+                            View Profile
+                          </Link>
+                          <Link
+                            href={`/tournaments/${slug}/register?pairWith=${cand.id}&partnerName=${encodeURIComponent(
+                              cand.name
+                            )}&playStyle=${encodeURIComponent(cand.playStyle)}`}
+                            className="inline-flex items-center gap-1.5 rounded-full bg-black hover:bg-gray-800 text-white px-4 py-2 text-xs font-bold transition shadow-xs cursor-pointer"
+                          >
+                            <UserCheck className="w-3.5 h-3.5" />
+                            Pair Up & Enter
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* About Card */}
+            {activeTab === "Overview" && (
+              <div className="rounded-2xl border border-gray-200/90 bg-white p-6 shadow-xs space-y-4">
+                <h2 className="text-sm font-black text-gray-900">About the Tournament</h2>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-normal">
+                  Three days of competitive badminton across singles, doubles and mixed categories. Eight synthetic and
+                  teak courts, certified state umpires, live digital scoring and a public bracket. Winners get trophies, cash
+                  prizes and a shareable winner poster on the Gelavu circuit.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-200/70 px-3.5 py-2 text-xs font-bold text-gray-800">
+                    🏆 1st ₹60,000
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-gray-200 px-3.5 py-2 text-xs font-bold text-gray-800">
+                    🥈 2nd ₹30,000
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-300/40 px-3.5 py-2 text-xs font-bold text-gray-800">
+                    🥉 3rd ₹15,000
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Categories Section */}
+            {(activeTab === "Overview" || activeTab === "Categories") && (
+              <div className="space-y-3">
+                <h2 className="text-sm font-black text-gray-900">Tournament Categories</h2>
+                <div className="space-y-2.5">
+                  {categories.map((cat) => {
+                    const isSelected = selectedCategory === cat.id;
+                    return (
+                      <div
+                        key={cat.id}
+                        onClick={() => setSelectedCategory(cat.id)}
+                        className={`cursor-pointer rounded-2xl p-4 sm:p-4.5 flex items-center justify-between transition-all ${
+                          isSelected
+                            ? "bg-[#F7FDE8] border-2 border-[#A3E635] shadow-xs"
+                            : "bg-white border border-gray-200/90 hover:border-gray-300"
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs sm:text-sm font-bold text-gray-900">{cat.name}</span>
+                            {isSelected && <span className="h-2 w-2 rounded-full bg-[#84CC16]" />}
+                          </div>
+                          <p className="text-[11px] text-gray-500 mt-0.5">{cat.sub}</p>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-xs sm:text-sm font-black text-gray-900 block">
+                            ₹{cat.price.toLocaleString("en-IN")}
+                          </span>
+                          <span className={`text-[11px] font-bold ${cat.leftColor} block mt-0.5`}>
+                            {cat.left}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Confirmed Players Tab */}
+            {activeTab === "Players (86)" && (
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xs space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm font-black text-gray-900">Confirmed Players & Pairs (86)</h2>
+                  <span className="text-xs text-gray-500">Seedings update Friday 6 PM</span>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {[
+                    { name: "Vikram Patel & Karthik Reddy", category: "Men's Doubles", seed: "Seed #1", style: "Lefty Angles + Backcourt Attack" },
+                    { name: "Rohan Kumar & Ananya Sharma", category: "Mixed Doubles", seed: "Seed #2", style: "Rear Smashes + Fast Net Play" },
+                    { name: "Suresh Hegde & Manoj Gowda", category: "Men's Doubles", seed: "Seed #3", style: "High Stamina Baseline" },
+                    { name: "Nitin Kamath & Partner TBD (Blind Draw)", category: "Blind Draw Doubles", seed: "Unseeded", style: "Tactical Placement" },
+                  ].map((pair, idx) => (
+                    <div key={idx} className="py-3 flex items-center justify-between">
+                      <div>
+                        <span className="text-xs font-bold text-gray-900 block">{pair.name}</span>
+                        <span className="text-[11px] text-gray-500">{pair.category} · {pair.style}</span>
+                      </div>
+                      <span className="text-xs font-mono font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded-md">
+                        {pair.seed}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Rules & FAQ Tab */}
+            {activeTab === "Rules & FAQ" && (
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xs space-y-3 text-xs text-gray-600 leading-relaxed">
+                <h2 className="text-sm font-black text-gray-900">Tournament Rules & Guidelines</h2>
+                <ul className="list-disc pl-4 space-y-1.5">
+                  <li>BWF standard feather shuttlecocks provided by the tournament committee.</li>
+                  <li>Non-marking badminton shoes are strictly mandatory on synthetic and teak courts.</li>
+                  <li>Warm-up courts available 30 minutes before first round matches.</li>
+                  <li>In Blind-Draw categories, pairs are auto-matched by circuit rating tier.</li>
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Sticky Register Card (approx 37%) */}
@@ -277,7 +435,7 @@ export default function TournamentDetailPage() {
             <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-7 shadow-lg space-y-5">
               {/* Card Header & Slot Held Timer */}
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-black text-gray-900">Register</h3>
+                <h3 className="text-lg font-black text-gray-900">Quick Entry</h3>
                 <div className="flex items-center gap-1 rounded-full bg-[#FEF3C7] border border-amber-300/60 px-3 py-1 text-[11px] font-bold text-amber-800">
                   <Clock className="w-3.5 h-3.5 text-amber-600" />
                   <span>Slot held {formatTimer(timeLeft)}</span>
@@ -307,31 +465,41 @@ export default function TournamentDetailPage() {
 
               {/* PARTNER Segmented & Input */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block">
-                  PARTNER
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block">
+                    PARTNER
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("Partner Pool (Seeking Pair)")}
+                    className="text-[11px] font-bold text-amber-600 hover:underline cursor-pointer"
+                  >
+                    Browse {partnerCandidates.length} seeking pair →
+                  </button>
+                </div>
+
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setPartnerMode("bring")}
-                    className={`rounded-xl py-2.5 text-xs font-bold transition-all ${
+                    className={`rounded-xl py-2.5 text-xs font-bold transition-all cursor-pointer ${
                       partnerMode === "bring"
                         ? "bg-black text-white shadow-xs"
                         : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
                     }`}
                   >
-                    Bring partner
+                    I Have Partner
                   </button>
                   <button
                     type="button"
                     onClick={() => setPartnerMode("random")}
-                    className={`rounded-xl py-2.5 text-xs font-bold transition-all ${
+                    className={`rounded-xl py-2.5 text-xs font-bold transition-all cursor-pointer ${
                       partnerMode === "random"
                         ? "bg-black text-white shadow-xs"
                         : "bg-white text-gray-700 border border-gray-200 hover:bg-gray-50"
                     }`}
                   >
-                    Random draw
+                    Random Draw 🎯
                   </button>
                 </div>
 
@@ -350,8 +518,8 @@ export default function TournamentDetailPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-xl bg-amber-50 border border-amber-200/80 p-2.5 text-[11px] text-amber-800">
-                    🎲 You will be matched with another solo player before the tournament draw.
+                  <div className="rounded-xl bg-amber-50 border border-amber-200/80 p-2.5 text-[11px] text-amber-800 leading-relaxed">
+                    🎲 <strong>Host Random Draw:</strong> Solo entry. The Tournament Host spins the official Picker Wheel to form randomized, balanced teams before Round 1.
                   </div>
                 )}
               </div>
@@ -365,7 +533,7 @@ export default function TournamentDetailPage() {
                   <button
                     type="button"
                     onClick={() => setPaymentMode("full")}
-                    className={`rounded-xl py-2.5 text-xs font-bold transition-all ${
+                    className={`rounded-xl py-2.5 text-xs font-bold transition-all cursor-pointer ${
                       paymentMode === "full"
                         ? "border-2 border-black bg-white text-black font-black"
                         : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
@@ -376,7 +544,7 @@ export default function TournamentDetailPage() {
                   <button
                     type="button"
                     onClick={() => setPaymentMode("split")}
-                    className={`rounded-xl py-2.5 text-xs font-bold transition-all ${
+                    className={`rounded-xl py-2.5 text-xs font-bold transition-all cursor-pointer ${
                       paymentMode === "split"
                         ? "border-2 border-black bg-white text-black font-black"
                         : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
@@ -391,7 +559,9 @@ export default function TournamentDetailPage() {
               <div className="space-y-2 pt-2 border-t border-gray-100 text-xs text-gray-600 font-medium">
                 <div className="flex items-center justify-between">
                   <span>Entry fee</span>
-                  <span>₹{(paymentMode === "split" ? currentCat.price / 2 : currentCat.price).toLocaleString("en-IN")}</span>
+                  <span>
+                    ₹{(paymentMode === "split" ? currentCat.price / 2 : currentCat.price).toLocaleString("en-IN")}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Platform fee</span>
@@ -409,22 +579,29 @@ export default function TournamentDetailPage() {
                   <Check className="w-4 h-4" /> Registration Confirmed!
                 </div>
               ) : (
-                <button
-                  type="button"
-                  onClick={handlePay}
-                  disabled={isPaying}
-                  className="w-full rounded-2xl bg-black hover:bg-gray-800 text-white py-3.5 px-4 text-xs font-black flex items-center justify-center gap-2 shadow-lg active:scale-[0.99] transition-all cursor-pointer"
-                >
-                  <Lock className="w-3.5 h-3.5 text-[#D4FF00]" />
-                  <span>
-                    {isPaying ? "Processing UPI..." : `Pay ₹${totalAmount.toLocaleString("en-IN")} via UPI`}
-                  </span>
-                </button>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={handlePay}
+                    disabled={isPaying}
+                    className="w-full rounded-2xl bg-black hover:bg-gray-800 text-white py-3.5 px-4 text-xs font-black flex items-center justify-center gap-2 shadow-lg active:scale-[0.99] transition-all cursor-pointer"
+                  >
+                    <Lock className="w-3.5 h-3.5 text-[#D4FF00]" />
+                    <span>
+                      {isPaying ? "Processing UPI..." : `Pay ₹${totalAmount.toLocaleString("en-IN")} via UPI`}
+                    </span>
+                  </button>
+                  <Link
+                    href={`/tournaments/${slug}/register`}
+                    className="w-full rounded-2xl border border-gray-300 hover:border-black text-gray-800 hover:text-black py-2.5 px-4 text-xs font-bold flex items-center justify-center gap-1.5 transition text-center cursor-pointer"
+                  >
+                    Full Registration Form →
+                  </Link>
+                </div>
               )}
 
-              {/* Security Tag */}
               <p className="text-center text-[10px] text-gray-400 font-medium">
-                Secured by Razorpay • UPI, cards & wallets
+                Secured by Razorpay • UPI, cards & netbanking
               </p>
             </div>
           </div>

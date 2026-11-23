@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { MOCK_TOURNAMENTS } from "@/data/mock-data";
-import { StatTile } from "@/components/common/StatTile";
-import { Button } from "@/components/ui/button";
-import { Users, Calendar, GitBranch, Trophy, ArrowLeft, Clock } from "lucide-react";
+import { Users, Calendar, GitBranch, Trophy, ArrowLeft } from "lucide-react";
 
 export default async function HostTournamentOverviewPage({
   params,
@@ -16,21 +14,21 @@ export default async function HostTournamentOverviewPage({
   const navCards = [
     {
       title: "Player Entries",
-      desc: "View registrations, approve entries, or manually add offline players",
+      desc: "View registrations, approve entries, or bulk import via Excel & AI camera scan",
       href: `/host/tournaments/${id}/entries`,
       icon: Users,
       badge: "48 Players",
     },
     {
       title: "Fixtures & Bracket",
-      desc: "Generate tournament draw, seed players, and configure knockout rounds",
+      desc: "Interactive Picker Wheel live draw, seeding, and host audit issue resolution",
       href: `/host/tournaments/${id}/fixtures`,
       icon: GitBranch,
       badge: "Draw Ready",
     },
     {
       title: "Court Schedules",
-      desc: "Allocate courts 1-4, assign match time slots, and dispatch umpires",
+      desc: "Allocate courts 1-4, assign match time slots, and issue umpire QR codes",
       href: `/host/tournaments/${id}/schedule`,
       icon: Calendar,
       badge: "4 Courts",
@@ -45,29 +43,49 @@ export default async function HostTournamentOverviewPage({
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl">
-      <Link href="/host" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white mb-6">
-        <ArrowLeft className="w-3.5 h-3.5" /> Back to Dashboard
+    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl text-[#1E293B]">
+      <Link href="/host" className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] mb-6 font-semibold">
+        <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" /> Back to Host Dashboard
       </Link>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Host Control Room</span>
-          <h1 className="text-3xl font-black text-white">{tournament?.title}</h1>
-          <p className="text-xs text-gray-400 mt-1">Status: {tournament?.status} • ID: {id}</p>
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1D4A38]">Host Tournament Pavilion</span>
+          <h1 className="text-3xl font-black text-[#1E293B] tracking-tight">{tournament?.title}</h1>
+          <p className="text-xs text-[#64748B] mt-1">Status: {tournament?.status} • ID: {id}</p>
         </div>
 
         <Link href={`/live/${id}`} target="_blank">
-          <Button variant="secondary" size="sm" className="gap-2 text-amber-300">
+          <button className="inline-flex items-center gap-2 rounded-full border border-[#D5D9CE] bg-white hover:bg-[#F5F6F0] text-[#1E293B] px-4 py-2 text-xs font-bold transition-all shadow-xs cursor-pointer">
             Open Live Big Screen 📺
-          </Button>
+          </button>
         </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <StatTile label="Registered Entries" value="48 / 64" icon={Users} />
-        <StatTile label="Prize Pool" value="₹50,000" icon={Trophy} />
-        <StatTile label="Match Progress" value="12 / 16 Done" icon={Clock} trend="75%" />
+        <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
+          <span className="text-xs font-semibold text-[#64748B]">Registered Entries</span>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-3xl font-black text-[#1E293B]">48 / 64</span>
+          </div>
+          <span className="text-xs font-bold text-[#1D4A38] mt-2 block">75% Capacity</span>
+        </div>
+
+        <div className="rounded-2xl bg-[#1D4A38] p-5 text-white shadow-sm border border-[#16392B]">
+          <span className="text-xs font-semibold text-[#E8EFEA]/80">Prize Pool</span>
+          <div className="mt-2">
+            <span className="text-3xl font-black text-white tracking-tight">₹50,000</span>
+          </div>
+          <span className="text-xs text-[#E8EFEA]/70 mt-2 block">Trophies & Medals Ready</span>
+        </div>
+
+        <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
+          <span className="text-xs font-semibold text-[#64748B]">Match Progress</span>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="text-3xl font-black text-[#1E293B]">12 / 16</span>
+          </div>
+          <span className="text-xs font-bold text-[#1D4A38] mt-2 block">Semi-finals in progress</span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -77,21 +95,21 @@ export default async function HostTournamentOverviewPage({
             <Link
               key={c.href}
               href={c.href}
-              className="p-6 rounded-2xl border border-gray-800 bg-gray-900/60 hover:border-emerald-500/40 hover:bg-gray-800/60 transition-all flex flex-col justify-between"
+              className="p-6 rounded-2xl border border-[#E2E6DD] bg-white hover:border-[#1D4A38] hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400">
+                  <div className="p-3 rounded-xl bg-[#E8EFEA] text-[#1D4A38] group-hover:bg-[#1D4A38] group-hover:text-white transition-colors">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                  <span className="text-xs font-bold text-[#1D4A38] bg-[#E8EFEA] px-2.5 py-1 rounded-full border border-[#CAD7CE]">
                     {c.badge}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white">{c.title}</h3>
-                <p className="text-xs text-gray-400 mt-1">{c.desc}</p>
+                <h3 className="text-lg font-bold text-[#1E293B] group-hover:text-[#1D4A38] transition-colors">{c.title}</h3>
+                <p className="text-xs text-[#64748B] mt-1">{c.desc}</p>
               </div>
-              <div className="mt-6 text-xs font-semibold text-emerald-400 flex items-center gap-1">
+              <div className="mt-6 text-xs font-bold text-[#1D4A38] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage Section →
               </div>
             </Link>

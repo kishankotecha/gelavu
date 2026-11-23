@@ -6,10 +6,19 @@ import { Sparkles, Users } from "lucide-react";
 
 interface PartnerWheelProps {
   candidates: { id: string; name: string; rating?: number }[];
+  title?: string;
+  subtitle?: string;
+  buttonLabel?: string;
   onWinnerSelected?: (winner: { id: string; name: string }) => void;
 }
 
-export function PartnerWheel({ candidates, onWinnerSelected }: PartnerWheelProps) {
+export function PartnerWheel({
+  candidates,
+  title = "Host Random Partner Wheel",
+  subtitle = "The tournament host spins the wheel to draw random teams from verified solo players",
+  buttonLabel = "SPIN THE WHEEL 🎯",
+  onWinnerSelected,
+}: PartnerWheelProps) {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [selectedPartner, setSelectedPartner] = useState<{ id: string; name: string } | null>(null);
@@ -41,10 +50,10 @@ export function PartnerWheel({ candidates, onWinnerSelected }: PartnerWheelProps
       <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-white flex items-center justify-center gap-2">
           <Sparkles className="w-5 h-5 text-amber-400" />
-          Blind-Draw Partner Wheel
+          {title}
         </h3>
-        <p className="text-xs text-gray-400 mt-1">
-          Spin to randomly draw your doubles partner from eligible registered players
+        <p className="text-xs text-gray-400 mt-1 max-w-md mx-auto">
+          {subtitle}
         </p>
       </div>
 
@@ -87,15 +96,15 @@ export function PartnerWheel({ candidates, onWinnerSelected }: PartnerWheelProps
           disabled={spinning || candidates.length === 0}
           variant="gold"
           size="lg"
-          className="px-8 shadow-lg shadow-amber-500/20"
+          className="px-8 shadow-lg shadow-amber-500/20 cursor-pointer"
         >
-          {spinning ? "Drawing Partner..." : "SPIN THE WHEEL 🎯"}
+          {spinning ? "Drawing Random Team..." : buttonLabel}
         </Button>
 
         {selectedPartner && (
           <div className="mt-4 p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-center animate-in zoom-in-95">
-            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Draw Assigned!</span>
-            <h4 className="text-lg font-bold text-white mt-1">Your Partner: {selectedPartner.name}</h4>
+            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Host Draw Result</span>
+            <h4 className="text-lg font-bold text-white mt-1">Drawn Partner: {selectedPartner.name}</h4>
           </div>
         )}
       </div>

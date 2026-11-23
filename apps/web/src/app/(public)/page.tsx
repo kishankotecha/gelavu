@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { HeroRally } from "@/features/home/HeroRally";
-import { HomeTournaments } from "@/features/home/HomeTournaments";
+import { PlayNearYou } from "@/features/play-near-you/PlayNearYou";
 import { HostShowcase } from "@/features/home/HostShowcase";
 import { RankingsShowcase } from "@/features/home/RankingsShowcase";
 import { HomeMiniCourtSection } from "@/features/home/HomeMiniCourtSection";
@@ -21,22 +21,22 @@ export default function HomePage() {
 
   return (
     <main className="w-full min-h-screen overflow-x-hidden flex flex-col font-sans">
-      {/* 1. Hero with Athlete Smash, Play/Host Switcher & Court 3 Live Match + Stats Strip (Image 1) */}
+      {/* 1. Hero with Athlete Smash, Play/Host Switcher & Court 3 Live Match + Stats Strip */}
       <HeroRally city={siteConfig.city} onJoin={() => handleOpenJoin("player")} />
 
-      {/* 2. Play Near You: Location Pill, Filters & Stylized Cards with Half-Moon SVG (Image 2) */}
-      <HomeTournaments />
+      {/* 2. Play Near You: Neighbourhood Map, Match Ticket & Weekend Timeline */}
+      <PlayNearYou />
 
-      {/* 3. Built For Organizers: Realistic Angled Host Command Centre (Image 3) */}
+      {/* 3. Built For Organizers: Realistic Angled Host Command Centre */}
       <HostShowcase />
 
-      {/* 4. Earn Your Rank: Glowing AM Player of the Month & Circuit Leaderboard (Image 4) */}
+      {/* 4. Earn Your Rank: Glowing AM Player of the Month & Circuit Leaderboard */}
       <RankingsShowcase />
 
       {/* 5. Interactive Court Simulator: Warm Up, Beat Robo-Pro & Earn Badges */}
       <HomeMiniCourtSection />
 
-      {/* 6. Three Steps & High-Energy Dark CTA Banner (Image 5) */}
+      {/* 6. Three Steps & High-Energy Dark CTA Banner */}
       <HowItWorksRally onJoin={() => handleOpenJoin("player")} />
 
       {/* Interactive Join / Login Modal */}

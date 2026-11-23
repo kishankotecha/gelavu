@@ -27,11 +27,11 @@ export function HostSidebar() {
   ];
 
   return (
-    <aside className="w-60 lg:w-64 bg-[#0B101B] text-white flex flex-col justify-between shrink-0 min-h-screen p-5 border-r border-gray-800/80">
+    <aside className="w-60 lg:w-64 bg-[#F9FAF6] text-[#1E293B] flex flex-col justify-between shrink-0 min-h-screen p-5 border-r border-[#E2E6DD] select-none">
       <div className="space-y-8">
-        {/* Official Gelavu Logo with HOST Badge */}
+        {/* Official Gelavu Logo with HOST Badge in British Racing Green */}
         <div className="px-1">
-          <GelavuLogo variant="dark" badge="HOST" href="/host" />
+          <GelavuLogo variant="light" badge="HOST" href="/host" />
         </div>
 
         {/* Navigation Items */}
@@ -48,11 +48,11 @@ export function HostSidebar() {
                 href={item.href}
                 className={`flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-all ${
                   isActive
-                    ? "bg-[#161F30] text-white shadow-sm font-bold border border-gray-800"
-                    : "text-gray-400 hover:bg-gray-900/60 hover:text-white"
+                    ? "bg-[#1D4A38] text-white shadow-sm font-bold"
+                    : "text-[#64748B] hover:bg-[#EEF1EB] hover:text-[#1E293B]"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-gray-400"}`} />
+                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-[#64748B]"}`} />
                 <span>{item.title}</span>
               </Link>
             );
@@ -61,14 +61,14 @@ export function HostSidebar() {
       </div>
 
       {/* Bottom Switch Mode Box */}
-      <div className="mt-8 rounded-2xl bg-[#141A28] border border-gray-800/80 p-3.5">
-        <span className="text-[10px] uppercase font-bold text-gray-500 block">Mode</span>
+      <div className="mt-8 rounded-2xl bg-[#EEF1EB] border border-[#E2E6DD] p-3.5">
+        <span className="text-[10px] uppercase font-bold text-[#64748B] block">Mode</span>
         <Link
           href="/"
-          className="flex items-center justify-between text-xs font-bold text-white hover:text-emerald-400 transition-colors mt-1"
+          className="flex items-center justify-between text-xs font-bold text-[#1E293B] hover:text-[#1D4A38] transition-colors mt-1"
         >
           <span>Switch to Play</span>
-          <RefreshCw className="w-3.5 h-3.5 text-gray-400" />
+          <RefreshCw className="w-3.5 h-3.5 text-[#64748B]" />
         </Link>
       </div>
     </aside>

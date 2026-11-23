@@ -77,3 +77,6 @@ export function GameSummary({
     </div>
   );
 }
+
+export * from "./PlayoPostMatchRatingModal";
+
