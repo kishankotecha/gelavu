@@ -6,9 +6,13 @@ export interface User {
   phone: string;
   email?: string;
   role: UserRole;
+  roles?: UserRole[];
+  active_mode?: "PLAY" | "HOST";
   avatarUrl?: string;
   rating?: number;
   city?: string;
+  playingLevel?: string;
+  organizationName?: string;
   isKycVerified?: boolean;
 }
 
