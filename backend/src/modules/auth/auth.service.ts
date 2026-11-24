@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { createHash, randomUUID } from 'crypto';
+import { serializeUser } from '../users/user.serializer';
 import { User, ActiveMode } from '../../database/entities/user.entity';
 import { PlayerProfile, PlayingLevel, DominantHand } from '../../database/entities/player-profile.entity';
 import { HostProfile, KycStatus } from '../../database/entities/host-profile.entity';
@@ -344,10 +345,6 @@ export class AuthService {
   }
 
   private sanitizeUser(user: User) {
-    const { ...safeUser } = user;
-    if (safeUser.host_profile?.bank_account_number_encrypted) {
-      safeUser.host_profile.bank_account_number_encrypted = '••••••••';
-    }
-    return safeUser;
+    return serializeUser(user);
   }
 }
