@@ -16,22 +16,21 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanPhone = phone.trim().replace(/\D/g, "");
-    if (cleanPhone.length < 10) {
-      showToast("Please enter a valid 10-digit mobile number", "error");
+    if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+      showToast("Please enter a valid 10-digit Indian mobile number", "error");
       return;
     }
 
+    const mode = role === "host" ? "HOST" : "PLAY";
     setIsLoading(true);
     showToast(`Sending 6-digit OTP to +91 ${cleanPhone}...`, "info");
 
     setTimeout(() => {
       setIsLoading(false);
-      if (role === "host") {
-        router.push("/host");
-      } else {
-        router.push(`/verify-otp?phone=${encodeURIComponent(cleanPhone)}`);
-      }
-    }, 700);
+      router.push(
+        `/verify-otp?phone=${encodeURIComponent(cleanPhone)}&mode=${mode}`
+      );
+    }, 500);
   };
 
   return (
@@ -106,7 +105,7 @@ export default function LoginPage() {
                 maxLength={10}
                 placeholder="98765 43210"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                 className="w-full bg-transparent text-sm font-semibold text-ink placeholder:text-muted/60 outline-none"
                 required
                 autoFocus
