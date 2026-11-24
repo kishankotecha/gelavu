@@ -9,6 +9,7 @@ import { Repository, MoreThan } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { createHash, randomUUID } from 'crypto';
 import { User, ActiveMode } from '../../database/entities/user.entity';
 import { PlayerProfile, PlayingLevel, DominantHand } from '../../database/entities/player-profile.entity';
 import { HostProfile, KycStatus } from '../../database/entities/host-profile.entity';
@@ -238,27 +239,15 @@ export class AuthService {
         throw new UnauthorizedException('User not found or inactive');
       }
 
-      // Verify refresh token against active (non-revoked, non-expired) sessions
-      const activeSessions = await this.sessionRepository.find({
+      // Look up the exact session for this token (non-revoked, non-expired)
+      const matchedSession = await this.sessionRepository.findOne({
         where: {
           user_id: user.id,
+          refresh_token_hash: this.hashToken(dto.refreshToken),
           is_revoked: false,
           expires_at: MoreThan(new Date()),
         },
-        order: { created_at: 'DESC' },
       });
-
-      let matchedSession: AuthSession | null = null;
-      for (const session of activeSessions) {
-        const isMatch = await bcrypt.compare(
-          dto.refreshToken,
-          session.refresh_token_hash,
-        );
-        if (isMatch) {
-          matchedSession = session;
-          break;
-        }
-      }
 
       if (!matchedSession) {
         throw new UnauthorizedException('Session has been revoked or expired');
@@ -316,7 +305,8 @@ export class AuthService {
       expiresIn: this.configService.get<string>('JWT_EXPIRATION', '7d') as any,
     });
 
-    const refreshToken = this.jwtService.sign(payload, {
+    // jti makes every refresh token unique, even when issued within the same second
+    const refreshToken = this.jwtService.sign({ ...payload, jti: randomUUID() }, {
       secret: this.configService.get<string>(
         'JWT_REFRESH_SECRET',
         'gelavu_refresh_secret_key_2026',
@@ -327,13 +317,21 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
+  /**
+   * Refresh tokens are high-entropy JWTs, so a fast SHA-256 digest is enough.
+   * (bcrypt truncates input at 72 bytes, and every JWT for a user shares that prefix.)
+   */
+  private hashToken(token: string): string {
+    return createHash('sha256').update(token).digest('hex');
+  }
+
   private async createSession(
     userId: string,
     refreshToken: string,
     ip?: string,
     device?: string,
   ) {
-    const hash = await bcrypt.hash(refreshToken, 8);
+    const hash = this.hashToken(refreshToken);
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
     const session = this.sessionRepository.create({
       user_id: userId,
