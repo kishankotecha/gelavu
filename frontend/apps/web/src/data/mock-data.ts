@@ -19,7 +19,7 @@ export const MOCK_TOURNAMENTS: Tournament[] = [
     status: "REGISTRATION_OPEN",
     hostId: "host-1",
     hostName: "Apex Badminton Academy",
-    description: "The biggest amateur badminton showdown in South India! BWF standard feather shuttles, Yonex approved synthetic courts, live streaming on courts 1 & 2.",
+    description: "The biggest amateur badminton showdown in South India! BWF standard feather shuttles, Yonex approved synthetic courts, live point-by-point court scores on all courts.",
     categories: ["MEN_SINGLES", "MEN_DOUBLES", "MIXED_DOUBLES", "BLIND_DRAW_DOUBLES"],
     rulesSummary: "Best of 3 sets to 21 points. Yonex AS-30 Feather Shuttles provided. Umpire decisions are final.",
     partnerDrawEnabled: true,

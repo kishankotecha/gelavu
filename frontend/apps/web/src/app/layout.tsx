@@ -51,9 +51,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${rogenz.variable}`}
     >
-      <body className="font-sans antialiased min-h-screen">
+      <body className="font-sans antialiased min-h-screen bg-[#080E1B]">
         <ToastProvider>
-          <div className="flex min-h-screen flex-col">
+          <div className="flex min-h-screen flex-col bg-[#080E1B]">
             <Suspense fallback={<div className="h-16 w-full" />}>
               <Navbar />
             </Suspense>

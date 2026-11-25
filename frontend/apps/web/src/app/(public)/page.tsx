@@ -20,7 +20,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="w-full min-h-screen overflow-x-hidden flex flex-col font-sans">
+    <main className="w-full min-h-screen overflow-x-hidden flex flex-col font-sans bg-[#080E1B]">
       {/* 1. Hero with Athlete Smash, Play/Host Switcher & Court 3 Live Match + Stats Strip */}
       <HeroRally city={siteConfig.city} onJoin={() => handleOpenJoin("player")} />
 

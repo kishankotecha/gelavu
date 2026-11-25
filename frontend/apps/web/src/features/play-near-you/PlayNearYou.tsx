@@ -36,15 +36,19 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
   const areas = new Set(tournaments.map((t) => t.area)).size;
 
   return (
-    <section id="tournaments" aria-labelledby="pny-title" className="relative border-t border-white/10 bg-[#080E1B] text-white py-16 sm:py-24">
-      <div className="mx-auto w-full max-w-6xl space-y-10 px-4 sm:px-6">
+    <section id="tournaments" aria-labelledby="pny-title" className="relative border-t border-white/10 bg-gradient-to-b from-[#080E1B] via-[#0A1226] to-[#080E1B] text-white py-16 sm:py-24 overflow-hidden">
+      {/* Thematic Ambient Arena Glows (Midnight City Circuit Theme) */}
+      <div className="pointer-events-none absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full bg-cyan-500/[0.07] blur-[140px]" />
+      <div className="pointer-events-none absolute -right-32 bottom-1/4 h-[500px] w-[500px] rounded-full bg-indigo-600/[0.08] blur-[140px]" />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl space-y-10 px-4 sm:px-6">
         <header className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl space-y-3">
             <p className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-cyan-400">
               <span className="h-2 w-2 rounded-full bg-cyan-400 motion-safe:animate-pulse" aria-hidden="true" />
               This weekend · {weekend.rangeLabel} · {city}
             </p>
-            <h2 id="pny-title" className="font-sans text-4xl font-black uppercase tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h2 id="pny-title" className="font-rogenz text-4xl font-bold uppercase tracking-wide text-white sm:text-5xl lg:text-6xl">
               The court is calling.
             </h2>
             <p className="text-base leading-relaxed text-slate-300">
@@ -92,7 +96,7 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
         )}
 
         <div className="text-center">
-          <Link href="/tournaments" className="inline-flex h-12 items-center rounded-full border border-white/15 bg-[#121929] px-7 text-sm font-bold text-white transition hover:bg-[#FF5722] hover:text-white hover:border-[#FF5722] cursor-pointer">
+          <Link href="/tournaments" className="inline-flex h-12 items-center rounded-full border border-white/15 bg-[#121929] px-7 text-sm font-bold text-white transition-all duration-200 hover:bg-cyan-400 hover:text-[#0B101B] hover:border-cyan-400 shadow-lg cursor-pointer">
             Browse all upcoming tournaments in {city}
           </Link>
         </div>

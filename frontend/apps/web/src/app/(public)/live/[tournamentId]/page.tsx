@@ -20,7 +20,7 @@ export default async function BigScreenLiveBoardPage({
           </div>
           <div>
             <span className="text-xs uppercase font-extrabold tracking-widest text-emerald-400">
-              GELAVU LIVE ARENA BROADCAST
+              GELAVU LIVE COURT SCOREBOARD
             </span>
             <h1 className="text-2xl sm:text-4xl font-black">
               Tournament Live Court Board ({tournamentId})

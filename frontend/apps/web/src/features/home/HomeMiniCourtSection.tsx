@@ -7,7 +7,7 @@ import { MiniCourt } from "@/features/minicourt/MiniCourt";
 
 export function HomeMiniCourtSection() {
   return (
-    <section className="relative w-full bg-[#070D19] py-16 sm:py-24 text-white overflow-hidden" id="minicourt">
+    <section className="relative w-full bg-gradient-to-b from-[#070D19] via-[#091024] to-[#070D19] py-16 sm:py-24 text-white overflow-hidden" id="minicourt">
       {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-[#84CC16]/[0.06] blur-3xl" />

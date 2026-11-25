@@ -18,7 +18,7 @@ export function HostShowcase() {
   const [activeTab, setActiveTab] = useState<"overview" | "tournaments" | "players" | "payments">("overview");
 
   return (
-    <section className="w-full bg-[#070A12] py-20 sm:py-28 text-white relative overflow-hidden" id="hosts">
+    <section className="w-full bg-gradient-to-b from-[#080E1B] via-[#070A14] to-[#080B16] py-20 sm:py-28 text-white relative overflow-hidden" id="hosts">
       {/* Ambient background glow matching Gelavu brand */}
       <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-lime/10 blur-[130px]" />
       <div className="pointer-events-none absolute -left-20 bottom-10 h-80 w-80 rounded-full bg-purple-900/20 blur-[120px]" />
@@ -345,7 +345,7 @@ export function HostShowcase() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                       <div className="bg-[#F9FAFB] rounded-xl p-3 border border-line space-y-2">
                         <div className="flex items-center justify-between text-[11px] font-bold text-[#0B101B]">
-                          <span>Active court feeds</span>
+                          <span>Live court scores</span>
                           <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
                             Live
@@ -371,7 +371,7 @@ export function HostShowcase() {
                             Zero Disputes
                           </span>
                           <span className="px-2 py-1 rounded-md bg-blue-100 text-blue-800 text-[10px] font-bold">
-                            Live Screen Cast
+                            Instant Live Scores
                           </span>
                         </div>
                       </div>
