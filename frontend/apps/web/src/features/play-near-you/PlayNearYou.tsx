@@ -36,10 +36,10 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
   const areas = new Set(tournaments.map((t) => t.area)).size;
 
   return (
-    <section id="tournaments" aria-labelledby="pny-title" className="relative border-t border-white/10 bg-gradient-to-b from-[#080E1B] via-[#0A1226] to-[#080E1B] text-white py-16 sm:py-24 overflow-hidden">
-      {/* Thematic Ambient Arena Glows (Midnight City Circuit Theme) */}
-      <div className="pointer-events-none absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full bg-cyan-500/[0.07] blur-[140px]" />
-      <div className="pointer-events-none absolute -right-32 bottom-1/4 h-[500px] w-[500px] rounded-full bg-indigo-600/[0.08] blur-[140px]" />
+    <section id="tournaments" aria-labelledby="pny-title" className="relative border-t border-cyan-500/20 bg-gradient-to-b from-[#0B1528] via-[#0E1C38] to-[#0A1326] text-white py-16 sm:py-24 overflow-hidden">
+      {/* Thematic Ambient Arena Glows (Midnight Sapphire & Ice Cyan Atmosphere) */}
+      <div className="pointer-events-none absolute -left-32 top-1/4 h-[550px] w-[550px] rounded-full bg-cyan-500/[0.12] blur-[150px]" />
+      <div className="pointer-events-none absolute -right-32 bottom-1/4 h-[550px] w-[550px] rounded-full bg-blue-600/[0.12] blur-[150px]" />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl space-y-10 px-4 sm:px-6">
         <header className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -64,11 +64,11 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
           <button
             type="button"
             onClick={() => setCityOpen(true)}
-            className="inline-flex h-11 items-center gap-2 self-start rounded-full border border-white/15 bg-white/5 px-4 text-sm font-bold text-white transition hover:bg-white/10 hover:border-cyan-400/40 md:self-end cursor-pointer"
+            className="inline-flex h-11 items-center gap-2 self-start rounded-full border border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 px-4 text-sm font-bold text-cyan-200 transition-all md:self-end cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.15)]"
           >
             <MapPin className="h-4 w-4 text-cyan-400" aria-hidden="true" />
             {city}
-            <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
+            <ChevronDown className="h-4 w-4 text-cyan-300/70" aria-hidden="true" />
           </button>
         </header>
 

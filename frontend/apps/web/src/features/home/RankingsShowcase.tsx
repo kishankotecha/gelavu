@@ -19,12 +19,12 @@ export function RankingsShowcase() {
 
   return (
     <section
-      className="w-full bg-gradient-to-b from-[#080B16] via-[#0B0F24] to-[#070D19] py-16 sm:py-24 text-white relative overflow-hidden"
+      className="w-full bg-gradient-to-b from-[#140D1E] via-[#1E123D] to-[#0E0B22] py-16 sm:py-24 text-white relative overflow-hidden"
       id="rankings"
     >
-      {/* Thematic Ambient Arena Glows (Championship Gold & Royal Victory Theme) */}
-      <div className="pointer-events-none absolute -left-28 top-1/4 h-[500px] w-[500px] rounded-full bg-[#6366F1]/[0.08] blur-[150px]" />
-      <div className="pointer-events-none absolute -right-28 bottom-1/4 h-[500px] w-[500px] rounded-full bg-amber-500/[0.07] blur-[150px]" />
+      {/* Thematic Ambient Arena Glows (Royal Velvet Violet & Championship Gold Gala Theme) */}
+      <div className="pointer-events-none absolute -left-28 top-1/4 h-[550px] w-[550px] rounded-full bg-gradient-to-br from-[#6366F1]/20 via-[#8B5CF6]/15 to-transparent blur-[160px]" />
+      <div className="pointer-events-none absolute -right-28 bottom-1/4 h-[550px] w-[550px] rounded-full bg-gradient-to-tl from-amber-400/20 via-yellow-500/10 to-transparent blur-[150px]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">

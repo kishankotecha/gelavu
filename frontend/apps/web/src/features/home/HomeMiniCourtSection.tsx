@@ -7,19 +7,19 @@ import { MiniCourt } from "@/features/minicourt/MiniCourt";
 
 export function HomeMiniCourtSection() {
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#070D19] via-[#091024] to-[#070D19] py-16 sm:py-24 text-white overflow-hidden" id="minicourt">
-      {/* Background ambient lighting */}
+    <section className="relative w-full bg-gradient-to-b from-[#0E0B22] via-[#091D26] to-[#07161E] py-16 sm:py-24 text-white overflow-hidden" id="minicourt">
+      {/* Background ambient lighting (Cyber-Teal Arena Atmosphere) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-[#84CC16]/[0.06] blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 h-96 w-96 rounded-full bg-[#6366F1]/[0.07] blur-3xl" />
+        <div className="absolute top-1/4 -left-32 h-[550px] w-[550px] rounded-full bg-cyan-400/[0.12] blur-[150px]" />
+        <div className="absolute bottom-1/4 -right-32 h-[550px] w-[550px] rounded-full bg-emerald-500/[0.1] blur-[150px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-lime">
-            <Zap className="h-3.5 w-3.5" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-1 text-xs font-black uppercase tracking-wider text-cyan-300">
+            <Zap className="h-3.5 w-3.5 text-cyan-400" />
             <span>Interactive Court Simulator</span>
           </div>
           

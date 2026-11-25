@@ -35,7 +35,7 @@ export function HowItWorksRally({ onJoin }: HowItWorksRallyProps) {
 
   return (
     <section
-      className="w-full bg-gradient-to-b from-[#070D19] via-[#0B0F22] to-[#05070D] py-16 sm:py-24 text-white relative overflow-hidden"
+      className="w-full bg-gradient-to-b from-[#07161E] via-[#0D152F] to-[#05070D] py-16 sm:py-24 text-white relative overflow-hidden"
       id="how"
     >
       {/* Prismatic Stadium Lighting (Cyan, Orange, Indigo) */}

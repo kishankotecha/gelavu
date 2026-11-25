@@ -19,12 +19,12 @@ export function HostShowcase() {
 
   return (
     <section
-      className="w-full bg-gradient-to-b from-[#080E1B] via-[#0B0F1E] to-[#080B16] py-20 sm:py-28 text-white relative overflow-hidden"
+      className="w-full bg-gradient-to-b from-[#101524] via-[#1A1224] to-[#140D1E] py-20 sm:py-28 text-white relative overflow-hidden"
       id="hosts"
     >
-      {/* Warm Sunset Flame & Solar Amber Ambient Lighting (Unique to Host Showcase) */}
-      <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-gradient-to-br from-orange-500/15 to-amber-500/10 blur-[140px]" />
-      <div className="pointer-events-none absolute -left-20 bottom-10 h-80 w-80 rounded-full bg-gradient-to-tr from-purple-900/20 via-indigo-900/15 to-transparent blur-[130px]" />
+      {/* Warm Sunset Flame & Solar Amber Ambient Lighting (Wine-Charcoal Command Atmosphere) */}
+      <div className="pointer-events-none absolute -right-24 top-1/4 h-[550px] w-[550px] rounded-full bg-gradient-to-br from-orange-500/20 via-[#FF5500]/15 to-transparent blur-[150px]" />
+      <div className="pointer-events-none absolute -left-20 bottom-10 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-amber-500/15 via-red-900/15 to-transparent blur-[140px]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
