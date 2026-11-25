@@ -18,12 +18,15 @@ export function HostShowcase() {
   const [activeTab, setActiveTab] = useState<"overview" | "tournaments" | "players" | "payments">("overview");
 
   return (
-    <section className="w-full bg-gradient-to-b from-[#080E1B] via-[#070A14] to-[#080B16] py-20 sm:py-28 text-white relative overflow-hidden" id="hosts">
-      {/* Ambient background glow matching Gelavu brand */}
-      <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-lime/10 blur-[130px]" />
-      <div className="pointer-events-none absolute -left-20 bottom-10 h-80 w-80 rounded-full bg-purple-900/20 blur-[120px]" />
+    <section
+      className="w-full bg-gradient-to-b from-[#080E1B] via-[#0B0F1E] to-[#080B16] py-20 sm:py-28 text-white relative overflow-hidden"
+      id="hosts"
+    >
+      {/* Warm Sunset Flame & Solar Amber Ambient Lighting (Unique to Host Showcase) */}
+      <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-gradient-to-br from-orange-500/15 to-amber-500/10 blur-[140px]" />
+      <div className="pointer-events-none absolute -left-20 bottom-10 h-80 w-80 rounded-full bg-gradient-to-tr from-purple-900/20 via-indigo-900/15 to-transparent blur-[130px]" />
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* ============================================================ */}
@@ -31,36 +34,38 @@ export function HostShowcase() {
           {/* ============================================================ */}
           <div className="lg:col-span-6 space-y-6 sm:space-y-8">
             <div>
-              <span className="text-xs font-black uppercase tracking-widest text-lime block">
+              <span className="text-xs font-black uppercase tracking-widest text-[#FF5500] block">
                 The court is calling.
               </span>
               <h2 className="font-rogenz text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-wide leading-[1.06] mt-2">
                 Everything to<br />
                 run your event.<br />
-                <span className="text-lime">In one calm screen.</span>
+                <span className="bg-gradient-to-r from-[#FF5500] via-[#FF7A00] to-[#FFAA00] bg-clip-text text-transparent">
+                  In one calm screen.
+                </span>
               </h2>
             </div>
 
-            <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
               Stop juggling spreadsheets, payment screenshots and WhatsApp groups. Gelavu gives you one calm, powerful place to run the whole show.
             </p>
 
-            {/* Feature Bullets with interactive focus states */}
+            {/* Feature Bullets with interactive focus states and distinct athletic colors */}
             <div className="space-y-3 pt-2">
               <button
                 type="button"
                 onClick={() => setActiveTab("overview")}
                 className={`w-full text-left flex items-start gap-4 p-3 rounded-2xl transition-all duration-300 ${
                   activeTab === "overview"
-                    ? "bg-white/10 border border-lime/40 shadow-[0_0_20px_rgba(200,241,53,0.12)]"
+                    ? "bg-white/10 border border-orange-500/40 shadow-[0_0_25px_rgba(255,85,0,0.15)]"
                     : "hover:bg-white/5 border border-transparent"
                 }`}
               >
                 <span
                   className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border transition-colors ${
                     activeTab === "overview"
-                      ? "bg-lime text-[#0B101B] border-lime"
-                      : "bg-white/10 border-white/15 text-lime"
+                      ? "bg-gradient-to-br from-[#FF5500] to-[#FF7700] text-white border-orange-400 shadow-md"
+                      : "bg-white/10 border-white/15 text-orange-400"
                   }`}
                 >
                   <CircleDollarSign className="w-5 h-5" />
@@ -78,15 +83,15 @@ export function HostShowcase() {
                 onClick={() => setActiveTab("tournaments")}
                 className={`w-full text-left flex items-start gap-4 p-3 rounded-2xl transition-all duration-300 ${
                   activeTab === "tournaments"
-                    ? "bg-white/10 border border-lime/40 shadow-[0_0_20px_rgba(200,241,53,0.12)]"
+                    ? "bg-white/10 border border-cyan-500/40 shadow-[0_0_25px_rgba(6,182,212,0.15)]"
                     : "hover:bg-white/5 border border-transparent"
                 }`}
               >
                 <span
                   className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border transition-colors ${
                     activeTab === "tournaments"
-                      ? "bg-lime text-[#0B101B] border-lime"
-                      : "bg-white/10 border-white/15 text-lime"
+                      ? "bg-gradient-to-br from-cyan-500 to-blue-600 text-white border-cyan-400 shadow-md"
+                      : "bg-white/10 border-white/15 text-cyan-400"
                   }`}
                 >
                   <LayoutGrid className="w-5 h-5" />
@@ -104,15 +109,15 @@ export function HostShowcase() {
                 onClick={() => setActiveTab("players")}
                 className={`w-full text-left flex items-start gap-4 p-3 rounded-2xl transition-all duration-300 ${
                   activeTab === "players"
-                    ? "bg-white/10 border border-lime/40 shadow-[0_0_20px_rgba(200,241,53,0.12)]"
+                    ? "bg-white/10 border border-amber-500/40 shadow-[0_0_25px_rgba(255,170,0,0.15)]"
                     : "hover:bg-white/5 border border-transparent"
                 }`}
               >
                 <span
                   className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border transition-colors ${
                     activeTab === "players"
-                      ? "bg-lime text-[#0B101B] border-lime"
-                      : "bg-white/10 border-white/15 text-lime"
+                      ? "bg-gradient-to-br from-amber-400 to-amber-600 text-[#0B101B] border-amber-300 shadow-md"
+                      : "bg-white/10 border-white/15 text-amber-400"
                   }`}
                 >
                   <Sparkles className="w-5 h-5" />
@@ -130,13 +135,13 @@ export function HostShowcase() {
             <div className="pt-2">
               <Link
                 href="/host/tournaments/new"
-                className="inline-flex items-center gap-2 rounded-full bg-lime hover:brightness-95 active:scale-[0.98] text-[#0B101B] px-7 py-3.5 text-sm font-black transition-all shadow-lg cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF5500] to-[#FF7700] hover:from-[#FF6611] hover:to-[#FF8811] active:scale-[0.98] text-white px-8 py-3.5 text-sm font-black transition-all shadow-[0_4px_25px_rgba(255,85,0,0.35)] cursor-pointer"
               >
                 <span>Start hosting free</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <div className="flex items-center gap-2 text-xs text-gray-400 mt-3.5">
-                <Check className="w-4 h-4 text-lime" />
+                <Check className="w-4 h-4 text-orange-400" />
                 <span>No card required · Pay only when players register</span>
               </div>
             </div>
@@ -146,7 +151,7 @@ export function HostShowcase() {
           {/* RIGHT COLUMN: Realistic Interactive Host Dashboard Preview  */}
           {/* ============================================================ */}
           <div className="lg:col-span-6 relative">
-            <div className="rounded-3xl bg-[#121A2B] border border-white/15 p-4 sm:p-6 shadow-2xl transition-all duration-300 hover:shadow-lime/5">
+            <div className="rounded-3xl bg-[#0E1528] border border-white/15 p-4 sm:p-6 shadow-2xl transition-all duration-300 hover:shadow-orange-500/5">
               
               {/* Dashboard Topbar with Tabs */}
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
@@ -161,7 +166,7 @@ export function HostShowcase() {
                     onClick={() => setActiveTab("overview")}
                     className={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-200 ${
                       activeTab === "overview"
-                        ? "bg-[#1A253C] text-white shadow-sm border border-white/15"
+                        ? "bg-[#FF5500]/15 text-orange-400 border border-orange-500/30 shadow-xs"
                         : "text-gray-400 hover:text-white"
                     }`}
                   >
@@ -172,7 +177,7 @@ export function HostShowcase() {
                     onClick={() => setActiveTab("tournaments")}
                     className={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-200 ${
                       activeTab === "tournaments"
-                        ? "bg-[#1A253C] text-white shadow-sm border border-white/15"
+                        ? "bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 shadow-xs"
                         : "text-gray-400 hover:text-white"
                     }`}
                   >
@@ -183,7 +188,7 @@ export function HostShowcase() {
                     onClick={() => setActiveTab("players")}
                     className={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-200 ${
                       activeTab === "players"
-                        ? "bg-[#1A253C] text-white shadow-sm border border-white/15"
+                        ? "bg-amber-500/15 text-amber-400 border border-amber-500/30 shadow-xs"
                         : "text-gray-400 hover:text-white"
                     }`}
                   >
@@ -194,7 +199,7 @@ export function HostShowcase() {
                     onClick={() => setActiveTab("payments")}
                     className={`px-2.5 sm:px-3 py-1 rounded-lg font-semibold transition-all duration-200 ${
                       activeTab === "payments"
-                        ? "bg-[#1A253C] text-white shadow-sm border border-white/15"
+                        ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-xs"
                         : "text-gray-400 hover:text-white"
                     }`}
                   >
@@ -214,7 +219,7 @@ export function HostShowcase() {
                     </span>
                     <strong className="text-sm sm:text-base font-bold text-[#0B101B] block mt-0.5">
                       {activeTab === "overview" && "Good morning, Ananya."}
-                      {activeTab === "tournaments" && "Court Command Deck"}
+                      {activeTab === "tournaments" && "Court Command & Live Scores"}
                       {activeTab === "players" && "Verified Player Pool"}
                       {activeTab === "payments" && "Treasury & Fast Payouts"}
                     </strong>
@@ -252,7 +257,7 @@ export function HostShowcase() {
                       <div className="bg-[#F9FAFB] rounded-xl p-2.5 border border-line">
                         <span className="text-[10px] text-muted font-medium block">Revenue collected</span>
                         <strong className="text-base sm:text-xl font-black text-[#0B101B] mt-0.5 block">₹1.42L</strong>
-                        <small className="text-[10px] text-muted font-medium">92% paid</small>
+                        <small className="text-[10px] text-orange-600 font-bold">92% paid</small>
                       </div>
 
                       <div className="bg-[#F9FAFB] rounded-xl p-2.5 border border-line">
@@ -264,7 +269,7 @@ export function HostShowcase() {
 
                     {/* Registration Pace & Live Activity */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      {/* Bar Chart */}
+                      {/* Bar Chart with Vibrant Warm Accents */}
                       <div className="bg-[#F9FAFB] rounded-xl p-3 border border-line">
                         <div className="flex items-center justify-between text-[11px] font-bold text-[#0B101B]">
                           <span>Registration pace</span>
@@ -278,7 +283,7 @@ export function HostShowcase() {
                                 i === 8
                                   ? "bg-[#6366F1]"
                                   : i === 9
-                                  ? "bg-lime"
+                                  ? "bg-gradient-to-t from-[#FF5500] to-[#FFAA00]"
                                   : "bg-gray-200"
                               }`}
                               style={{ height: `${h}%` }}
@@ -300,7 +305,7 @@ export function HostShowcase() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2 text-xs">
-                          <span className="h-6 w-6 rounded-full bg-amber-500 text-[10px] font-bold flex items-center justify-center text-white shrink-0">
+                          <span className="h-6 w-6 rounded-full bg-[#FF5500] text-[10px] font-bold flex items-center justify-center text-white shrink-0">
                             SK
                           </span>
                           <div className="min-w-0 flex-1">
@@ -353,7 +358,7 @@ export function HostShowcase() {
                         </div>
                         <div className="bg-white p-2 rounded-lg border border-line/60 flex items-center justify-between text-xs">
                           <span className="font-bold text-[#0B101B]">Court 1: Srikanth vs Sindhu</span>
-                          <span className="px-1.5 py-0.5 rounded bg-lime/20 text-[#0B101B] font-black text-[10px]">19-18</span>
+                          <span className="px-1.5 py-0.5 rounded bg-orange-100 text-[#FF5500] font-black text-[10px]">19-18</span>
                         </div>
                         <div className="bg-white p-2 rounded-lg border border-line/60 flex items-center justify-between text-xs">
                           <span className="font-bold text-[#0B101B]">Court 2: R. Sen vs L. Sen</span>
@@ -370,7 +375,7 @@ export function HostShowcase() {
                           <span className="px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold">
                             Zero Disputes
                           </span>
-                          <span className="px-2 py-1 rounded-md bg-blue-100 text-blue-800 text-[10px] font-bold">
+                          <span className="px-2 py-1 rounded-md bg-orange-100 text-[#FF5500] text-[10px] font-bold">
                             Instant Live Scores
                           </span>
                         </div>
@@ -414,10 +419,10 @@ export function HostShowcase() {
                         <div className="space-y-1.5 text-[10px]">
                           <div className="flex justify-between font-medium text-gray-600">
                             <span>Intermediate</span>
-                            <span className="font-bold">54%</span>
+                            <span className="font-bold text-orange-600">54%</span>
                           </div>
                           <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-lime rounded-full" style={{ width: "54%" }} />
+                            <div className="h-full bg-gradient-to-r from-[#FF5500] to-[#FFAA00] rounded-full" style={{ width: "54%" }} />
                           </div>
                           <div className="flex justify-between font-medium text-gray-600">
                             <span>Advanced & Pro</span>
@@ -503,16 +508,16 @@ export function HostShowcase() {
               </div>
             </div>
 
-            {/* Floating Payment Popover (Matches Image 2 with subtle floating animation) */}
+            {/* Floating Payment Popover (Sunset Flame & Gold Accent) */}
             <div className="absolute -bottom-5 right-2 sm:right-6 bg-white text-[#0B101B] px-4 py-3 rounded-2xl border border-line shadow-2xl flex items-center gap-3 animate-fade-up z-20 transition-all duration-300 hover:scale-105">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-lime text-[#0B101B] shrink-0 font-black shadow-sm">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[#FF5500] to-[#FFAA00] text-white shrink-0 font-black shadow-md">
                 <Check className="w-4 h-4 stroke-[3]" />
               </span>
               <div>
                 <strong className="block text-xs font-black text-[#0B101B]">Payment received</strong>
                 <small className="text-[11px] text-muted">₹1,198 · Mixed Doubles</small>
               </div>
-              <span className="text-[10px] font-black text-muted/80 ml-2">now</span>
+              <span className="text-[10px] font-black text-orange-600 ml-2">now</span>
             </div>
 
           </div>
