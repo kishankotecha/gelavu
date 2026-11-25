@@ -36,16 +36,12 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
   const areas = new Set(tournaments.map((t) => t.area)).size;
 
   return (
-    <section id="tournaments" aria-labelledby="pny-title" className="relative border-t border-cyan-500/20 bg-gradient-to-b from-[#0B1528] via-[#0E1C38] to-[#0A1326] text-white py-16 sm:py-24 overflow-hidden">
-      {/* Thematic Ambient Arena Glows (Midnight Sapphire & Ice Cyan Atmosphere) */}
-      <div className="pointer-events-none absolute -left-32 top-1/4 h-[550px] w-[550px] rounded-full bg-cyan-500/[0.12] blur-[150px]" />
-      <div className="pointer-events-none absolute -right-32 bottom-1/4 h-[550px] w-[550px] rounded-full bg-blue-600/[0.12] blur-[150px]" />
-
+    <section id="tournaments" aria-labelledby="pny-title" className="relative bg-[#0A0D14] text-white py-16 sm:py-24">
       <div className="relative z-10 mx-auto w-full max-w-6xl space-y-10 px-4 sm:px-6">
         <header className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div className="max-w-2xl space-y-3">
-            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-cyan-400">
-              <span className="h-2 w-2 rounded-full bg-cyan-400 motion-safe:animate-pulse" aria-hidden="true" />
+            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#F3D15A]">
+              <span className="h-2 w-2 rounded-full bg-[#F3D15A] motion-safe:animate-pulse" aria-hidden="true" />
               This weekend · {weekend.rangeLabel} · {city}
             </p>
             <h2 id="pny-title" className="font-rogenz text-4xl font-bold uppercase tracking-wide text-white sm:text-5xl lg:text-6xl">
@@ -64,11 +60,11 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
           <button
             type="button"
             onClick={() => setCityOpen(true)}
-            className="inline-flex h-11 items-center gap-2 self-start rounded-full border border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 px-4 text-sm font-bold text-cyan-200 transition-all md:self-end cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.15)]"
+            className="inline-flex h-11 items-center gap-2 self-start rounded-full border border-[#313747] bg-[#121622] hover:bg-[#1C2234] hover:border-[#F3D15A]/40 px-4 text-sm font-bold text-white transition-all md:self-end cursor-pointer shadow-sm"
           >
-            <MapPin className="h-4 w-4 text-cyan-400" aria-hidden="true" />
+            <MapPin className="h-4 w-4 text-[#F3D15A]" aria-hidden="true" />
             {city}
-            <ChevronDown className="h-4 w-4 text-cyan-300/70" aria-hidden="true" />
+            <ChevronDown className="h-4 w-4 text-slate-400" aria-hidden="true" />
           </button>
         </header>
 
@@ -85,18 +81,18 @@ export function PlayNearYou({ tournaments: initialTournaments, weekend: initialW
             <WeekendTimeline tournaments={tournaments} selectedId={selected.id} onSelect={setSelectedId} weekend={weekend} />
           </>
         ) : (
-          <div className="rounded-3xl border border-dashed border-white/15 bg-[#0E1524] px-6 py-14 text-center">
+          <div className="rounded-3xl border border-dashed border-[#313747] bg-[#121622] px-6 py-14 text-center">
             <p className="text-lg font-black text-white">No tournaments this weekend in {city} yet.</p>
             <p className="mx-auto mt-1 max-w-md text-sm text-slate-400">New ones are added every week. You can browse what is coming up, or host the first one.</p>
             <div className="mt-5 flex flex-wrap justify-center gap-2.5">
-              <Link href="/tournaments" className="rounded-full bg-[#FF5722] px-5 py-2.5 text-sm font-black text-white hover:bg-[#F4511E]">Browse upcoming</Link>
-              <Link href="/host/verify" className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Host a tournament</Link>
+              <Link href="/tournaments" className="rounded-full bg-[#DE9D35] px-5 py-2.5 text-sm font-black text-[#0A0D14] hover:brightness-110">Browse upcoming</Link>
+              <Link href="/host/verify" className="rounded-full border border-[#313747] bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Host a tournament</Link>
             </div>
           </div>
         )}
 
         <div className="text-center">
-          <Link href="/tournaments" className="inline-flex h-12 items-center rounded-full border border-white/15 bg-[#121929] px-7 text-sm font-bold text-white transition-all duration-200 hover:bg-cyan-400 hover:text-[#0B101B] hover:border-cyan-400 shadow-lg cursor-pointer">
+          <Link href="/tournaments" className="inline-flex h-12 items-center rounded-full border border-[#313747] bg-[#121622] px-7 text-sm font-bold text-white transition-all duration-200 hover:bg-[#DE9D35] hover:text-[#0A0D14] hover:border-[#DE9D35] shadow-lg cursor-pointer">
             Browse all upcoming tournaments in {city}
           </Link>
         </div>

@@ -20,7 +20,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="w-full min-h-screen overflow-x-hidden flex flex-col font-sans bg-[#080E1B]">
+    <div className="w-full overflow-x-hidden flex flex-col font-sans bg-[#0A0D14]">
       {/* 1. Hero with Athlete Smash, Play/Host Switcher & Court 3 Live Match + Stats Strip */}
       <HeroRally city={siteConfig.city} onJoin={() => handleOpenJoin("player")} />
 
@@ -45,6 +45,6 @@ export default function HomePage() {
         onClose={() => setJoinModalOpen(false)}
         defaultRole={joinModalRole}
       />
-    </main>
+    </div>
   );
 }

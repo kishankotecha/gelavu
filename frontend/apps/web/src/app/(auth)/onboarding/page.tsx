@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Trophy,
@@ -10,10 +10,24 @@ import {
   MapPin,
   User as UserIcon,
   Building2,
+  Sparkles,
+  Info,
+  ShieldCheck,
+  Flame,
+  Award,
+  Camera,
+  Smile,
 } from "lucide-react";
+import { Avatar } from "@/components/common/Avatar";
+import { AvatarPickerModal } from "@/components/common/AvatarPickerModal";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/components/ui/toast";
 import { GelavuLogo } from "@/components/common/GelavuLogo";
+import {
+  PLAYO_SKILL_TIERS,
+  SkillTierConfig,
+  getTierFromRating,
+} from "@/types/playo";
 
 const CITIES = [
   "Bengaluru",
@@ -23,14 +37,6 @@ const CITIES = [
   "Mumbai",
   "Pune",
   "Delhi NCR",
-];
-
-const PLAYING_LEVELS = [
-  { id: "BEGINNER", label: "Beginner" },
-  { id: "AMATEUR", label: "Amateur" },
-  { id: "INTERMEDIATE", label: "Intermediate" },
-  { id: "ADVANCED", label: "Advanced" },
-  { id: "PRO", label: "Pro" },
 ];
 
 const PREFERRED_CATEGORIES = [
@@ -51,7 +57,15 @@ function OnboardingContent() {
   const [activeMode, setActiveMode] = useState<"PLAY" | "HOST">(initialMode);
   const [name, setName] = useState("");
   const [city, setCity] = useState("Bengaluru");
-  const [playingLevel, setPlayingLevel] = useState("INTERMEDIATE");
+  const [avatarUrl, setAvatarUrl] = useState<string>("sticker:rocket-birdie");
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+
+  // Playo Skill Level state (default to Intermediate 4.0)
+  const [playerRating, setPlayerRating] = useState<number>(4.0);
+  const currentTier = useMemo(() => getTierFromRating(playerRating), [playerRating]);
+
+  const [showFormulaDetails, setShowFormulaDetails] = useState(false);
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "Men's Doubles",
   ]);
@@ -62,6 +76,10 @@ function OnboardingContent() {
     setSelectedCategories((prev) =>
       prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
+  };
+
+  const handleSelectTier = (tier: SkillTierConfig) => {
+    setPlayerRating(tier.defaultRating);
   };
 
   const handleFinish = (e: React.FormEvent) => {
@@ -80,10 +98,12 @@ function OnboardingContent() {
       updateUser({
         name: name.trim(),
         city,
+        avatarUrl,
         role: activeMode === "HOST" ? "HOST" : "PLAYER",
         roles: activeMode === "HOST" ? ["PLAYER", "HOST"] : ["PLAYER"],
         active_mode: activeMode,
-        playingLevel: activeMode === "PLAY" ? playingLevel : undefined,
+        playingLevel: activeMode === "PLAY" ? currentTier.id : undefined,
+        rating: activeMode === "PLAY" ? playerRating : undefined,
         organizationName:
           activeMode === "HOST" ? organizationName.trim() : undefined,
       });
@@ -100,52 +120,68 @@ function OnboardingContent() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-xl rounded-3xl border border-line bg-surface p-7 sm:p-9 shadow-2xl text-ink">
+    <div className="relative min-h-[calc(100vh-5rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-[#0A0D14] overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#DE9D35]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-[#F3D15A]/10 blur-3xl" />
+
+      {/* Floating Pristine High-Contrast White Card */}
+      <div className="relative w-full max-w-2xl rounded-[28px] sm:rounded-[32px] bg-white text-[#0B101B] shadow-2xl p-6 sm:p-9 border border-white/20 transition-all">
+        
         {/* Header */}
         <div className="mb-6">
-          <GelavuLogo variant="light" size="md" href="/" className="mb-4" />
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-lime-600 block">
-            STEP 2 OF 2 · COMPLETE YOUR PROFILE
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mt-1">
+          <div className="flex items-center justify-between mb-3">
+            <GelavuLogo variant="light" size="md" href="/" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DE9D35]/15 border border-[#DE9D35]/30 text-[#9E6514] text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
+              <Sparkles className="w-3 h-3 text-[#DE9D35]" />
+              STEP 2 OF 2 · COMPLETE YOUR PROFILE
+            </span>
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight mt-1">
             Set up your Gelavu account
           </h1>
-          <p className="mt-1 text-xs text-muted leading-relaxed">
+          <p className="mt-1 text-xs sm:text-sm text-gray-500 font-medium leading-relaxed">
             You can switch between Play and Host mode anytime from the top bar.
           </p>
         </div>
 
         <form onSubmit={handleFinish} className="space-y-5">
-          {/* Mode Switcher */}
+          {/* 1. Mode Switcher (Play Mode vs Host Mode) */}
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setActiveMode("PLAY")}
               className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 activeMode === "PLAY"
-                  ? "border-ink bg-ink text-white shadow-md"
-                  : "border-line bg-paper/60 hover:bg-paper text-ink"
+                  ? "border-[#0B101B] bg-[#0B101B] text-white shadow-xl ring-2 ring-black/10"
+                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-[#0B101B]"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <Trophy
-                  className={`w-5 h-5 ${
-                    activeMode === "PLAY" ? "text-lime" : "text-muted"
+                <div
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                    activeMode === "PLAY"
+                      ? "bg-white/10 text-[#F3D15A]"
+                      : "bg-gray-200/60 text-gray-600"
                   }`}
-                />
+                >
+                  <Trophy className="w-5 h-5" />
+                </div>
                 {activeMode === "PLAY" && (
-                  <Check className="w-4 h-4 text-lime" />
+                  <span className="w-5 h-5 rounded-full bg-[#F3D15A] text-[#0B101B] flex items-center justify-center">
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                  </span>
                 )}
               </div>
               <div>
-                <strong className="block text-sm font-bold">Play Mode</strong>
+                <strong className="block text-sm sm:text-base font-black">Play Mode</strong>
                 <small
-                  className={`text-[11px] block mt-0.5 leading-snug ${
-                    activeMode === "PLAY" ? "text-white/70" : "text-muted"
+                  className={`text-[11px] block mt-0.5 leading-snug font-medium ${
+                    activeMode === "PLAY" ? "text-gray-300" : "text-gray-500"
                   }`}
                 >
-                  Enter tournaments & track rank
+                  Enter tournaments &amp; track rank
                 </small>
               </div>
             </button>
@@ -155,62 +191,111 @@ function OnboardingContent() {
               onClick={() => setActiveMode("HOST")}
               className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 activeMode === "HOST"
-                  ? "border-ink bg-ink text-white shadow-md"
-                  : "border-line bg-paper/60 hover:bg-paper text-ink"
+                  ? "border-[#0B101B] bg-[#0B101B] text-white shadow-xl ring-2 ring-black/10"
+                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-[#0B101B]"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <CalendarPlus
-                  className={`w-5 h-5 ${
-                    activeMode === "HOST" ? "text-lime" : "text-muted"
+                <div
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                    activeMode === "HOST"
+                      ? "bg-white/10 text-[#F3D15A]"
+                      : "bg-gray-200/60 text-gray-600"
                   }`}
-                />
+                >
+                  <CalendarPlus className="w-5 h-5" />
+                </div>
                 {activeMode === "HOST" && (
-                  <Check className="w-4 h-4 text-lime" />
+                  <span className="w-5 h-5 rounded-full bg-[#F3D15A] text-[#0B101B] flex items-center justify-center">
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                  </span>
                 )}
               </div>
               <div>
-                <strong className="block text-sm font-bold">Host Mode</strong>
+                <strong className="block text-sm sm:text-base font-black">Host Mode</strong>
                 <small
-                  className={`text-[11px] block mt-0.5 leading-snug ${
-                    activeMode === "HOST" ? "text-white/70" : "text-muted"
+                  className={`text-[11px] block mt-0.5 leading-snug font-medium ${
+                    activeMode === "HOST" ? "text-gray-300" : "text-gray-500"
                   }`}
                 >
-                  Create events, draws & courts
+                  Create events, draws &amp; courts
                 </small>
               </div>
             </button>
           </div>
 
-          {/* Name + City */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 1.5 Avatar Choice (Selfie / File Upload / Crazy Sticker) */}
+          <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-gray-50/90 border border-gray-200">
+            <div
+              className="relative cursor-pointer group shrink-0"
+              onClick={() => setIsAvatarModalOpen(true)}
+              title="Click to snap selfie, upload photo or choose crazy sticker"
+            >
+              <Avatar
+                name={name || "Player"}
+                url={avatarUrl}
+                size="lg"
+                className="border-2 border-[#DE9D35] shadow-sm group-hover:scale-105 transition-transform"
+              />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsAvatarModalOpen(true);
+                }}
+                className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#0B101B] text-[#F3D15A] shadow-md border border-white hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                aria-label="Change Avatar"
+              >
+                <Camera className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="block text-xs font-black text-[#0B101B]">
+                Profile Photo &amp; Crazy Sticker
+              </span>
+              <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+                Take a selfie, upload from device, or pick a crazy sports sticker.
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsAvatarModalOpen(true)}
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9E6514] hover:text-[#0B101B] mt-1 cursor-pointer"
+              >
+                <Smile className="w-3 h-3 text-[#DE9D35]" />
+                <span>Customize Avatar ➜</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 2. Full Name & Home City */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">
+              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
                 Full Name *
               </label>
-              <div className="flex items-center rounded-2xl border border-line bg-paper/50 px-3.5 py-2.5 focus-within:border-ink focus-within:bg-white focus-within:ring-2 focus-within:ring-ink/10 transition-all">
-                <UserIcon className="w-4 h-4 text-muted mr-2 shrink-0" />
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                <UserIcon className="w-4 h-4 text-gray-400 mr-2 shrink-0" />
                 <input
                   type="text"
                   placeholder="e.g. Rohan Kumar"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm font-semibold text-ink placeholder:text-muted/60 outline-none"
+                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] placeholder:text-gray-400 outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">
-                City *
+              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
+                Home City *
               </label>
-              <div className="flex items-center rounded-2xl border border-line bg-paper/50 px-3.5 py-2.5 focus-within:border-ink focus-within:bg-white focus-within:ring-2 focus-within:ring-ink/10 transition-all">
-                <MapPin className="w-4 h-4 text-muted mr-2 shrink-0" />
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                <MapPin className="w-4 h-4 text-[#DE9D35] mr-2 shrink-0" />
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full bg-transparent text-sm font-semibold text-ink outline-none cursor-pointer"
+                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] outline-none cursor-pointer"
                 >
                   {CITIES.map((c) => (
                     <option key={c} value={c}>
@@ -222,36 +307,122 @@ function OnboardingContent() {
             </div>
           </div>
 
-          {/* Mode-Specific Fields */}
+          {/* 3. Mode-Specific Configuration */}
           {activeMode === "PLAY" ? (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">
-                  Playing Level
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {PLAYING_LEVELS.map((lvl) => {
-                    const active = playingLevel === lvl.id;
+            <div className="space-y-4 pt-1">
+              
+              {/* Playo Dynamic Skill Rating Section */}
+              <div className="rounded-2xl border border-gray-200 bg-gray-50/60 p-4 sm:p-5 space-y-3.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                  <div>
+                    <label className="text-xs font-black uppercase tracking-wider text-[#0B101B] flex items-center gap-1.5">
+                      <span>Playing Level &amp; Skill Rating</span>
+                      <span className="text-[10px] font-bold text-[#DE9D35] bg-[#DE9D35]/10 px-2 py-0.5 rounded-full border border-[#DE9D35]/20">
+                        Playo Algorithm
+                      </span>
+                    </label>
+                    <p className="text-[11px] text-gray-500 font-medium">
+                      Select your starting skill tier. Post-match peer ratings will calibrate your rating.
+                    </p>
+                  </div>
+
+                  {/* Rating Score Badge */}
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black shadow-xs ${currentTier.badgeBg} ${currentTier.badgeText}`}
+                    >
+                      <Award className="w-3.5 h-3.5" />
+                      <span>{currentTier.label}</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* 5 Playo Tier Quick Buttons (Beginner, Amateur, Intermediate, Advanced, Professional - No Numbers) */}
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                  {PLAYO_SKILL_TIERS.map((tier) => {
+                    const isSelected = currentTier.id === tier.id;
                     return (
                       <button
-                        key={lvl.id}
+                        key={tier.id}
                         type="button"
-                        onClick={() => setPlayingLevel(lvl.id)}
-                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                          active
-                            ? "border-ink bg-ink text-white"
-                            : "border-line bg-paper/60 text-ink hover:bg-paper"
+                        onClick={() => handleSelectTier(tier)}
+                        className={`px-3 py-3 rounded-xl text-center transition-all cursor-pointer border flex items-center justify-center ${
+                          isSelected
+                            ? "bg-[#0B101B] text-[#F3D15A] border-[#0B101B] shadow-sm ring-2 ring-black/10 font-black"
+                            : "bg-white border-gray-200 text-gray-700 hover:bg-gray-100 hover:border-gray-300 font-bold"
                         }`}
                       >
-                        {lvl.label}
+                        <span className="text-xs leading-tight block w-full truncate">
+                          {tier.label}
+                        </span>
                       </button>
                     );
                   })}
                 </div>
+
+                {/* Selected Tier Description */}
+                <div className="p-3.5 rounded-xl bg-white border border-gray-200/90 text-xs text-gray-700 flex items-start gap-2.5 shadow-2xs">
+                  <div
+                    className="w-2.5 h-2.5 rounded-full shrink-0 mt-1"
+                    style={{ backgroundColor: currentTier.indicatorColor }}
+                  />
+                  <div>
+                    <strong className="text-[#0B101B] font-bold block">
+                      {currentTier.label} ({currentTier.summary})
+                    </strong>
+                    <span className="text-gray-500 leading-snug block mt-0.5">
+                      {currentTier.description}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Playo 90/10 Formula Info Accordion */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowFormulaDetails((v) => !v)}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-[#0B101B] transition-colors cursor-pointer"
+                  >
+                    <Info className="w-3.5 h-3.5 text-[#DE9D35]" />
+                    <span>How Playo calculates your rating</span>
+                    <span className="text-[10px] text-gray-400">
+                      {showFormulaDetails ? "(Hide)" : "(90% recent weightage)"}
+                    </span>
+                  </button>
+
+                  {showFormulaDetails && (
+                    <div className="mt-2.5 p-3.5 rounded-xl bg-white border border-gray-200 text-[11px] text-gray-600 space-y-2 animate-in fade-in duration-150">
+                      <div className="flex items-start gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-[#0B101B] block">Two-Tier Weighted Average</strong>
+                          <span>
+                            <strong>90% Weightage:</strong> Your self-rating combined with post-match anonymous peer ratings from your <strong>last 25 tournament &amp; practice games</strong>.
+                          </span>
+                          <span className="block mt-0.5">
+                            <strong>10% Weightage:</strong> All historical ratings prior to your last 25 games.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-2 pt-1 border-t border-gray-100">
+                        <Flame className="w-4 h-4 text-[#DE9D35] shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-[#0B101B] block">Smart Deduplication &amp; Carryover</strong>
+                          <span>
+                            If the same partner or opponent rates you multiple times, their newest rating replaces their old one. Unrated matches carry forward your previous valid rating.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
               </div>
 
+              {/* Preferred Categories */}
               <div>
-                <label className="block text-xs font-bold text-ink mb-1.5">
+                <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
                   Preferred Categories
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -264,8 +435,8 @@ function OnboardingContent() {
                         onClick={() => toggleCategory(cat)}
                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${
                           active
-                            ? "border-emerald-600 bg-emerald-50 text-emerald-800"
-                            : "border-line bg-paper/60 text-muted hover:text-ink"
+                            ? "border-[#0B101B] bg-[#0B101B] text-[#F3D15A] shadow-xs"
+                            : "border-gray-200 bg-gray-50 text-gray-600 hover:text-[#0B101B] hover:border-gray-300"
                         }`}
                       >
                         {active ? "✓ " : "+ "}
@@ -275,34 +446,35 @@ function OnboardingContent() {
                   })}
                 </div>
               </div>
+
             </div>
           ) : (
             <div>
-              <label className="block text-xs font-bold text-ink mb-1.5">
+              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
                 Club / Organization Name *
               </label>
-              <div className="flex items-center rounded-2xl border border-line bg-paper/50 px-3.5 py-2.5 focus-within:border-ink focus-within:bg-white focus-within:ring-2 focus-within:ring-ink/10 transition-all">
-                <Building2 className="w-4 h-4 text-muted mr-2 shrink-0" />
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                <Building2 className="w-4 h-4 text-gray-400 mr-2 shrink-0" />
                 <input
                   type="text"
                   placeholder="e.g. Apex Badminton Academy"
                   value={organizationName}
                   onChange={(e) => setOrganizationName(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm font-semibold text-ink placeholder:text-muted/60 outline-none"
+                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] placeholder:text-gray-400 outline-none"
                 />
               </div>
-              <p className="text-[11px] text-muted mt-1.5">
-                You can submit KYC &amp; bank payout details later from your Host Dashboard.
+              <p className="text-[11px] text-gray-500 mt-1.5">
+                You can complete host verification and bank account details later from your Host Dashboard.
               </p>
             </div>
           )}
 
-          {/* CTA */}
+          {/* Action CTA Button */}
           <button
             type="submit"
             disabled={isSaving}
-            className="w-full rounded-full bg-lime hover:brightness-95 active:scale-[0.99] disabled:opacity-50 text-ink py-3 px-5 text-sm font-black transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm mt-2"
+            className="w-full rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-[0.99] disabled:opacity-50 text-[#0A0D14] py-3.5 px-6 text-sm sm:text-base font-black transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg hover:shadow-xl mt-3 group"
           >
             <span>
               {isSaving
@@ -311,9 +483,19 @@ function OnboardingContent() {
                 ? "Go to Host Dashboard"
                 : "Explore Tournaments"}
             </span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1 stroke-[2.5]" />
           </button>
         </form>
+
+        {/* Modal for Live Camera Selfie, File Upload & Crazy Stickers */}
+        <AvatarPickerModal
+          isOpen={isAvatarModalOpen}
+          onClose={() => setIsAvatarModalOpen(false)}
+          currentAvatar={avatarUrl}
+          userName={name}
+          onSelectAvatar={(selected) => setAvatarUrl(selected)}
+        />
+
       </div>
     </div>
   );
@@ -323,7 +505,7 @@ export default function OnboardingPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center text-xs font-semibold text-muted">
+        <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center text-xs font-semibold text-gray-400 bg-[#0A0D14]">
           Loading onboarding...
         </div>
       }

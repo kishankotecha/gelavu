@@ -16,7 +16,8 @@ export default function LeaderboardPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl space-y-10 font-sans">
+    <div className="min-h-screen bg-[#F6F5F0] text-[#0B1220] pb-20">
+      <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl space-y-10 font-sans">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-line">
         <div>
@@ -53,8 +54,7 @@ export default function LeaderboardPage() {
       {/* Player of the Month Showcase Card */}
       <div className="rounded-3xl bg-[#0B101B] p-6 sm:p-10 text-white shadow-lift border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex items-center gap-6">
-          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-500/20 to-lime/20 border-2 border-[#E6B84F]/60 text-3xl font-black text-white shadow-xl">
-            AM
+          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-3xl bg-cover bg-center border-2 border-[#E6B84F]/60 shadow-xl overflow-hidden" style={{ backgroundImage: "url(/images/athletes/arjun-mehta.jpg)" }}>
             <span className="absolute -bottom-2 -right-2 grid h-8 w-8 place-items-center rounded-full bg-[#E6B84F] text-ink text-sm font-bold shadow-md">
               👑
             </span>
@@ -155,5 +155,6 @@ export default function LeaderboardPage() {
         </div>
       </div>
     </div>
+  </div>
   );
 }

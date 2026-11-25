@@ -35,12 +35,18 @@ export function PartnerPoolModal({ tournament, isOpen, onClose }: PartnerPoolMod
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
-      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div
         className="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-3xl border border-line bg-surface shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 text-ink"
         onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-start justify-between border-b border-line p-5 sm:p-6 bg-paper">
@@ -58,9 +64,24 @@ export function PartnerPoolModal({ tournament, isOpen, onClose }: PartnerPoolMod
           </div>
           <button
             type="button"
-            onClick={onClose}
-            className="rounded-full p-2 text-muted hover:bg-black/5 hover:text-ink transition cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="rounded-full p-2.5 -mr-1 text-muted hover:bg-black/5 hover:text-ink transition cursor-pointer flex items-center justify-center shrink-0"
             aria-label="Close dialog"
+            title="Close dialog"
           >
             <X className="h-5 w-5" />
           </button>

@@ -48,21 +48,33 @@ export function MiniCourt() {
   const hostRef = useRef<HTMLDivElement>(null);
   const { ui, start, toMenu, setSound, handlers } = useMiniCourt(canvasRef, hostRef);
 
-  const [stats, setStats] = useState<Stats>(() => (typeof window !== "undefined" ? loadStats() : emptyStats));
-  const [today] = useState<string>(() => (typeof window !== "undefined" ? dayKey() : ""));
+  const [stats, setStats] = useState<Stats>(emptyStats);
+  const [today, setToday] = useState<string>("");
   const [soundOn, setSoundOn] = useState(false);
   const [plan, setPlan] = useState<Plan | null>(null);
   const [recap, setRecap] = useState<{ fresh: string[]; newBest: boolean } | null>(null);
   const [shared, setShared] = useState(false);
   const recorded = useRef(false);
 
-  /* sync stats on mount if rendered on client after SSR */
+  /* sync stats on mount to eliminate SSR hydration mismatch */
   useEffect(() => {
+    let active = true;
+    const initialStats = loadStats();
+    const initialToday = dayKey();
+    queueMicrotask(() => {
+      if (active) {
+        setStats(initialStats);
+        setToday(initialToday);
+      }
+    });
     const handleStorage = () => {
       setStats(loadStats());
     };
     window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
+    return () => {
+      active = false;
+      window.removeEventListener("storage", handleStorage);
+    };
   }, []);
 
   /* save the result once per finished match */
@@ -130,16 +142,16 @@ export function MiniCourt() {
           <button
             type="button"
             onClick={playDaily}
-            className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-lime/40 bg-lime/10 p-3 text-left transition hover:bg-lime/[0.16] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime"
+            className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-[#91B979]/40 bg-[#91B979]/10 p-3 text-left transition hover:bg-[#91B979]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#91B979]"
           >
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lime text-ink">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[#91B979] text-[#0A0D14]">
               <Zap className="h-5 w-5" aria-hidden="true" />
             </span>
             <span className="min-w-0 flex-1">
               <span className="block text-sm font-bold">Daily challenge · {daily.modifier.name}</span>
               <span className="block truncate text-xs text-white/60">{daily.modifier.blurb}. Same for everyone today.</span>
             </span>
-            <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-lime">
+            <span className="flex shrink-0 items-center gap-1 text-xs font-bold text-[#91B979]">
               <Flame className="h-4 w-4" aria-hidden="true" />
               {stats.daily.streak}
               {dailyDone && <Check className="h-4 w-4" aria-label="Played today" />}
@@ -153,7 +165,7 @@ export function MiniCourt() {
               key={l.id}
               type="button"
               onClick={() => playLevel(l.id)}
-              className="rounded-xl border border-white/15 px-3 py-3 text-center transition hover:border-lime/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime"
+              className="rounded-xl border border-white/15 px-3 py-3 text-center transition hover:border-[#DE9D35]/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DE9D35]"
             >
               <span className="block text-sm font-extrabold">{l.label}</span>
               <span className="block text-[11px] text-white/55">{l.blurb}</span>
@@ -174,7 +186,7 @@ export function MiniCourt() {
               <li
                 key={b.id}
                 title={got ? b.label : `Locked: ${b.hint}`}
-                className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold ${got ? "bg-gold/15 text-gold" : "bg-white/5 text-white/35"}`}
+                className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold ${got ? "bg-[#F3D15A]/15 text-[#F3D15A]" : "bg-white/5 text-white/35"}`}
               >
                 <Award className="h-3 w-3" aria-hidden="true" />
                 {b.label}
@@ -196,11 +208,11 @@ export function MiniCourt() {
           <Stat value={ui.stats?.smashes ?? 0} label="Smashes" />
           <Stat value={ui.stats?.perfects ?? 0} label="Perfect hits" />
         </dl>
-        {recap?.newBest && <p className="mt-3 text-sm font-bold text-gold">New personal best rally</p>}
+        {recap?.newBest && <p className="mt-3 text-sm font-bold text-[#F3D15A]">New personal best rally</p>}
         {recap && recap.fresh.length > 0 && (
           <ul className="mt-3 flex flex-wrap justify-center gap-1.5" aria-label="New badges">
             {recap.fresh.map((id) => (
-              <li key={id} className="flex items-center gap-1 rounded-full bg-gold/15 px-2.5 py-1 text-xs font-bold text-gold">
+              <li key={id} className="flex items-center gap-1 rounded-full bg-[#F3D15A]/15 px-2.5 py-1 text-xs font-bold text-[#F3D15A]">
                 <Award className="h-3 w-3" aria-hidden="true" />
                 Unlocked: {BADGES.find((b) => b.id === id)?.label}
               </li>
@@ -211,7 +223,7 @@ export function MiniCourt() {
           <button
             type="button"
             onClick={() => plan && begin(plan)}
-            className="inline-flex h-11 items-center gap-2 rounded-full bg-lime px-5 text-sm font-extrabold text-ink transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-[#DE9D35] px-5 text-sm font-extrabold text-[#0A0D14] transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DE9D35]"
           >
             <RotateCcw className="h-4 w-4" aria-hidden="true" /> {ui.winner === "player" ? "Play again" : "Rematch"}
           </button>
@@ -223,7 +235,7 @@ export function MiniCourt() {
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Menu
           </button>
         </div>
-        <Link href="/tournaments" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-lime underline-offset-4 hover:underline">
+        <Link href="/tournaments" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#DE9D35] hover:text-[#F3D15A] underline-offset-4 hover:underline">
           Ready for real courts? Find tournaments near you <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>

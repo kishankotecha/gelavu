@@ -45,7 +45,7 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Search tournaments">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Search tournaments">
       <button type="button" aria-label="Close search" onClick={onClose} className="absolute inset-0 cursor-default bg-black/60 backdrop-blur-md" />
 
       <div className="relative w-full max-w-xl animate-fade-up overflow-hidden rounded-3xl border border-white/15 bg-[#0E1526] text-white shadow-2xl">
@@ -72,7 +72,7 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
                   onClick={() => go(href)}
                   className="group flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-gray-200 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:outline-none cursor-pointer"
                 >
-                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-white/5 text-gray-400 group-hover:bg-lime group-hover:text-[#0B101B] transition-colors">
+                  <span className="grid h-8 w-8 place-items-center rounded-xl bg-white/5 text-gray-400 group-hover:bg-[#F3D15A] group-hover:text-[#0B101B] transition-colors">
                     <Icon className="h-4 w-4" aria-hidden="true" />
                   </span>
                   <span className="flex-1">{label}</span>
@@ -89,9 +89,9 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
                 key={area}
                 type="button"
                 onClick={() => go(`/tournaments?q=${encodeURIComponent(area)}`)}
-                className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-gray-300 transition hover:border-lime/40 hover:bg-white/10 hover:text-white cursor-pointer"
+                className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-gray-300 transition hover:border-[#DE9D35]/40 hover:bg-white/10 hover:text-white cursor-pointer"
               >
-                <MapPin className="h-3 w-3 text-emerald-400" aria-hidden="true" />
+                <MapPin className="h-3 w-3 text-[#F3D15A]" aria-hidden="true" />
                 {area}
               </button>
             ))}

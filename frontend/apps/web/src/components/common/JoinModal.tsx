@@ -75,18 +75,38 @@ export function JoinModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
       role="dialog"
       aria-modal="true"
     >
-      <div className="relative w-full max-w-md rounded-3xl bg-surface border border-line p-6 sm:p-8 shadow-2xl text-ink">
+      <div 
+        className="relative w-full max-w-md rounded-3xl bg-surface border border-line p-6 sm:p-8 shadow-2xl text-ink"
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClose();
+          }}
           type="button"
           aria-label="Close dialog"
-          className="absolute right-5 top-5 p-2 rounded-full text-muted hover:text-ink hover:bg-paper transition-colors cursor-pointer"
+          title="Close dialog"
+          className="absolute right-5 top-5 p-2 rounded-full text-muted hover:text-ink hover:bg-paper active:bg-paper/80 transition-colors cursor-pointer z-10 flex items-center justify-center"
         >
           <X className="w-5 h-5" />
         </button>

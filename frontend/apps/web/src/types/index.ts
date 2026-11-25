@@ -1,5 +1,59 @@
 export type UserRole = "PLAYER" | "HOST" | "UMPIRE" | "ADMIN";
 
+export interface TournamentOfficial {
+  id: string;
+  tournamentId: string;
+  name: string;
+  email: string;
+  tokenHash: string; // store hash, never raw token
+  courts: number[]; // empty means all courts
+  invitedAt: string;
+  revokedAt?: string | null;
+}
+
+export type PaymentStatus = "CREATED" | "CAPTURED" | "FAILED" | "REFUNDED";
+export type TransferStatus = "HELD" | "RELEASED" | "SETTLED" | "REVERSED";
+
+export interface Payment {
+  id: string;
+  registrationId: string;
+  gatewayOrderId: string;
+  gatewayPaymentId?: string;
+  entryPaise: number;
+  feePaise: number;
+  totalPaise: number;
+  status: PaymentStatus;
+  capturedAt?: string;
+  createdAt: string;
+}
+
+export interface HostTransfer {
+  id: string;
+  paymentId: string;
+  hostAccountId: string;
+  amountPaise: number;
+  gatewayTransferId?: string;
+  status: TransferStatus;
+  releaseAfter: string;
+  releasedAt?: string;
+}
+
+export interface LedgerEntry {
+  id: string;
+  tournamentId: string;
+  paymentId?: string;
+  kind:
+    | "PLAYER_PAYMENT"
+    | "HOST_SHARE"
+    | "GELAVU_FEE"
+    | "GST"
+    | "GATEWAY_COST"
+    | "REFUND"
+    | "HOST_RELEASE";
+  amountPaise: number;
+  createdAt: string;
+}
+
 export interface User {
   id: string;
   name: string;

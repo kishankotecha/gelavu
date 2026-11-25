@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, CalendarDays, LogOut, User, Bell } from "lucide-react";
 import { useEscape } from "@/hooks/useOverlay";
+import { Avatar } from "@/components/common/Avatar";
 
 const ITEMS = [
   { label: "Profile", href: "/profile", icon: User },
@@ -11,7 +12,15 @@ const ITEMS = [
   { label: "Bookmarks", href: "/my-games", icon: CalendarDays },
 ];
 
-export function UserMenu({ name, onLogout }: { name: string; onLogout: () => void }) {
+export function UserMenu({
+  name,
+  avatarUrl,
+  onLogout,
+}: {
+  name: string;
+  avatarUrl?: string;
+  onLogout: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,13 +35,6 @@ export function UserMenu({ name, onLogout }: { name: string; onLogout: () => voi
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
   return (
     <div ref={ref} className="relative">
       {/* Trigger: Circular Avatar with Chevron v from Reference Image */}
@@ -44,48 +46,57 @@ export function UserMenu({ name, onLogout }: { name: string; onLogout: () => voi
         aria-label="Account menu"
         className="flex items-center gap-1.5 p-0.5 rounded-full hover:opacity-90 transition active:scale-95 cursor-pointer"
       >
-        <div className="grid h-8 w-8 place-items-center rounded-full bg-[#18253D] text-[11px] font-black text-white overflow-hidden ring-1 ring-white/20">
-          <span className="select-none">{initials || "AM"}</span>
-        </div>
-        <ChevronDown className={`h-3.5 w-3.5 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <Avatar name={name} url={avatarUrl} size="sm" className="ring-1 ring-white/20" />
+        <ChevronDown
+          className={`h-3.5 w-3.5 text-gray-400 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
       </button>
 
       {/* Popover Dropdown matching Reference Screenshot */}
       {open && (
-        <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-52 animate-fade-up overflow-hidden rounded-xl border border-white/15 bg-[#0E1526] p-1.5 shadow-2xl text-white">
+        <div
+          role="menu"
+          className="absolute right-0 top-full z-50 mt-2 w-52 animate-fade-up overflow-hidden rounded-xl border border-white/15 bg-[#0E1526] p-1.5 shadow-2xl text-white"
+        >
           <div className="px-3 py-2 border-b border-white/10 mb-1">
             <p className="truncate text-xs font-bold text-white">{name}</p>
             <p className="text-[10px] text-gray-400">Player account</p>
           </div>
 
           <div className="space-y-0.5">
-            {ITEMS.map(({ label, href, icon: Icon }) => (
-              <Link
-                key={label}
-                href={href}
-                role="menuitem"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-xs font-medium text-gray-200 transition hover:bg-white/10 hover:text-white"
-              >
-                <Icon className="h-4 w-4 text-gray-400" aria-hidden="true" />
-                <span>{label}</span>
-              </Link>
-            ))}
-          </div>
+            {ITEMS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  role="menuitem"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                >
+                  <Icon className="h-4 w-4 text-gray-400" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
 
-          <div className="my-1 h-px bg-white/10" />
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => {
-              setOpen(false);
-              onLogout();
-            }}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-xs font-medium text-gray-300 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
-          >
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-            <span>Logout</span>
-          </button>
+            <div className="border-t border-white/10 my-1 pt-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  onLogout();
+                }}
+                role="menuitem"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors cursor-pointer"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Log out</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

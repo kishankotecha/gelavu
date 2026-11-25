@@ -13,6 +13,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Tournaments", href: "/tournaments", icon: CalendarDays, description: "Find and join events near you", primary: true },
   { label: "Winners", href: "/winners", icon: Trophy, description: "Champions and results", primary: true },
   { label: "Rankings", href: "/leaderboard", icon: Medal, description: "Top players by city", primary: true },
-  { label: "For hosts", href: "/host/verify", icon: ClipboardList, description: "Run your own tournament", primary: true },
+  { label: "For hosts", href: "/for-hosts", icon: ClipboardList, description: "Run your own tournament", primary: true },
   { label: "How it works", href: "/#how", icon: Compass, description: "From signing up to the trophy" },
 ];

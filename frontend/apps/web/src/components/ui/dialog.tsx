@@ -14,14 +14,34 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in">
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onOpenChange(false);
+      }}
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onOpenChange(false);
+      }}
+    >
       <div 
         className="relative w-full max-w-lg rounded-xl border border-gray-800 bg-gray-900 p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
       >
         <button
-          onClick={() => onOpenChange(false)}
-          className="absolute right-4 top-4 rounded-md p-1 text-gray-400 hover:text-white hover:bg-gray-800"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onOpenChange(false);
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onOpenChange(false);
+          }}
+          className="absolute right-4 top-4 rounded-md p-1.5 text-gray-400 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer"
+          aria-label="Close dialog"
         >
           <X className="h-4 w-4" />
         </button>

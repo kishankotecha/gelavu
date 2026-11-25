@@ -2,7 +2,6 @@
 
 import React, { useState, type FormEvent } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ArrowRight, Mail, Trophy, Check } from "lucide-react";
 
 /* ========================================================================== */
@@ -123,7 +122,7 @@ function CrossedRacquetsBadge({ className = "h-4 w-4" }: { className?: string })
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#00F2FE"
+      stroke="#91B979"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -137,22 +136,16 @@ function CrossedRacquetsBadge({ className = "h-4 w-4" }: { className?: string })
       <ellipse cx="16.5" cy="7.5" rx="4" ry="4" transform="rotate(45 16.5 7.5)" />
       <line x1="13.5" y1="10.5" x2="3.5" y2="20.5" strokeWidth="2.4" />
       {/* Sparkle accents */}
-      <circle cx="12" cy="3.5" r="1" fill="#00F2FE" />
-      <circle cx="20.5" cy="12" r="0.8" fill="#00F2FE" />
-      <circle cx="3.5" cy="12" r="0.8" fill="#00F2FE" />
+      <circle cx="12" cy="3.5" r="1" fill="#91B979" />
+      <circle cx="20.5" cy="12" r="0.8" fill="#91B979" />
+      <circle cx="3.5" cy="12" r="0.8" fill="#91B979" />
     </svg>
   );
 }
 
 export function Footer() {
-  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-
-  // Hide on host and umpire dedicated console viewports
-  if (pathname?.startsWith("/host") || pathname?.startsWith("/umpire")) {
-    return null;
-  }
 
   const handleSubscribe = (e: FormEvent) => {
     e.preventDefault();
@@ -164,13 +157,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative w-full bg-gradient-to-b from-[#05070D] to-[#020306] text-white font-sans overflow-hidden">
+    <footer className="relative w-full bg-[#0A0D14] text-white font-sans overflow-hidden border-t border-[#313747]/40">
       
       {/* ============================================================== */}
       {/* AMBIENT BACKGROUND GLOW                                         */}
       {/* ============================================================== */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden="true">
-        <div className="absolute -top-32 -left-20 w-[520px] h-[520px] rounded-full bg-[#00F2FE]/[0.07] blur-[140px]" />
+        <div className="absolute -top-32 -left-20 w-[520px] h-[520px] rounded-full bg-[#DE9D35]/[0.03] blur-[140px]" />
       </div>
 
       {/* ============================================================== */}
@@ -186,16 +179,16 @@ export function Footer() {
           {/* Mobile Non-Scrolling Responsive Sports Grid */}
           <div className="py-3 lg:hidden space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#00F2FE]">
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#DE9D35]">
                 ONE ARENA · EVERY SPORT
               </span>
               <Link
                 href="/tournaments?sport=badminton"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#00F2FE] hover:bg-[#38BDF8] px-3 py-1 text-xs font-black text-white transition-all shadow-xs"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] px-3 py-1 text-xs font-black text-[#0A0D14] transition-all shadow-xs"
               >
-                <BadmintonIcon className="h-3.5 w-3.5 text-white" />
+                <BadmintonIcon className="h-3.5 w-3.5 text-[#0A0D14]" />
                 <span>Badminton</span>
-                <span className="rounded-full bg-black text-[#00F2FE] text-[9px] font-black px-1.5 py-0.5 tracking-wider">
+                <span className="rounded-full bg-[#0A0D14] text-[#F3D15A] text-[9px] font-black px-1.5 py-0.5 tracking-wider">
                   LIVE
                 </span>
               </Link>
@@ -205,7 +198,7 @@ export function Footer() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
               <Link
                 href="/tournaments?sport=tennis"
-                className="inline-flex items-center justify-between rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <TennisBallIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
@@ -215,7 +208,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/tournaments?sport=football"
-                className="inline-flex items-center justify-between rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <FootballIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
@@ -225,7 +218,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/tournaments?sport=basketball"
-                className="inline-flex items-center justify-between rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <BasketballIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
@@ -235,7 +228,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/tournaments?sport=cricket"
-                className="inline-flex items-center justify-between rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <CricketIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
@@ -250,7 +243,7 @@ export function Footer() {
           <div className="hidden lg:grid lg:grid-cols-[1.6fr_1fr_1.1fr_1fr_1.5fr] items-center">
             {/* Col 1 Header */}
             <div className="py-4 pr-6 lg:pr-10">
-              <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-[#00F2FE]">
+              <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-[#DE9D35]">
                 ONE ARENA · EVERY SPORT
               </span>
             </div>
@@ -259,11 +252,11 @@ export function Footer() {
             <div className="py-4 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/tournaments?sport=badminton"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[#00F2FE] hover:bg-[#38BDF8] px-4 py-2 text-sm font-black text-white transition-all shadow-xs"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] px-4 py-2 text-sm font-black text-[#0A0D14] transition-all shadow-xs"
               >
-                <BadmintonIcon className="h-4 w-4 text-white" />
+                <BadmintonIcon className="h-4 w-4 text-[#0A0D14]" />
                 <span>Badminton</span>
-                <span className="rounded-full bg-black text-[#00F2FE] text-[10px] font-black px-2 py-0.5 tracking-wider">
+                <span className="rounded-full bg-[#0A0D14] text-[#F3D15A] text-[10px] font-black px-2 py-0.5 tracking-wider">
                   LIVE
                 </span>
               </Link>
@@ -273,7 +266,7 @@ export function Footer() {
             <div className="py-4 px-4 sm:px-6 lg:px-8 flex items-center gap-2.5">
               <Link
                 href="/tournaments?sport=tennis"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
               >
                 <TennisBallIcon className="h-4 w-4 text-gray-400" />
                 <span>Tennis</span>
@@ -281,7 +274,7 @@ export function Footer() {
               </Link>
               <Link
                 href="/tournaments?sport=football"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
               >
                 <FootballIcon className="h-4 w-4 text-gray-400" />
                 <span>Football</span>
@@ -293,7 +286,7 @@ export function Footer() {
             <div className="py-4 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/tournaments?sport=basketball"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 px-3.5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3.5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
               >
                 <BasketballIcon className="h-4 w-4 text-gray-400" />
                 <span>Basketball</span>
@@ -331,8 +324,8 @@ export function Footer() {
               Where every rally counts. Find the court, win the bracket, get your name on the wall.
             </p>
 
-            {/* Signature Neon Lime Accent Bar */}
-            <div className="h-1 w-10 rounded-full bg-[#00F2FE]" />
+            {/* Signature Sunroom Apricot Accent Bar */}
+            <div className="h-1 w-10 rounded-full bg-[#DE9D35]" />
 
             {/* Social Link - Dedicated Instagram Community Pill */}
             <div className="flex items-center pt-0.5">
@@ -341,7 +334,7 @@ export function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Follow Gelavu on Instagram"
-                className="group inline-flex items-center gap-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 hover:border-[#00F2FE]/50 px-3.5 py-1.5 text-xs font-medium text-gray-300 hover:text-white transition-all shadow-xs"
+                className="group inline-flex items-center gap-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-[#313747]/60 hover:border-[#DE9D35]/50 px-3.5 py-1.5 text-xs font-medium text-gray-300 hover:text-white transition-all shadow-xs"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -350,14 +343,14 @@ export function Footer() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-3.5 w-3.5 text-[#00F2FE] group-hover:scale-110 transition-transform shrink-0"
+                  className="h-3.5 w-3.5 text-[#DE9D35] group-hover:scale-110 transition-transform shrink-0"
                 >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
                 </svg>
                 <span>Follow @gelavu</span>
-                <span className="text-gray-400 group-hover:text-[#00F2FE] text-[11px] transition-colors">↗</span>
+                <span className="text-gray-400 group-hover:text-[#DE9D35] text-[11px] transition-colors">↗</span>
               </a>
             </div>
           </div>
@@ -368,10 +361,10 @@ export function Footer() {
           <div className="col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
             <Link
               href="/tournaments"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#00F2FE] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
             >
               <span>PLAY</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#00F2FE]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
             </Link>
             <div className="space-y-1.5 sm:space-y-2.5 pt-0.5 text-xs sm:text-[15px]">
               <div><Link href="/tournaments" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Find tournaments</Link></div>
@@ -387,10 +380,10 @@ export function Footer() {
           <div className="col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
             <Link
               href="/host"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#00F2FE] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
             >
               <span>HOST</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#00F2FE]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
             </Link>
             <div className="space-y-1.5 sm:space-y-2.5 pt-0.5 text-xs sm:text-[15px]">
               <div><Link href="/host/tournaments/new" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Host a tournament</Link></div>
@@ -408,10 +401,10 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
             <Link
               href="/#how"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#00F2FE] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
             >
               <span>GELAVU</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#00F2FE]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
             </Link>
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-1.5 sm:gap-y-2.5 pt-0.5 text-xs sm:text-[15px]">
               <div><Link href="/#how" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">About</Link></div>
@@ -428,7 +421,7 @@ export function Footer() {
           {/* ---------------------------------------------------------- */}
           <div className="col-span-2 lg:col-span-1 pt-2 lg:pt-8 pb-1 lg:pb-5 lg:pl-10 space-y-2 sm:space-y-3">
             <div className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white">
-              <Trophy className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#00F2FE] shrink-0" />
+              <Trophy className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35] shrink-0" />
               <span>STAY IN THE GAME</span>
             </div>
             <p className="text-xs sm:text-sm text-gray-300 leading-snug sm:leading-relaxed font-normal max-w-md">
@@ -438,13 +431,13 @@ export function Footer() {
             {/* Newsletter Subscription Input - Full Width & Comfortable on Mobile */}
             <form onSubmit={handleSubscribe} className="pt-0.5 max-w-md lg:max-w-none">
               {subscribed ? (
-                <div className="flex items-center gap-2 p-2.5 rounded-full bg-white/[0.08] border border-[#00F2FE]/60 text-xs sm:text-sm text-[#00F2FE] font-bold">
+                <div className="flex items-center gap-2 p-2.5 rounded-full bg-[#91B979]/10 border border-[#91B979]/60 text-xs sm:text-sm text-[#91B979] font-bold">
                   <Check className="h-4 w-4 shrink-0" />
                   <span>You&apos;re in! Check your inbox soon.</span>
                 </div>
               ) : (
-                <div className="relative flex items-center rounded-full border border-white/20 bg-white/[0.06] pl-3.5 sm:pl-4 pr-1 sm:pr-1.5 py-1 sm:py-1.5 focus-within:border-[#00F2FE]/80 transition-all shadow-inner">
-                  <Mail className="h-4 w-4 text-gray-300 shrink-0 mr-2 sm:mr-2.5" />
+                <div className="relative flex items-center rounded-full border border-[#313747]/60 bg-[#121622] pl-3.5 sm:pl-4 pr-1 sm:pr-1.5 py-1 sm:py-1.5 focus-within:border-[#DE9D35]/80 transition-all shadow-inner">
+                  <Mail className="h-4 w-4 text-gray-400 shrink-0 mr-2 sm:mr-2.5" />
                   <input
                     type="email"
                     required
@@ -457,7 +450,7 @@ export function Footer() {
                   <button
                     type="submit"
                     aria-label="Subscribe"
-                    className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 shrink-0 rounded-full bg-[#00F2FE] hover:bg-[#38BDF8] active:scale-95 text-white font-black text-xs transition cursor-pointer shadow-md"
+                    className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 shrink-0 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-95 text-[#0A0D14] font-black text-xs transition cursor-pointer shadow-md"
                   >
                     <span>Join</span>
                     <ArrowRight className="h-3.5 w-3.5 stroke-[2.8]" />

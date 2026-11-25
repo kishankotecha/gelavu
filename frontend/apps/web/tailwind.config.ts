@@ -15,6 +15,11 @@ const config: Config = {
         line: c("line"),
         muted: c("muted"),
         live: c("live"),
+        apricot: "#DE9D35",
+        marigold: "#F3D15A",
+        garden: "#91B979",
+        poppy: "#D96F55",
+        midnight: "#313747",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

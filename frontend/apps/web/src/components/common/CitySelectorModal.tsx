@@ -78,8 +78,13 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
-      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="city-modal-title"
@@ -87,6 +92,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
       <div
         className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[85vh] animate-scale-up"
         onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
@@ -99,11 +105,27 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
             </p>
           </div>
           <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="p-2.5 -mr-1.5 rounded-full hover:bg-gray-100 active:bg-gray-200 text-gray-400 hover:text-gray-900 transition-colors cursor-pointer flex items-center justify-center shrink-0"
             aria-label="Close modal"
+            title="Close modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 stroke-[2.2]" />
           </button>
         </div>
 
@@ -282,8 +304,17 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
           </div>
           <button
             type="button"
-            onClick={onClose}
-            className="text-xs font-bold text-gray-700 hover:text-black"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="text-xs font-bold text-gray-700 hover:text-black px-3 py-1.5 rounded-lg hover:bg-gray-200/60 transition-colors cursor-pointer"
           >
             Done
           </button>

@@ -29,9 +29,9 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
   const timeString = `${formatDigits(countdown.hours)}:${formatDigits(countdown.minutes)}:${formatDigits(countdown.seconds)}`;
 
   return (
-    <section className="relative w-full bg-[#080E1B] p-2.5 sm:p-5 lg:p-6" id="top">
-      {/* Outer Stadium Lime Hero Card */}
-      <div className="relative w-full max-w-[1580px] mx-auto rounded-[24px] sm:rounded-[36px] overflow-hidden bg-[#A3E635] shadow-2xl flex flex-col justify-between">
+    <section className="relative w-full bg-[#0A0D14] p-2.5 sm:p-5 lg:p-6" id="top">
+      {/* Outer Stadium Pure White Hero Card (Borderless High-Contrast Monochrome) */}
+      <div className="relative w-full max-w-[1580px] mx-auto rounded-[24px] sm:rounded-[36px] overflow-hidden bg-white text-[#0B101B] shadow-2xl flex flex-col justify-between border-0">
         
         {/* ============================================================ */}
         {/* 1. ATHLETIC COURT BLUEPRINT SVG BACKGROUND                   */}
@@ -39,7 +39,7 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
         {/* ============================================================ */}
         <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden="true">
           <svg
-            className="absolute inset-0 h-full w-full opacity-[0.14] text-black stroke-current"
+            className="absolute inset-0 h-full w-full opacity-[0.07] text-black stroke-current"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
           >
@@ -72,8 +72,8 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
             {/* Dark Live Courts Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-[#0B101B] text-white px-3.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-black tracking-wider shadow-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D4D] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF4D4D]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D96F55] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D96F55]" />
               </span>
               <span>14 COURTS LIVE IN {city.toUpperCase()}</span>
             </div>
@@ -98,7 +98,7 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
                 <span className="block">WIN</span>
                 <span className="block">THE</span>
                 <span className="block pt-1 sm:pt-2">
-                  <span className="inline-block bg-[#0B101B] text-[#A3E635] px-4 sm:px-6 md:px-7 py-0.5 sm:py-1 rounded-2xl sm:rounded-3xl transform -rotate-1 shadow-2xl">
+                  <span className="inline-block bg-[#0B101B] text-[#F3D15A] px-4 sm:px-6 md:px-7 py-0.5 sm:py-1 rounded-2xl sm:rounded-3xl transform -rotate-1 shadow-2xl">
                     ROOM.
                   </span>
                 </span>
@@ -157,8 +157,8 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
                 <div className="flex items-center justify-between pb-3 text-xs">
                   <div className="flex items-center gap-2 font-black uppercase tracking-wider text-white">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D4D] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF4D4D]" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D96F55] opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D96F55]" />
                     </span>
                     <span>COURT 3 · SEMI-FINAL</span>
                   </div>
@@ -167,22 +167,22 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
 
                 {/* Center Row: Player Names & Giant Live Score */}
                 <div className="flex items-center justify-between py-2 sm:py-3">
-                  <span className="text-base sm:text-lg font-black text-white group-hover:text-[#A3E635] transition-colors truncate max-w-[120px]">
+                  <span className="text-base sm:text-lg font-black text-white group-hover:text-[#F3D15A] transition-colors truncate max-w-[120px]">
                     Arjun M.
                   </span>
                   <div className="flex items-center gap-2 font-mono font-black text-4xl sm:text-5xl tracking-tight">
                     <span className="text-white">12</span>
-                    <span className="text-[#A3E635]">:</span>
-                    <span className="text-[#A3E635]">14</span>
+                    <span className="text-[#F3D15A]">:</span>
+                    <span className="text-[#F3D15A]">14</span>
                   </div>
                   <span className="text-base sm:text-lg font-black text-white text-right truncate max-w-[120px]">
                     Nikhil R.
                   </span>
                 </div>
 
-                {/* Progress Bar with Lime Active Indicator */}
+                {/* Progress Bar with Marigold Active Indicator */}
                 <div className="w-full bg-white/15 h-1.5 rounded-full overflow-hidden mt-1">
-                  <div className="bg-[#A3E635] h-full w-[65%] rounded-full transition-all duration-500" />
+                  <div className="bg-[#F3D15A] h-full w-[65%] rounded-full transition-all duration-500" />
                 </div>
 
                 {/* Footer Subtext */}
@@ -196,9 +196,9 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
                 {/* Court 1 */}
                 <Link
                   href="/tournaments"
-                  className="bg-white rounded-2xl p-4 shadow-md transition-all duration-200 hover:scale-[1.02] cursor-pointer block"
+                  className="bg-white rounded-2xl p-4 shadow-md transition-all duration-200 hover:scale-[1.02] cursor-pointer block border border-gray-100"
                 >
-                  <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#FF4D4D]">
+                  <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#D96F55]">
                     LIVE · COURT 1
                   </div>
                   <div className="font-mono text-3xl sm:text-4xl font-black text-[#0B101B] my-1 tracking-tight">
@@ -212,9 +212,9 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
                 {/* Court 5 */}
                 <Link
                   href="/tournaments"
-                  className="bg-white rounded-2xl p-4 shadow-md transition-all duration-200 hover:scale-[1.02] cursor-pointer block"
+                  className="bg-white rounded-2xl p-4 shadow-md transition-all duration-200 hover:scale-[1.02] cursor-pointer block border border-gray-100"
                 >
-                  <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#FF4D4D]">
+                  <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-[#D96F55]">
                     LIVE · COURT 5
                   </div>
                   <div className="font-mono text-3xl sm:text-4xl font-black text-[#0B101B] my-1 tracking-tight">
@@ -231,9 +231,9 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
                 onClick={onJoin}
                 role="button"
                 tabIndex={0}
-                className="border-2 border-dashed border-black/35 rounded-2xl p-3.5 sm:p-4 bg-black/[0.03] hover:bg-black/[0.07] transition-all flex items-center gap-3.5 cursor-pointer group shadow-2xs"
+                className="border-2 border-dashed border-black/25 rounded-2xl p-3.5 sm:p-4 bg-black/[0.03] hover:bg-black/[0.07] transition-all flex items-center gap-3.5 cursor-pointer group shadow-2xs"
               >
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#0B101B] text-[#A3E635] shadow-xs group-hover:scale-105 transition-transform duration-200">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#0B101B] text-[#F3D15A] shadow-xs group-hover:scale-105 transition-transform duration-200">
                   <UserPlus className="h-4.5 w-4.5" />
                 </div>
                 <div className="min-w-0">
@@ -261,27 +261,27 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
             {/* Ticker Set 1 */}
             <div className="flex items-center gap-8 sm:gap-12">
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>42 TOURNAMENTS THIS MONTH</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>₹24L+ PAID TO HOSTS</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>8,760 MATCHES SCORED</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>MEERA IYER WON WOMEN&apos;S SINGLES</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>KIRAN &amp; ROHAN WON MEN&apos;S DOUBLES</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>14 COURTS LIVE IN {city.toUpperCase()}</span>
               </span>
             </div>
@@ -289,27 +289,27 @@ export function HeroRally({ city = "Bengaluru", onJoin }: HeroRallyProps) {
             {/* Ticker Set 2 (Duplicated for Seamless Infinite Loop) */}
             <div className="flex items-center gap-8 sm:gap-12" aria-hidden="true">
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>42 TOURNAMENTS THIS MONTH</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>₹24L+ PAID TO HOSTS</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>8,760 MATCHES SCORED</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>MEERA IYER WON WOMEN&apos;S SINGLES</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>KIRAN &amp; ROHAN WON MEN&apos;S DOUBLES</span>
               </span>
               <span className="flex items-center gap-2">
-                <span className="text-[#F9C433]">★</span>
+                <span className="text-[#F3D15A]">★</span>
                 <span>14 COURTS LIVE IN {city.toUpperCase()}</span>
               </span>
             </div>

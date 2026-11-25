@@ -4,7 +4,6 @@ import { Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { ToastProvider } from "@/components/ui/toast";
 import { siteConfig } from "@/config/site";
 
@@ -51,16 +50,13 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${rogenz.variable}`}
     >
-      <body className="font-sans antialiased min-h-screen bg-[#080E1B]">
+      <body className="font-sans antialiased min-h-screen bg-[#0A0D14] text-white">
         <ToastProvider>
-          <div className="flex min-h-screen flex-col bg-[#080E1B]">
+          <div className="flex min-h-screen flex-col bg-[#0A0D14]">
             <Suspense fallback={<div className="h-16 w-full" />}>
               <Navbar />
             </Suspense>
             <main className="flex-1">{children}</main>
-            <Suspense fallback={null}>
-              <Footer />
-            </Suspense>
           </div>
         </ToastProvider>
       </body>

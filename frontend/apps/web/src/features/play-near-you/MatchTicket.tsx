@@ -23,7 +23,7 @@ function SlotDots({ total, filled, partners }: { total: number; filled: number; 
             style={{ animationDelay: `${i * 12}ms` }}
             className={`h-3 w-3 rounded-full motion-safe:animate-fade-up ${
               kind === "in"
-                ? "bg-[#FF5722] shadow-[0_0_8px_rgba(255,87,34,0.5)]"
+                ? "bg-[#DE9D35] shadow-[0_0_8px_rgba(255,87,34,0.5)]"
                 : kind === "partner"
                 ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.4)]"
                 : "border border-white/30"
@@ -52,13 +52,13 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
     <>
       <article
         aria-labelledby={`ticket-${t.id}`}
-        className="relative h-full flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0E1524] text-white shadow-2xl transition-all duration-200 hover:border-white/20"
+        className="relative h-full flex flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#121622] border-[#313747]/60 text-white shadow-2xl transition-all duration-200 hover:border-white/20"
       >
         <div className="grid h-full md:grid-cols-[1fr_auto]">
           {/* Main Ticket Content */}
           <div className="flex flex-col justify-between space-y-4 p-6 sm:p-7 md:p-8">
             <div>
-              <p className="inline-flex items-center gap-1.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-cyan-300">
+              <p className="inline-flex items-center gap-1.5 rounded-full bg-[#F3D15A]/15 border border-[#F3D15A]/30 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[#F3D15A]">
                 {t.series} · {t.distanceLabel}
               </p>
               <h3
@@ -69,7 +69,7 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
               </h3>
               <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
                 <li className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 shrink-0 text-[#FF5722]" aria-hidden="true" />
+                  <MapPin className="h-4 w-4 shrink-0 text-[#DE9D35]" aria-hidden="true" />
                   <span>{t.venue}, {t.area}</span>
                 </li>
                 <li className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
               <SlotDots total={t.slotsTotal} filled={t.slotsFilled} partners={t.partnersWanted} />
               <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-400 pt-1">
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#FF5722]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#DE9D35]" />
                   Registered
                 </span>
                 <span className="flex items-center gap-1.5">
@@ -133,7 +133,7 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
                 <button
                   type="button"
                   onClick={() => setIsPartnerModalOpen(true)}
-                  className="font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-4 hover:no-underline cursor-pointer"
+                  className="font-bold text-cyan-400 hover:text-[#F3D15A] underline underline-offset-4 hover:no-underline cursor-pointer"
                 >
                   Pair up
                 </button>
@@ -144,7 +144,7 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
             <div className="flex flex-wrap items-center gap-2.5 pt-1">
               <Link
                 href={`/tournaments/${t.slug}/register`}
-                className="group inline-flex h-12 items-center gap-2 rounded-full bg-[#FF5722] hover:bg-[#F4511E] px-6 text-sm font-black text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] cursor-pointer shadow-[0_0_24px_rgba(255,87,34,0.4)]"
+                className="group inline-flex h-12 items-center gap-2 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] px-6 text-sm font-black text-[#0A0D14] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#DE9D35] cursor-pointer shadow-[0_0_24px_rgba(255,87,34,0.4)]"
               >
                 Enter · {t.entryLabel}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
@@ -183,15 +183,15 @@ export function MatchTicket({ tournament, t: propT, siblings, onSelect }: Props)
           </div>
 
           {/* Perforated Date Stub */}
-          <div className="relative h-full flex flex-row items-center justify-center gap-4 border-t-2 border-dashed border-white/15 bg-[#080E1B] px-6 py-5 md:w-36 md:flex-col md:justify-center md:gap-1 md:border-l-2 md:border-t-0 md:py-0 select-none">
+          <div className="relative h-full flex flex-row items-center justify-center gap-4 border-t-2 border-dashed border-white/15 bg-[#0E121B] px-6 py-5 md:w-36 md:flex-col md:justify-center md:gap-1 md:border-l-2 md:border-t-0 md:py-0 select-none">
             {/* Cutout notches centered exactly on the perforation seam */}
             <span
               aria-hidden="true"
-              className="absolute -top-3 hidden h-6 w-6 rounded-full border border-white/10 bg-[#080E1B] md:block md:-left-3"
+              className="absolute -top-3 hidden h-6 w-6 rounded-full border border-white/10 bg-[#0E121B] md:block md:-left-3"
             />
             <span
               aria-hidden="true"
-              className="absolute -bottom-3 hidden h-6 w-6 rounded-full border border-white/10 bg-[#080E1B] md:block md:-left-3"
+              className="absolute -bottom-3 hidden h-6 w-6 rounded-full border border-white/10 bg-[#0E121B] md:block md:-left-3"
             />
             <p className="text-xs font-black uppercase tracking-widest text-amber-400">{weekday}</p>
             <p className="font-sans text-5xl sm:text-6xl font-black tracking-tighter text-white leading-none my-1">{dayNum}</p>

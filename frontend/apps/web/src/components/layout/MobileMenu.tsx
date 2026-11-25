@@ -148,7 +148,7 @@ export function MobileMenu({ open, onClose, items, user, isActive, onJoin, onLog
                 onClose();
                 onJoin("join");
               }}
-              className="h-12 w-full rounded-md bg-[#84CC16] hover:bg-[#96C93D] text-[#070F1E] font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
+              className="h-12 w-full rounded-md bg-[#DE9D35] hover:bg-[#c98b2c] text-[#0A0D14] font-black text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
             >
               Get Started
             </button>

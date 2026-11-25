@@ -210,7 +210,7 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onDoubleClick={() => setZoom((z) => Math.min(z + 1, 15))}
-      className={`relative h-full min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-[#0B101B] shadow-2xl select-none ${
+      className={`relative h-full min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-[#121622] shadow-2xl select-none ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
     >
@@ -274,13 +274,13 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
               {on && (
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full bg-[#FF5722]/80 motion-safe:animate-ping"
+                  className="absolute inset-0 rounded-full bg-[#DE9D35]/80 motion-safe:animate-ping"
                 />
               )}
               <span
-                className={`relative grid h-10 w-10 place-items-center rounded-full text-xs font-black transition duration-200 shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-[#FF5722] ${
+                className={`relative grid h-10 w-10 place-items-center rounded-full text-xs font-black transition duration-200 shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-[#DE9D35] ${
                   on
-                    ? "scale-115 bg-[#FF5722] text-white ring-2 ring-[#FF5722] shadow-[0_0_24px_rgba(255,87,34,0.6)]"
+                    ? "scale-115 bg-[#DE9D35] text-white ring-2 ring-[#DE9D35] shadow-[0_0_24px_rgba(255,87,34,0.6)]"
                     : "border-2 border-white/20 bg-[#121929] text-white hover:bg-[#1C263D] group-hover:-translate-y-0.5 group-hover:scale-105"
                 }`}
               >
@@ -291,8 +291,8 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
             <span
               className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold shadow-md whitespace-nowrap transition-colors ${
                 on
-                  ? "bg-[#FF5722] text-white ring-1 ring-white/20"
-                  : "bg-[#0B101B]/95 text-slate-200 border border-white/15 backdrop-blur-md"
+                  ? "bg-[#DE9D35] text-white ring-1 ring-white/20"
+                  : "bg-[#121622]/95 text-slate-200 border border-white/15 backdrop-blur-md"
               }`}
             >
               {area}
@@ -305,13 +305,13 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       {/* MAP CONTROLS & ATTRIBUTION                                   */}
       {/* ============================================================ */}
       {/* Top Left Status Badge */}
-      <div className="absolute top-3 left-3 z-30 flex items-center gap-2 rounded-full bg-[#0B101B]/90 px-3 py-1.5 border border-white/15 shadow-md backdrop-blur-md text-xs font-bold text-white">
-        <span className="h-2 w-2 rounded-full bg-cyan-400 motion-safe:animate-pulse" />
+      <div className="absolute top-3 left-3 z-30 flex items-center gap-2 rounded-full bg-[#121622]/90 px-3 py-1.5 border border-white/15 shadow-md backdrop-blur-md text-xs font-bold text-white">
+        <span className="h-2 w-2 rounded-full bg-[#F3D15A] motion-safe:animate-pulse" />
         <span>Bengaluru Arenas</span>
       </div>
 
       {/* Top Right Zoom & Recenter Controls */}
-      <div className="absolute right-3 top-3 z-30 flex flex-col items-center gap-1 rounded-xl bg-[#0B101B]/90 p-1 border border-white/15 shadow-md backdrop-blur-md">
+      <div className="absolute right-3 top-3 z-30 flex flex-col items-center gap-1 rounded-xl bg-[#121622]/90 p-1 border border-white/15 shadow-md backdrop-blur-md">
         <button
           type="button"
           title="Zoom In (or scroll wheel up)"
@@ -341,8 +341,8 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       </div>
 
       {/* Bottom Left Footnote */}
-      <div className="absolute bottom-2.5 left-3.5 z-20 flex items-center gap-2 text-[10px] text-slate-400 bg-[#0B101B]/85 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/10">
-        <Compass className="w-3 h-3 text-cyan-400" />
+      <div className="absolute bottom-2.5 left-3.5 z-20 flex items-center gap-2 text-[10px] text-slate-400 bg-[#121622]/85 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/10">
+        <Compass className="w-3 h-3 text-[#F3D15A]" />
         <span>Scroll to Zoom · Drag to Pan · © OpenStreetMap</span>
       </div>
     </div>

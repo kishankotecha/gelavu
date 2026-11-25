@@ -55,14 +55,14 @@ export function Navbar() {
     { label: "How it Works", href: pathname === "/" ? "#how" : "/#how" },
     { label: "Tournaments", href: "/tournaments" },
     { label: "Rankings", href: "/leaderboard" },
-    { label: "For hosts", href: pathname === "/" ? "#hosts" : "/host/verify" },
+    { label: "For hosts", href: "/for-hosts" },
   ];
 
   const isTabActive = useCallback(
     (href: string) => {
       if (href === "/tournaments") return pathname.startsWith("/tournaments");
       if (href === "/leaderboard") return pathname.startsWith("/leaderboard");
-      if (href === "/host/verify" || href.includes("host")) return pathname.startsWith("/host");
+      if (href === "/for-hosts") return pathname.startsWith("/for-hosts") || pathname.startsWith("/host");
       return false;
     },
     [pathname]
@@ -71,10 +71,9 @@ export function Navbar() {
   const getRouteIndex = useCallback((path: string) => {
     if (path.startsWith("/tournaments")) return 1;
     if (path.startsWith("/leaderboard")) return 2;
-    if (path.startsWith("/host")) return 3;
+    if (path.startsWith("/for-hosts") || path.startsWith("/host")) return 3;
     if (typeof window !== "undefined") {
       if (window.location.hash.includes("how")) return 0;
-      if (window.location.hash.includes("host")) return 3;
     }
     if (path === "/") return 0;
     return -1;
@@ -179,7 +178,7 @@ export function Navbar() {
       {/* ========================================================= */}
       {/* Full-Width Solid Navbar (Matches Reference Screenshot)   */}
       {/* ========================================================= */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#070F1E] text-white">
+      <header className="sticky top-0 z-50 w-full border-b border-black/40 bg-[#070F1E] text-white">
         <div className="w-full h-16 sm:h-[68px] px-4 sm:px-8 lg:px-12 flex items-center justify-between">
           
           {/* 1. LEFT: Brand Logo + Clean Nav Links (Desktop Only) */}
@@ -262,7 +261,7 @@ export function Navbar() {
 
             {/* Auth State Controls */}
             {user ? (
-              <UserMenu name={user.name || "Player"} onLogout={logout} />
+              <UserMenu name={user.name || "Player"} avatarUrl={user.avatarUrl} onLogout={logout} />
             ) : (
               <div className="flex items-center gap-4 pl-1">
                 <button
@@ -276,14 +275,14 @@ export function Navbar() {
                   Log in
                 </button>
 
-                {/* Rectangular Lime GET STARTED Button from Reference */}
+                {/* Rectangular Sunroom Apricot GET STARTED Button */}
                 <button
                   type="button"
                   onClick={() => {
                     setJoinMode("join");
                     setJoinOpen(true);
                   }}
-                  className="rounded-md bg-[#84CC16] hover:bg-[#96C93D] active:scale-95 text-[#070F1E] font-black text-xs uppercase tracking-wider px-4 py-2 transition-all shadow-sm cursor-pointer"
+                  className="rounded-md bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-95 text-[#0A0D14] font-black text-xs uppercase tracking-wider px-4 py-2 transition-all shadow-sm cursor-pointer"
                 >
                   GET STARTED
                 </button>
