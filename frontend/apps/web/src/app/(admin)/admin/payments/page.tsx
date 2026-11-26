@@ -2,6 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { formatMoney } from "@/utils/formatters";
 import { ArrowLeft, IndianRupee } from "lucide-react";
+import {
+  AdminPageShell,
+  DashboardTitle,
+  DashboardLead,
+} from "@/components/layout/DashboardTypography";
 
 export default function AdminPaymentsPage() {
   const transactions = [
@@ -11,17 +16,20 @@ export default function AdminPaymentsPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl">
-      <Link href="/admin" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-white mb-6">
-        <ArrowLeft className="w-3.5 h-3.5" /> Back to Admin Overview
+    <AdminPageShell>
+      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-200 mb-2">
+        <ArrowLeft className="w-3.5 h-3.5" /> Back to overview
       </Link>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-black text-white flex items-center gap-2">
-            <IndianRupee className="w-7 h-7 text-emerald-400" /> Platform Payments & Escrow Ledger
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">Audit Razorpay webhook feeds, platform commission, and prize disbursements</p>
+          <DashboardTitle tone="dark" className="flex items-center gap-2.5">
+            <IndianRupee className="w-7 h-7 text-emerald-400 shrink-0" />
+            Escrow &amp; payments
+          </DashboardTitle>
+          <DashboardLead tone="dark">
+            Audit webhooks, platform commission, and prize disbursements
+          </DashboardLead>
         </div>
       </div>
 
@@ -47,6 +55,6 @@ export default function AdminPaymentsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

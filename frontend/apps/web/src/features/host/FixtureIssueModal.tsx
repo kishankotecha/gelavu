@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Check, ShieldAlert, Clock, UserX, Calendar, ArrowRightLeft } from "lucide-react";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
 
 export interface FixtureMatch {
   id: string;
@@ -157,16 +158,16 @@ export function FixtureIssueModal({
               <label className="text-[11px] font-semibold text-[#64748B] block mb-1">
                 Court Assignment
               </label>
-              <select
-                defaultValue={match.court}
-                onChange={(e) => setCourt(e.target.value)}
-                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:bg-white focus:outline-none"
-              >
-                <option value="Court 1">Court 1 (Center Synthetic)</option>
-                <option value="Court 2">Court 2 (Synthetic)</option>
-                <option value="Court 3">Court 3 (Synthetic)</option>
-                <option value="Court 4">Court 4 (Wooden)</option>
-              </select>
+              <CustomDropdown
+                value={court || match.court}
+                onChange={setCourt}
+                options={[
+                  { value: "Court 1", label: "Court 1 (Center Synthetic)", badge: "Center" },
+                  { value: "Court 2", label: "Court 2 (Synthetic)", badge: "Synthetic" },
+                  { value: "Court 3", label: "Court 3 (Synthetic)", badge: "Synthetic" },
+                  { value: "Court 4", label: "Court 4 (Wooden)", badge: "Wooden" },
+                ]}
+              />
             </div>
 
             <div>

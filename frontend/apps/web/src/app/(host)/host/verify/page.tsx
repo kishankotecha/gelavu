@@ -3,6 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ShieldCheck, ArrowLeft, CheckCircle2 } from "lucide-react";
+import {
+  DashboardTitle,
+  DashboardLead,
+  HostPageShell,
+} from "@/components/layout/DashboardTypography";
 
 export default function HostVerifyKycPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -17,9 +22,9 @@ export default function HostVerifyKycPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-2xl text-[#1E293B]">
-      <Link href="/host" className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] mb-6 font-semibold">
-        <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" /> Back to Host Dashboard
+    <HostPageShell className="max-w-2xl">
+      <Link href="/host" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1D4A38] mb-4 font-medium">
+        <ArrowLeft className="w-3.5 h-3.5" /> Back to dashboard
       </Link>
 
       <div className="rounded-3xl border border-[#E2E6DD] bg-white p-6 sm:p-8 shadow-xs">
@@ -28,10 +33,12 @@ export default function HostVerifyKycPage() {
             <ShieldCheck className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-[#1E293B]">Host KYC & Bank Verification</h1>
-            <p className="text-xs text-[#64748B] mt-0.5">
-              Required for automated Razorpay escrow payouts directly into your club account
-            </p>
+            <DashboardTitle as="h1" className="text-xl sm:text-2xl">
+              Host verification
+            </DashboardTitle>
+            <DashboardLead className="text-xs sm:text-sm !mt-1">
+              Required for automated escrow payouts to your verified bank account
+            </DashboardLead>
           </div>
         </div>
 
@@ -114,6 +121,6 @@ export default function HostVerifyKycPage() {
           </form>
         )}
       </div>
-    </div>
+    </HostPageShell>
   );
 }

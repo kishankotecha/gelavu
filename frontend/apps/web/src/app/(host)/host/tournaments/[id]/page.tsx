@@ -2,6 +2,13 @@ import React from "react";
 import Link from "next/link";
 import { MOCK_TOURNAMENTS } from "@/data/mock-data";
 import { Users, Calendar, GitBranch, Trophy, ArrowLeft } from "lucide-react";
+import {
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  DashboardStatValue,
+  HostPageShell,
+} from "@/components/layout/DashboardTypography";
 
 export default async function HostTournamentOverviewPage({
   params,
@@ -43,16 +50,18 @@ export default async function HostTournamentOverviewPage({
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl text-[#1E293B]">
-      <Link href="/host" className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] mb-6 font-semibold">
-        <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" /> Back to Host Dashboard
+    <HostPageShell className="max-w-5xl">
+      <Link href="/host" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1D4A38] mb-2 font-medium">
+        <ArrowLeft className="w-3.5 h-3.5" /> Back to dashboard
       </Link>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1D4A38]">Host Tournament Pavilion</span>
-          <h1 className="text-3xl font-black text-[#1E293B] tracking-tight">{tournament?.title}</h1>
-          <p className="text-xs text-[#64748B] mt-1">Status: {tournament?.status} • ID: {id}</p>
+          <DashboardEyebrow className="text-[#1D4A38]">Tournament workspace</DashboardEyebrow>
+          <DashboardTitle className="mt-1.5">{tournament?.title}</DashboardTitle>
+          <DashboardLead className="text-xs sm:text-sm">
+            Status: {tournament?.status} · ID {id}
+          </DashboardLead>
         </div>
 
         <Link href={`/live/${id}`} target="_blank">
@@ -66,7 +75,7 @@ export default async function HostTournamentOverviewPage({
         <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
           <span className="text-xs font-semibold text-[#64748B]">Registered Entries</span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[#1E293B]">48 / 64</span>
+            <DashboardStatValue>48 / 64</DashboardStatValue>
           </div>
           <span className="text-xs font-bold text-[#1D4A38] mt-2 block">75% Capacity</span>
         </div>
@@ -74,7 +83,7 @@ export default async function HostTournamentOverviewPage({
         <div className="rounded-2xl bg-[#1D4A38] p-5 text-white shadow-sm border border-[#16392B]">
           <span className="text-xs font-semibold text-[#E8EFEA]/80">Prize Pool</span>
           <div className="mt-2">
-            <span className="text-3xl font-black text-white tracking-tight">₹50,000</span>
+            <DashboardStatValue inverted className="text-white">₹50,000</DashboardStatValue>
           </div>
           <span className="text-xs text-[#E8EFEA]/70 mt-2 block">Trophies & Medals Ready</span>
         </div>
@@ -82,7 +91,7 @@ export default async function HostTournamentOverviewPage({
         <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
           <span className="text-xs font-semibold text-[#64748B]">Match Progress</span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[#1E293B]">12 / 16</span>
+            <DashboardStatValue>12 / 16</DashboardStatValue>
           </div>
           <span className="text-xs font-bold text-[#1D4A38] mt-2 block">Semi-finals in progress</span>
         </div>
@@ -106,8 +115,8 @@ export default async function HostTournamentOverviewPage({
                     {c.badge}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-[#1E293B] group-hover:text-[#1D4A38] transition-colors">{c.title}</h3>
-                <p className="text-xs text-[#64748B] mt-1">{c.desc}</p>
+                <h3 className="font-rogenz text-lg font-bold tracking-wide text-[#0B1220] group-hover:text-[#1D4A38] transition-colors">{c.title}</h3>
+                <p className="text-sm text-slate-600 mt-1 leading-relaxed">{c.desc}</p>
               </div>
               <div className="mt-6 text-xs font-bold text-[#1D4A38] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage Section →
@@ -116,6 +125,6 @@ export default async function HostTournamentOverviewPage({
           );
         })}
       </div>
-    </div>
+    </HostPageShell>
   );
 }

@@ -4,10 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { Dices, Sparkles, ShieldCheck, RotateCw, Users, Shuffle } from "lucide-react";
 
 interface Props {
+  categoryName?: string;
+  tournamentId?: string;
   soloPlayers: Array<{ name: string; skillLevel?: string; style: string }>;
   teams: Array<{ id: string; name: string; seed?: number }>;
   onPairCreated?: (team: { name: string; players: string }) => void;
   onBracketRandomized?: (verifiableHash: string) => void;
+  onApplyPairsToBracket?: (pairs: Array<{ name: string; players: string }>) => void;
+  onBracketRandomizedTeams?: (randomizedTeams: Array<{ id: string; name: string; seed?: number }>) => void;
 }
 
 const WHEEL_COLORS = [
@@ -22,10 +26,14 @@ const WHEEL_COLORS = [
 ];
 
 export function PickerWheelDraw({
+  categoryName,
+  tournamentId,
   soloPlayers: initialSoloPlayers,
   teams,
   onPairCreated,
   onBracketRandomized,
+  onApplyPairsToBracket,
+  onBracketRandomizedTeams,
 }: Props) {
   const [activeTab, setActiveTab] = useState<"random_doubles" | "bracket_draw">("random_doubles");
   const [soloQueue, setSoloQueue] = useState(initialSoloPlayers);
@@ -148,13 +156,17 @@ export function PickerWheelDraw({
             players: `${p1} + ${p2} (Wheel Pair)`,
           };
 
-          setPairedTeams((prev) => [...prev, team]);
+          const nextPaired = [...pairedTeams, team];
+          setPairedTeams(nextPaired);
           setSoloQueue((prev) => prev.filter((p) => p.name !== p1 && p.name !== p2));
           onPairCreated?.(team);
+          onApplyPairsToBracket?.(nextPaired);
         }
       } else {
-        // Bracket Draw mode
+        // Bracket Draw mode - transparently re-order teams with verifiable hash
+        const shuffled = [...teams].sort(() => Math.random() - 0.5).map((t, idx) => ({ ...t, seed: idx + 1 }));
         onBracketRandomized?.(newHash);
+        onBracketRandomizedTeams?.(shuffled);
       }
     }, 2800);
   };
@@ -175,8 +187,10 @@ export function PickerWheelDraw({
       });
     }
 
-    setPairedTeams((prev) => [...prev, ...newPairs]);
+    const allPairs = [...pairedTeams, ...newPairs];
+    setPairedTeams(allPairs);
     setSoloQueue([]);
+    onApplyPairsToBracket?.(allPairs);
   };
 
   return (
@@ -192,6 +206,16 @@ export function PickerWheelDraw({
             <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] text-[10px] font-black uppercase px-2 py-0.5">
               Anti-Fixing Live Draw
             </span>
+            {tournamentId && (
+              <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] text-[10px] font-mono font-black uppercase px-2 py-0.5">
+                #{tournamentId}
+              </span>
+            )}
+            {categoryName && (
+              <span className="rounded-full bg-amber-50 border border-amber-300 text-amber-900 text-[10px] font-black uppercase px-2.5 py-0.5">
+                Category: {categoryName}
+              </span>
+            )}
           </div>
           <p className="text-xs text-[#64748B] mt-1">
             Spin live in front of players to form random doubles or transparently assign bracket positions.
@@ -333,17 +357,42 @@ export function PickerWheelDraw({
                   </p>
                 )}
               </div>
+
+              {pairedTeams.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => onApplyPairsToBracket?.(pairedTeams)}
+                  className="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#DE9D35] hover:bg-[#C98B28] text-[#0B1220] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
+                >
+                  <Shuffle className="w-3.5 h-3.5" />
+                  <span>Apply {pairedTeams.length} Wheel Pairs to Championship Bracket →</span>
+                </button>
+              )}
             </div>
           )}
 
           {activeTab === "bracket_draw" && (
-            <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-[#F9FAF6] space-y-2 text-xs">
-              <span className="text-[11px] font-black uppercase text-[#B45309] block">
-                Why use the Picker Wheel for Fixtures?
-              </span>
-              <p className="text-[#475569] leading-relaxed">
-                Traditional fixed bracket logic can create predictable matchups or lead to complaints of match-fixing. The Wheel of Fortune ensures provably fair random seeds that every player can verify live.
-              </p>
+            <div className="space-y-3">
+              <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-[#F9FAF6] space-y-2 text-xs">
+                <span className="text-[11px] font-black uppercase text-[#B45309] block">
+                  Why use the Picker Wheel for Fixtures?
+                </span>
+                <p className="text-[#475569] leading-relaxed">
+                  Traditional fixed bracket logic can create predictable matchups or lead to complaints of match-fixing. The Wheel of Fortune ensures provably fair random seeds that every player can verify live.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const shuffled = [...teams].sort(() => Math.random() - 0.5).map((t, idx) => ({ ...t, seed: idx + 1 }));
+                  onBracketRandomizedTeams?.(shuffled);
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-[#DE9D35] hover:bg-[#C98B28] text-[#0B1220] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
+              >
+                <Shuffle className="w-3.5 h-3.5" />
+                <span>Apply Provably Fair Shuffled Seeds to Bracket Tree →</span>
+              </button>
             </div>
           )}
         </div>

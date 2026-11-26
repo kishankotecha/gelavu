@@ -29,7 +29,7 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex min-h-screen bg-[#0B101B] text-white font-sans">
+    <div className="flex min-h-screen bg-[#0A0D14] text-white font-sans antialiased">
       {/* Admin Sidebar */}
       <aside className="w-64 border-r border-gray-800 bg-[#0E1524] p-5 shrink-0 hidden md:flex flex-col justify-between min-h-screen">
         <div className="space-y-8">
@@ -38,8 +38,8 @@ export default function AdminLayout({
 
           {/* Navigation Items */}
           <nav className="space-y-1.5">
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-gray-500 px-3 block mb-2">
-              Super Admin Console
+            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500 px-3 block mb-2">
+              Super admin
             </span>
             {ADMIN_NAV.map((item) => {
               const Icon = item.icon;
@@ -49,10 +49,10 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all ${
+                  className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-rose-500/15 text-rose-300 border border-rose-500/30 shadow-xs"
-                      : "text-gray-400 hover:bg-white/5 hover:text-white"
+                      ? "bg-rose-500/12 text-rose-200 border border-rose-500/25"
+                      : "text-gray-400 hover:bg-white/5 hover:text-gray-100"
                   }`}
                 >
                   <Icon className={`w-4 h-4 ${isActive ? "text-rose-400" : "text-gray-500"}`} />

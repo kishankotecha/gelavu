@@ -3,23 +3,30 @@ import Link from "next/link";
 import { MOCK_PAYOUTS } from "@/data/mock-data";
 import { formatMoney } from "@/utils/formatters";
 import { ArrowLeft, IndianRupee, CheckCircle2, Clock } from "lucide-react";
+import {
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  HostPageShell,
+} from "@/components/layout/DashboardTypography";
 
 export default async function HostPayoutsPage() {
   const payouts = MOCK_PAYOUTS;
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-4xl text-[#1E293B]">
-      <Link href="/host" className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] mb-6 font-semibold">
-        <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" /> Back to Host Dashboard
+    <HostPageShell className="max-w-4xl">
+      <Link href="/host" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1D4A38] mb-2 font-medium">
+        <ArrowLeft className="w-3.5 h-3.5" /> Back to dashboard
       </Link>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1D4A38]">Treasury & Escrow</span>
-          <h1 className="text-3xl font-black text-[#1E293B] flex items-center gap-2 mt-1">
-            <IndianRupee className="w-7 h-7 text-[#1D4A38]" /> Payouts & Settlement
-          </h1>
-          <p className="text-sm text-[#64748B] mt-1">Automated entry fee transfers to your verified bank account</p>
+          <DashboardEyebrow className="text-[#1D4A38]">Treasury &amp; escrow</DashboardEyebrow>
+          <DashboardTitle className="mt-1.5 flex items-center gap-2.5">
+            <IndianRupee className="w-7 h-7 text-[#1D4A38] shrink-0" />
+            Payouts
+          </DashboardTitle>
+          <DashboardLead>Automated entry-fee transfers to your verified bank account</DashboardLead>
         </div>
 
         <button className="inline-flex items-center gap-2 rounded-full bg-[#1D4A38] hover:bg-[#16392B] text-white px-5 py-2.5 text-xs font-bold transition-all shadow-xs cursor-pointer">
@@ -59,6 +66,6 @@ export default async function HostPayoutsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </HostPageShell>
   );
 }

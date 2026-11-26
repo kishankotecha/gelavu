@@ -90,9 +90,9 @@ export interface MatchStats {
 }
 
 const BOT = {
-  easy: { speed: 215, reaction: 0.34, noise: 38, smash: 0.12, sigma: 52 },
-  medium: { speed: 295, reaction: 0.2, noise: 22, smash: 0.3, sigma: 30 },
-  hard: { speed: 385, reaction: 0.1, noise: 9, smash: 0.5, sigma: 15 },
+  easy: { speed: 220, reaction: 0.32, noise: 36, smash: 0.18, sigma: 48 },
+  medium: { speed: 310, reaction: 0.18, noise: 18, smash: 0.42, sigma: 26 },
+  hard: { speed: 400, reaction: 0.08, noise: 7, smash: 0.65, sigma: 12 },
 } as const;
 
 const SHOT_TIME: Record<Shot, number> = { serve: 0.95, smash: 0.44, power: 0.3, drive: 0.56, clear: 1.0, drop: 0.78, lift: 1.08 };
@@ -275,7 +275,7 @@ export class MiniCourt {
     a.swing = 0;
     a.hit = false;
     const h = this.phase === "rally" ? this.heightAfter(0.12) : 0;
-    a.jumpMax = h > 100 ? 70 : 0;
+    a.jumpMax = h > 85 ? 75 : 0;
   }
 
   /* ---------- AI ---------- */
@@ -345,7 +345,7 @@ export class MiniCourt {
     let shot: Shot;
     if (forced) shot = forced;
     else if (isPlayer && this.meter >= 100 && h >= 55) shot = "power";
-    else if (h >= 135) shot = !isPlayer && this.rng() > BOT[this.cfg.difficulty].smash ? "drive" : "smash";
+    else if (h >= 98) shot = !isPlayer && this.rng() > BOT[this.cfg.difficulty].smash ? "drive" : "smash";
     else if (h <= 70) shot = Math.abs(x0 - NET_X) < 170 ? "drop" : "lift";
     else shot = Math.abs(x0 - NET_X) > 210 ? "clear" : "drive";
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { Search, X, User, CalendarDays, LayoutDashboard, LogOut, Apple, Play } from "lucide-react";
+import { toast } from "@/components/ui/toast";
 import type { NavItem } from "@/config/navigation";
 import { useBodyScrollLock, useEscape } from "@/hooks/useOverlay";
 
@@ -185,7 +186,7 @@ export function MobileMenu({ open, onClose, items, user, isActive, onJoin, onLog
               href="#ios"
               onClick={(e) => {
                 e.preventDefault();
-                alert("Gelavu iOS app is coming soon to the App Store!");
+                toast.info("Coming soon to iOS", "Gelavu iOS app is coming soon to the Apple App Store!");
               }}
               className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"
               title="Download on Apple App Store"
@@ -198,7 +199,7 @@ export function MobileMenu({ open, onClose, items, user, isActive, onJoin, onLog
               href="#android"
               onClick={(e) => {
                 e.preventDefault();
-                alert("Gelavu Android APK is launching shortly on Google Play!");
+                toast.info("Launching shortly on Android", "Gelavu Android APK is launching shortly on Google Play!");
               }}
               className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"
               title="Download on Google Play Store"

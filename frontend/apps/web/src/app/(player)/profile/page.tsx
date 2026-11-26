@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/common/Avatar";
 import { AvatarPickerModal } from "@/components/common/AvatarPickerModal";
@@ -20,11 +20,26 @@ import {
   Smile,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
 import {
   PLAYO_SKILL_TIERS,
   SkillTierConfig,
   getTierFromRating,
+  PlayoSkillLevel,
 } from "@/types/playo";
+import { PlayoSkillBadge } from "@/components/common/PlayoSkillBadge";
+import { PlayoMySportsCard } from "@/components/common/PlayoMySportsCard";
+import {
+  buildPeerDistribution,
+  computePlayoOverallRating,
+  distributionToPercentages,
+  getProgressWithinTier,
+} from "@/lib/playoRating";
+import {
+  getDemoBadmintonActivityTimeline,
+  getDemoPoolActivityTimeline,
+  getPeerRatingsForUser,
+} from "@/lib/playoRatingStore";
 
 const CITIES = [
   "Bengaluru",
@@ -63,7 +78,43 @@ export default function ProfilePage() {
   // Playo skill level & rating
   const initialRating = user?.rating || (user?.playingLevel === "Professional" ? 6.2 : user?.playingLevel === "Advanced" ? 5.0 : user?.playingLevel === "Amateur" ? 3.0 : user?.playingLevel === "Beginner" ? 1.8 : 4.2);
   const [playerRating, setPlayerRating] = useState<number>(initialRating);
-  const currentTier = useMemo(() => getTierFromRating(playerRating), [playerRating]);
+  const selfTier = useMemo(() => getTierFromRating(playerRating).id, [playerRating]);
+
+  const [peerEvents, setPeerEvents] = useState(() =>
+    getPeerRatingsForUser(user?.id ?? "demo-user")
+  );
+
+  useEffect(() => {
+    const sync = () =>
+      setPeerEvents(getPeerRatingsForUser(user?.id ?? "demo-user"));
+    window.addEventListener("gelavu-playo-ratings-updated", sync);
+    return () => window.removeEventListener("gelavu-playo-ratings-updated", sync);
+  }, [user?.id]);
+
+  const badmintonEvents = useMemo(
+    () => peerEvents.filter((e) => e.sportId === "badminton"),
+    [peerEvents]
+  );
+
+  const poolEvents = useMemo(
+    () => peerEvents.filter((e) => e.sportId === "pool"),
+    [peerEvents]
+  );
+
+  const playoOverall = useMemo(
+    () => computePlayoOverallRating(selfTier as PlayoSkillLevel, badmintonEvents),
+    [selfTier, badmintonEvents]
+  );
+
+  const currentTier = useMemo(
+    () => playoOverall.overallTier,
+    [playoOverall]
+  );
+
+  const tierProgress = useMemo(
+    () => getProgressWithinTier(playoOverall.overallRating),
+    [playoOverall]
+  );
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "Men's Doubles",
@@ -77,16 +128,65 @@ export default function ProfilePage() {
     showToast("Profile avatar updated successfully!", "success");
   };
 
-  // Peer rating distribution matching Playo User Rating Graph (tiers only, no numbers)
   const peerRatings = useMemo(() => {
-    return [
-      { tier: "Beginner", count: 0, percent: 0, color: "bg-sky-500" },
-      { tier: "Amateur", count: 2, percent: 8, color: "bg-teal-500" },
-      { tier: "Intermediate", count: 18, percent: 72, color: "bg-emerald-500" },
-      { tier: "Advanced", count: 5, percent: 20, color: "bg-amber-500" },
-      { tier: "Professional", count: 0, percent: 0, color: "bg-purple-500" },
-    ];
-  }, []);
+    const dist = buildPeerDistribution(badmintonEvents);
+    const rows = distributionToPercentages(dist);
+    const colorMap: Record<PlayoSkillLevel, string> = {
+      Beginner: "bg-sky-500",
+      Amateur: "bg-teal-500",
+      Intermediate: "bg-emerald-500",
+      Advanced: "bg-amber-500",
+      Professional: "bg-purple-500",
+    };
+    return rows.map((r) => ({
+      tier: r.tier,
+      count: r.count,
+      percent: r.percent,
+      color: colorMap[r.tier],
+    }));
+  }, [badmintonEvents]);
+
+  const mySportsTabs = useMemo(
+    () => [
+      {
+        id: "badminton",
+        label: "Badminton",
+        gamesPlayed: 225,
+        selfTier: selfTier as PlayoSkillLevel,
+        peerRank: 81,
+        events: badmintonEvents,
+        activityTimeline: getDemoBadmintonActivityTimeline(),
+      },
+      {
+        id: "pool",
+        label: "Pool",
+        gamesPlayed: 8,
+        selfTier: "Amateur" as PlayoSkillLevel,
+        peerRank: 384,
+        events: poolEvents,
+        activityTimeline: getDemoPoolActivityTimeline(),
+      },
+      {
+        id: "football",
+        label: "Football",
+        gamesPlayed: 2,
+        selfTier: "Beginner" as PlayoSkillLevel,
+        peerRank: 1204,
+        events: [],
+        activityTimeline: [],
+      },
+      {
+        id: "cycling",
+        label: "Cycling",
+        gamesPlayed: 1,
+        selfTier: "Beginner" as PlayoSkillLevel,
+        peerRank: 890,
+        events: [],
+        activityTimeline: [],
+      },
+    ],
+    [selfTier, badmintonEvents, poolEvents]
+  );
 
   const totalPeerVotes = peerRatings.reduce((sum, r) => sum + r.count, 0);
 
@@ -114,7 +214,7 @@ export default function ProfilePage() {
         city,
         avatarUrl,
         playingLevel: currentTier.id,
-        rating: playerRating,
+        rating: playoOverall.overallRating,
       });
       setIsSaving(false);
       showToast("Profile credentials updated successfully", "success");
@@ -260,12 +360,22 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        <PlayoMySportsCard
+          sports={mySportsTabs}
+          onEditSelfRating={() => {
+            document.getElementById("playo-self-rating")?.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }}
+        />
+
         {/* 2. Playo Skill Level & User Rating Graph */}
         <div className="rounded-[28px] border border-white/10 bg-[#121622] p-6 sm:p-8 space-y-6 shadow-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-black text-white tracking-tight">Playo Skill Level &amp; Peer Breakdown</h3>
+                <h3 className="text-lg font-black text-white tracking-tight">Skill calibration &amp; peer breakdown</h3>
                 <span className="text-[10px] font-bold text-[#DE9D35] bg-[#DE9D35]/15 px-2 py-0.5 rounded-full border border-[#DE9D35]/30">
                   Dynamic 90/10 Algorithm
                 </span>
@@ -275,12 +385,16 @@ export default function ProfilePage() {
               </p>
             </div>
 
-            {/* Current Tier Badge */}
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              <span className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-black shadow-md ${currentTier.badgeBg} ${currentTier.badgeText}`}>
-                <Award className="w-4 h-4" />
-                <span>{currentTier.label}</span>
-              </span>
+            <div className="self-start sm:self-auto w-full sm:max-w-xs rounded-2xl border border-white/10 bg-[#161D2E] p-4">
+              <PlayoSkillBadge
+                level={currentTier.id}
+                rating={playoOverall.overallRating}
+                progress={tierProgress}
+                showOverallLabel
+                layout="meter"
+                size="lg"
+                theme="dark"
+              />
             </div>
           </div>
 
@@ -390,25 +504,17 @@ export default function ProfilePage() {
                 <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">
                   Home City
                 </label>
-                <div className="flex items-center rounded-2xl border border-white/10 bg-[#161D2E] px-4 py-3 focus-within:border-[#DE9D35] focus-within:ring-2 focus-within:ring-[#DE9D35]/20 transition-all">
-                  <MapPin className="w-4 h-4 text-[#DE9D35] mr-2.5 shrink-0" />
-                  <select
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-transparent text-sm font-semibold text-white outline-none cursor-pointer"
-                  >
-                    {CITIES.map((c) => (
-                      <option key={c} value={c} className="bg-[#121622] text-white">
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <CustomDropdown
+                  value={city}
+                  onChange={setCity}
+                  options={CITIES.map((c) => ({ value: c, label: c }))}
+                  buttonClassName="h-11 rounded-2xl border-white/10 bg-[#161D2E] text-white text-sm font-semibold"
+                />
               </div>
             </div>
 
             {/* Baseline Skill Tier Selector */}
-            <div className="space-y-3 rounded-2xl border border-white/5 bg-[#161D2E] p-4 sm:p-5">
+            <div className="space-y-3 rounded-2xl border border-white/5 bg-[#161D2E] p-4 sm:p-5" id="playo-self-rating">
               <div className="flex items-center justify-between">
                 <div>
                   <label className="text-xs font-bold uppercase tracking-wider text-gray-300 block">

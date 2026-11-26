@@ -12,6 +12,7 @@ import {
   Dices,
   Trash2,
 } from "lucide-react";
+import { toast } from "@/components/ui/toast";
 import { STICKER_AVATARS, getRandomSticker } from "@/data/stickers";
 
 interface AvatarPickerModalProps {
@@ -150,7 +151,7 @@ export function AvatarPickerModal({
   // Process uploaded image file
   const handleFileProcess = (file: File) => {
     if (!file.type.startsWith("image/")) {
-      alert("Please upload a valid image file (PNG, JPG, WebP).");
+      toast.error("Invalid File Format", "Please upload a valid image file (PNG, JPG, WebP).");
       return;
     }
     const reader = new FileReader();

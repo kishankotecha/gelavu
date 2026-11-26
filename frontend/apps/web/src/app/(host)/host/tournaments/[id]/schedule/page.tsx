@@ -12,6 +12,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/components/ui/toast";
+import {
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  HostPageShell,
+} from "@/components/layout/DashboardTypography";
 
 export default function HostCourtQRAccessPage() {
   const { showToast } = useToast();
@@ -67,23 +73,21 @@ export default function HostCourtQRAccessPage() {
   };
 
   return (
-    <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-8 text-[#1E293B]">
+    <HostPageShell>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <Link
             href="/host/tournaments/tour-1"
-            className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] transition-colors mb-2 cursor-pointer font-semibold"
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1D4A38] transition-colors mb-2 font-medium"
           >
-            <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" /> Back to Tournament Overview
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to tournament
           </Link>
-          <span className="text-xs text-[#64748B] font-semibold block">Bengaluru Open 2026</span>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#1E293B] tracking-tight mt-0.5">
-            Court Schedules & Umpire Access
-          </h1>
-          <p className="text-xs sm:text-sm text-[#64748B] mt-1">
-            One QR per court. Umpires scan to open scorekeeper terminal instantly with zero registration barrier.
-          </p>
+          <DashboardEyebrow>Bengaluru Open 2026</DashboardEyebrow>
+          <DashboardTitle className="mt-1">Courts &amp; umpire access</DashboardTitle>
+          <DashboardLead>
+            One QR per court — umpires scan to open the scorekeeper terminal with no signup friction.
+          </DashboardLead>
         </div>
 
         <button
@@ -325,6 +329,6 @@ export default function HostCourtQRAccessPage() {
           </div>
         </div>
       </div>
-    </div>
+    </HostPageShell>
   );
 }

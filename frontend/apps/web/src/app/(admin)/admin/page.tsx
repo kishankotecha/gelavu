@@ -2,6 +2,13 @@ import React from "react";
 import { StatTile } from "@/components/common/StatTile";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Trophy, AlertTriangle, IndianRupee } from "lucide-react";
+import {
+  AdminPageShell,
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  DashboardSectionTitle,
+} from "@/components/layout/DashboardTypography";
 
 export default function AdminDashboardPage() {
   const pendingQueue = [
@@ -12,18 +19,22 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <AdminPageShell>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Super Admin Console</span>
-          <h1 className="text-3xl font-black text-white flex items-center gap-2">
-            Platform Review Queue
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">Audit tournament hosts, approve prize escrows, and resolve match appeals</p>
+          <DashboardEyebrow tone="dark" className="text-rose-400/90">
+            Platform operations
+          </DashboardEyebrow>
+          <DashboardTitle tone="dark" className="mt-1.5">
+            Review queue
+          </DashboardTitle>
+          <DashboardLead tone="dark">
+            Audit hosts, approve escrows, and resolve match appeals
+          </DashboardLead>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <StatTile label="Pending KYC" value="4" icon={ShieldCheck} trend="Needs Action" />
         <StatTile label="Live Tournaments" value="18" icon={Trophy} />
         <StatTile label="Escrow Held" value="₹4.8L" icon={IndianRupee} />
@@ -31,7 +42,7 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-white">Pending Approval Queue</h2>
+        <DashboardSectionTitle tone="dark">Pending approvals</DashboardSectionTitle>
         <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60">
           <div className="divide-y divide-gray-800/60">
             {pendingQueue.map((item) => (
@@ -52,6 +63,6 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
-    </div>
+    </AdminPageShell>
   );
 }

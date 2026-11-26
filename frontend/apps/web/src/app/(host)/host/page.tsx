@@ -11,10 +11,20 @@ import {
   FileSpreadsheet,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import {
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  DashboardSectionTitle,
+  DashboardStatValue,
+  HostPageShell,
+} from "@/components/layout/DashboardTypography";
 
 export default function HostDashboardPage() {
   const { showToast } = useToast();
   const [signupsPaused, setSignupsPaused] = useState(false);
+  const [selectedTourId, setSelectedTourId] = useState("tour-1");
 
   const togglePause = () => {
     setSignupsPaused(!signupsPaused);
@@ -68,19 +78,39 @@ export default function HostDashboardPage() {
   ];
 
   return (
-    <div className="p-6 sm:p-10 max-w-7xl mx-auto space-y-8 text-[#1E293B]">
+    <HostPageShell>
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs text-[#64748B] font-semibold block">Welcome back, Ace Arena Pavilion</span>
-          <div className="flex flex-wrap items-center gap-3 mt-1">
-            <h1 className="text-2xl sm:text-3xl font-black text-[#1E293B] tracking-tight">
-              Bengaluru Open 2026
-            </h1>
+          <DashboardEyebrow>Welcome back · Ace Arena Pavilion</DashboardEyebrow>
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <DashboardTitle>Bengaluru Open 2026</DashboardTitle>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8EFEA] border border-[#CAD7CE] px-3 py-0.5 text-xs font-semibold text-[#1D4A38]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#1D4A38] animate-pulse" />
               {signupsPaused ? "Registrations paused" : "Registration open • closes 10 Mar"}
             </span>
+          </div>
+
+          {/* Active Tournament Switcher for Multi-Tournament Management */}
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <span className="text-xs font-bold text-slate-500">Managing Tournament:</span>
+            <div className="w-72">
+              <CustomDropdown
+                value={selectedTourId}
+                onChange={setSelectedTourId}
+                options={[
+                  { value: "tour-1", label: "Bengaluru Shuttle Clash 2026", badge: "Live" },
+                  { value: "tour-2", label: "Mysuru Pickleball Open 2026", badge: "Draft" },
+                  { value: "tour-3", label: "Hubballi Smash Masters", badge: "Upcoming" },
+                ]}
+              />
+            </div>
+            <Link
+              href={`/host/tournaments/${selectedTourId}`}
+              className="text-xs font-bold text-slate-900 hover:text-amber-500 transition-colors ml-1"
+            >
+              Open Space →
+            </Link>
           </div>
         </div>
 
@@ -98,7 +128,7 @@ export default function HostDashboardPage() {
         <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
           <span className="text-xs font-semibold text-[#64748B]">Registrations</span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[#1E293B]">86</span>
+            <DashboardStatValue>86</DashboardStatValue>
           </div>
           <span className="text-xs font-bold text-[#1D4A38] mt-2 block">↑ 14 this week</span>
         </div>
@@ -107,7 +137,7 @@ export default function HostDashboardPage() {
         <div className="rounded-2xl bg-[#1D4A38] p-5 text-white shadow-sm border border-[#16392B]">
           <span className="text-xs font-semibold text-[#E8EFEA]/80">Payments collected</span>
           <div className="mt-2">
-            <span className="text-3xl font-black text-white tracking-tight">₹92,400</span>
+            <DashboardStatValue inverted className="text-white">₹92,400</DashboardStatValue>
           </div>
           <span className="text-xs text-[#E8EFEA]/70 mt-2 block">Payout after tournament</span>
         </div>
@@ -116,7 +146,7 @@ export default function HostDashboardPage() {
         <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
           <span className="text-xs font-semibold text-[#64748B]">Slots left</span>
           <div className="mt-2">
-            <span className="text-3xl font-black text-[#1E293B]">34</span>
+            <DashboardStatValue>34</DashboardStatValue>
           </div>
           <span className="text-xs text-[#64748B] mt-2 block">of 120 total capacity</span>
         </div>
@@ -125,9 +155,10 @@ export default function HostDashboardPage() {
         <div className="rounded-2xl border border-[#E2E6DD] bg-white p-5 shadow-xs">
           <span className="text-xs font-semibold text-[#64748B]">Confirmed / Pending</span>
           <div className="mt-2">
-            <span className="text-3xl font-black text-[#1E293B]">
-              79 <span className="text-[#CAD7CE] font-normal">/</span> <span className="text-[#B45309]">7</span>
-            </span>
+            <DashboardStatValue>
+              79 <span className="text-slate-300 font-sans text-xl">/</span>{" "}
+              <span className="text-amber-700">7</span>
+            </DashboardStatValue>
           </div>
           <span className="text-xs text-[#64748B] mt-2 block">Verifications in review</span>
         </div>
@@ -139,8 +170,10 @@ export default function HostDashboardPage() {
         <div className="lg:col-span-8 rounded-2xl border border-[#E2E6DD] bg-white p-6 shadow-xs">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 className="text-sm font-black text-[#1E293B]">Recent registrations</h2>
-              <p className="text-xs text-[#64748B] mt-0.5">Players registered through public portal & host import</p>
+              <DashboardSectionTitle>Recent registrations</DashboardSectionTitle>
+              <DashboardLead className="mt-1 text-xs sm:text-sm">
+                Players registered through public portal and host import
+              </DashboardLead>
             </div>
             <button
               onClick={() => showToast("Exporting registrations report (PDF/Excel)...", "info")}
@@ -194,7 +227,7 @@ export default function HostDashboardPage() {
         <div className="lg:col-span-4 space-y-6">
           {/* Category Fill Card */}
           <div className="rounded-2xl border border-[#E2E6DD] bg-white p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-black text-[#1E293B]">Category fill</h3>
+            <DashboardSectionTitle className="text-base sm:text-lg">Category fill</DashboardSectionTitle>
 
             <div className="space-y-4">
               {/* Category 1: Men's Doubles */}
@@ -234,11 +267,11 @@ export default function HostDashboardPage() {
 
           {/* Quick Actions Card */}
           <div className="rounded-2xl border border-[#E2E6DD] bg-white p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-black text-[#1E293B]">Quick actions</h3>
+            <DashboardSectionTitle className="text-base sm:text-lg">Quick actions</DashboardSectionTitle>
 
             <div className="grid grid-cols-2 gap-3">
               <Link
-                href="/host/tournaments/tour-1/entries"
+                href={`/host/tournaments/${selectedTourId}/entries`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
                 <UserPlus className="w-5 h-5 text-[#1D4A38] mb-1.5" />
@@ -246,15 +279,15 @@ export default function HostDashboardPage() {
               </Link>
 
               <Link
-                href="/host/tournaments/tour-1/fixtures"
+                href={`/host/tournaments/${selectedTourId}/fixtures`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
                 <Dices className="w-5 h-5 text-[#1D4A38] mb-1.5" />
-                <span className="text-[11px] font-bold text-[#1E293B]">Run draw</span>
+                <span className="text-[11px] font-bold text-[#1E293B]">Run draw & fixtures</span>
               </Link>
 
               <Link
-                href="/host/tournaments/tour-1/schedule"
+                href={`/host/tournaments/${selectedTourId}/schedule`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
                 <Zap className="w-5 h-5 text-[#1D4A38] mb-1.5" />
@@ -275,6 +308,6 @@ export default function HostDashboardPage() {
           </div>
         </div>
       </div>
-    </div>
+    </HostPageShell>
   );
 }

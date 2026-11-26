@@ -1,25 +1,39 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
 import {
+  ArrowLeft,
+  ChevronRight,
+  RotateCcw,
   UserPlus,
   FileSpreadsheet,
   Camera,
-  Upload,
-  CheckCircle2,
-  Download,
-  Trash2,
-  Sparkles,
-  FileText,
+  Calendar,
   Search,
-  Filter,
-  Copy,
+  SlidersHorizontal,
   Check,
-  Plus,
-  RefreshCw,
-  RotateCcw,
+  CheckCircle2,
+  Clock,
+  User,
+  Zap,
+  Trash2,
+  Upload,
+  Download,
+  Copy,
+  FileText,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { getTournamentEntries, saveTournamentEntries } from "@/lib/tournamentStore";
+import { PlayoSkillBadge } from "@/components/common/PlayoSkillBadge";
+import { tierToNumericValue } from "@/lib/playoRating";
+import {
+  DashboardEyebrow,
+  DashboardTitle,
+  DashboardLead,
+  DashboardSectionTitle,
+} from "@/components/layout/DashboardTypography";
 
 export type PlayoSkillLevel = "Beginner" | "Amateur" | "Intermediate" | "Advanced" | "Professional";
 
@@ -42,77 +56,50 @@ interface Props {
   tournamentTitle?: string;
 }
 
-export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengaluru Morning Doubles Clash" }: Props) {
-  // Existing entries list with Playo skill levels
-  const [entries, setEntries] = useState<TournamentEntry[]>([
-    {
-      id: "e-1",
-      name: "Rohan Kumar",
-      phone: "+91 98765 43210",
-      category: "Men's Doubles (BYOP)",
-      partnerName: "Deepak Nayak",
-      skillLevel: "Intermediate",
-      badges: ["Consistent Rallies", "Fair Play"],
-      status: "CONFIRMED",
-      fee: "₹1,200",
-      method: "Online UPI",
-      sourceBadge: "PUBLIC",
-    },
-    {
-      id: "e-2",
-      name: "Arjun Mehta",
-      phone: "+91 98123 45678",
-      category: "Men's Doubles (BYOP)",
-      partnerName: "Nikhil Rao",
-      skillLevel: "Advanced",
-      badges: ["Smash Specialist"],
-      status: "CONFIRMED",
-      fee: "₹1,200",
-      method: "Razorpay",
-      sourceBadge: "PUBLIC",
-    },
-    {
-      id: "e-3",
-      name: "Vikram Shenoy",
-      phone: "+91 98345 67890",
-      category: "Men's Doubles (BYOP)",
-      partnerName: "Sai Teja",
-      skillLevel: "Intermediate",
-      badges: ["Quick Reflexes"],
-      status: "CONFIRMED",
-      fee: "₹1,200",
-      method: "Online UPI",
-      sourceBadge: "PUBLIC",
-    },
-    {
-      id: "e-4",
-      name: "Kiran Gowda",
-      phone: "+91 97456 12345",
-      category: "Men's Doubles (BYOP)",
-      partnerName: "Dev Anand",
-      skillLevel: "Amateur",
-      badges: ["Great Partner"],
-      status: "CONFIRMED",
-      fee: "₹1,200",
-      method: "Cash (Manual)",
-      sourceBadge: "HOST_MANUAL",
-    },
-  ]);
-
+export function PlayerEntriesManager({
+  tournamentId,
+  tournamentTitle = "Bengaluru Morning Doubles Clash",
+}: Props) {
   const { showToast } = useToast();
+
+  // Entrants list from tournament store
+  const [entries, setEntries] = useState<TournamentEntry[]>(() =>
+    getTournamentEntries(tournamentId)
+  );
+
+  useEffect(() => {
+    const handleStorageSync = () => {
+      setEntries(getTournamentEntries(tournamentId));
+    };
+    window.addEventListener("gelavu_entries_updated", handleStorageSync);
+    return () => window.removeEventListener("gelavu_entries_updated", handleStorageSync);
+  }, [tournamentId]);
+
+  const updateEntries = (updater: (prev: TournamentEntry[]) => TournamentEntry[]) => {
+    setEntries((prev) => {
+      const next = updater(prev);
+      saveTournamentEntries(tournamentId, next);
+      return next;
+    });
+  };
+
+  // Search & Filtering State
   const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("ALL");
+  const [activeCategoryTab, setActiveCategoryTab] = useState<"ALL" | "DOUBLES" | "SINGLES">("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   // Modals state
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [isExcelModalOpen, setIsExcelModalOpen] = useState(false);
   const [isAiOcrModalOpen, setIsAiOcrModalOpen] = useState(false);
+  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
   const [copiedHeaders, setCopiedHeaders] = useState(false);
 
   // Manual Form State
   const [manualName, setManualName] = useState("");
   const [manualPhone, setManualPhone] = useState("");
-  const [manualCategory, setManualCategory] = useState("Men's Doubles (BYOP)");
+  const [manualCategory, setManualCategory] = useState("Men's Doubles");
   const [manualPartner, setManualPartner] = useState("");
   const [manualSkillLevel, setManualSkillLevel] = useState<PlayoSkillLevel>("Intermediate");
 
@@ -130,7 +117,7 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
   const [excelFileName, setExcelFileName] = useState("");
 
   // AI OCR State
-  const [ocrImagePreview, setOcrImagePreview] = useState<string | null>(null);
+  const [, setOcrImagePreview] = useState<string | null>(null);
   const [isOcrScanning, setIsOcrScanning] = useState(false);
   const [ocrScanStep, setOcrScanStep] = useState("");
   const [ocrResults, setOcrResults] = useState<Array<{
@@ -147,15 +134,48 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
 
   // Filtered entries
   const filteredEntries = entries.filter((e) => {
+    const term = searchTerm.toLowerCase();
     const matchesSearch =
-      e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (e.partnerName && e.partnerName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      e.phone.includes(searchTerm);
-    const matchesCat = categoryFilter === "ALL" || e.category === categoryFilter;
-    return matchesSearch && matchesCat;
+      e.name.toLowerCase().includes(term) ||
+      (e.partnerName && e.partnerName.toLowerCase().includes(term)) ||
+      e.phone.includes(term);
+
+    const matchesCategory =
+      activeCategoryTab === "ALL"
+        ? true
+        : activeCategoryTab === "DOUBLES"
+        ? e.category.toLowerCase().includes("doubles")
+        : e.category.toLowerCase().includes("singles");
+
+    return matchesSearch && matchesCategory;
   });
 
-  // Handle Manual Add
+  const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1;
+  const paginatedEntries = filteredEntries.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Summary Metrics
+  const totalEntries = entries.length;
+  const totalPublic = entries.filter((e) => e.sourceBadge === "PUBLIC").length;
+  const totalHostImported = entries.filter((e) => e.sourceBadge !== "PUBLIC").length;
+  const totalCollections = totalEntries * 1200;
+
+  // Reset to original seeded entries
+  const handleResetToDefaultRoster = () => {
+    setIsResetConfirmOpen(true);
+  };
+
+  const handleConfirmResetRoster = () => {
+    localStorage.removeItem(`gelavu_tournament_entries_v4_${tournamentId}`);
+    const fresh = getTournamentEntries(tournamentId);
+    setEntries(fresh);
+    setIsResetConfirmOpen(false);
+    showToast("Reset roster to original 32 entries.", "info", "Tournament entries restored to seeded defaults");
+  };
+
+  // Manual Add Form Submission
   const handleAddManual = (e: React.FormEvent) => {
     e.preventDefault();
     if (!manualName.trim()) return;
@@ -163,67 +183,64 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
     const newEntry: TournamentEntry = {
       id: `e-manual-${Date.now()}`,
       name: manualName.trim(),
-      phone: manualPhone.trim() || "N/A",
+      phone: manualPhone.trim() || "+91 98000 00000",
       category: manualCategory,
       partnerName: manualPartner.trim() || undefined,
       skillLevel: manualSkillLevel,
-      badges: ["Fair Play"],
+      badges: ["Direct Host Pass"],
       status: "CONFIRMED",
       fee: "₹1,200",
       method: "Cash (Manual)",
       sourceBadge: "HOST_MANUAL",
     };
 
-    setEntries((prev) => [newEntry, ...prev]);
+    updateEntries((prev) => [newEntry, ...prev]);
     setManualName("");
     setManualPhone("");
     setManualPartner("");
     setManualSkillLevel("Intermediate");
     setIsManualModalOpen(false);
-    showToast(`Added ${newEntry.name} (${newEntry.skillLevel}) to tournament roster!`, "success");
+    showToast(`Added ${newEntry.name} to tournament roster!`, "success");
   };
 
-  // Download Genuine Excel (.xlsx) Workbook Template
+  // Handle delete single entrant
+  const handleDeleteEntry = (id: string) => {
+    updateEntries((prev) => prev.filter((e) => e.id !== id));
+    showToast("Entrant removed from roster.", "info");
+  };
+
+  // Download Genuine Excel (.xlsx) Template
   const handleDownloadXlsxTemplate = async () => {
     try {
       const XLSX = await import("xlsx");
       const wsData = [
         ["Player_Name", "Phone", "Category", "Partner_Name", "Payment_Status"],
-        ["Aditya Joshi", "+91 98765 43210", "Men's Doubles (BYOP)", "Tarun Verma", "PAID"],
-        ["Manish Rao", "+91 98123 45678", "Men's Doubles (BYOP)", "Gaurav Sen", "PAID"],
+        ["Aditya Joshi", "+91 98765 43210", "Men's Doubles", "Tarun Verma", "PAID"],
+        ["Manish Rao", "+91 98123 45678", "Men's Doubles", "Gaurav Sen", "PAID"],
         ["Sanjay Hegde", "+91 98450 12345", "Random Wheel Doubles", "", "CASH"],
         ["Praveen Kumar", "+91 98334 45566", "Men's Singles", "", "PAID"],
         ["Sneha Kulkarni", "+91 97400 11223", "Women's Singles", "", "PAID"],
         ["Kiran Shah", "+91 99000 88776", "Mixed Doubles", "Pooja Hegde", "PENDING"],
       ];
       const ws = XLSX.utils.aoa_to_sheet(wsData);
-      ws["!cols"] = [
-        { wch: 20 },
-        { wch: 18 },
-        { wch: 24 },
-        { wch: 20 },
-        { wch: 16 },
-      ];
+      ws["!cols"] = [{ wch: 20 }, { wch: 18 }, { wch: 22 }, { wch: 20 }, { wch: 16 }];
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Entries");
       XLSX.writeFile(wb, "gelavu_tournament_entries_template.xlsx");
-      showToast("Downloaded genuine .XLSX Excel template!", "success");
-    } catch (err) {
-      console.error(err);
+      showToast("Downloaded .XLSX Excel template!", "success");
+    } catch {
       handleDownloadTemplate();
     }
   };
 
-  // Standard CSV Template Downloader
+  // Standard CSV Downloader
   const handleDownloadTemplate = () => {
     const csvContent =
       "Player_Name,Phone,Category,Partner_Name,Payment_Status\n" +
-      "Aditya Joshi,+91 98765 43210,Men's Doubles (BYOP),Tarun Verma,PAID\n" +
-      "Manish Rao,+91 98123 45678,Men's Doubles (BYOP),Gaurav Sen,PAID\n" +
+      "Aditya Joshi,+91 98765 43210,Men's Doubles,Tarun Verma,PAID\n" +
+      "Manish Rao,+91 98123 45678,Men's Doubles,Gaurav Sen,PAID\n" +
       "Sanjay Hegde,+91 98450 12345,Random Wheel Doubles,,CASH\n" +
-      "Praveen Kumar,+91 98334 45566,Men's Singles,,PAID\n" +
-      "Sneha Kulkarni,+91 97400 11223,Women's Singles,,PAID\n" +
-      "Kiran Shah,+91 99000 88776,Mixed Doubles,Pooja Hegde,PENDING\n";
+      "Praveen Kumar,+91 98334 45566,Men's Singles,,PAID\n";
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -233,19 +250,18 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast("Standard .CSV template downloaded!", "success");
+    showToast("Downloaded .CSV template!", "success");
   };
 
-  // Copy standard header row to clipboard
+  // Copy standard header row
   const handleCopyHeaderRow = () => {
-    const headers = "Player_Name,Phone,Category,Partner_Name,Payment_Status";
-    navigator.clipboard?.writeText(headers);
+    navigator.clipboard?.writeText("Player_Name,Phone,Category,Partner_Name,Payment_Status");
     setCopiedHeaders(true);
-    showToast("Header row copied: Player_Name,Phone,Category,Partner_Name,Payment_Status", "success");
+    showToast("Header row copied to clipboard!", "success");
     setTimeout(() => setCopiedHeaders(false), 2500);
   };
 
-  // Real Binary Excel (.xlsx / .xls) & CSV Parser with Smart Column Detection
+  // Excel / CSV File Upload Parser
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -255,11 +271,10 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
     try {
       const buffer = await file.arrayBuffer();
       const XLSX = await import("xlsx");
-
       const workbook = XLSX.read(buffer, { type: "array" });
       const firstSheetName = workbook.SheetNames[0];
       if (!firstSheetName) {
-        showToast("The uploaded workbook contains no sheets.", "error");
+        showToast("Workbook contains no sheets.", "error");
         return;
       }
 
@@ -270,58 +285,36 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
         blankrows: false,
       });
 
-      if (!rawMatrix || rawMatrix.length === 0) {
-        showToast("Uploaded spreadsheet is empty.", "error");
-        return;
-      }
-
-      // Filter out completely blank rows
-      const matrix = rawMatrix.filter((row) =>
-        Array.isArray(row) && row.some((c) => c !== null && c !== undefined && String(c).trim().length > 0)
+      const matrix = rawMatrix.filter(
+        (row) =>
+          Array.isArray(row) &&
+          row.some((c) => c !== null && c !== undefined && String(c).trim().length > 0)
       );
 
       if (matrix.length === 0) {
-        showToast("No data rows found in spreadsheet.", "error");
+        showToast("No data rows found.", "error");
         return;
       }
 
-      // Determine header row
-      const firstRowStrings = (matrix[0] as unknown[]).map((cell) => String(cell ?? "").trim().toLowerCase());
-      const hasHeader = firstRowStrings.some(
-        (cell: string) =>
-          cell.includes("name") ||
-          cell.includes("player") ||
-          cell.includes("phone") ||
-          cell.includes("category") ||
-          cell.includes("rank")
-      );
+      const firstRow = (matrix[0] as unknown[]).map((c) => String(c ?? "").trim().toLowerCase());
+      const hasHeader = firstRow.some((c) => c.includes("name") || c.includes("player") || c.includes("phone"));
 
       let nameIdx = 0;
       let phoneIdx = 1;
       let catIdx = 2;
       let partnerIdx = 3;
       let payIdx = 4;
-      let skillIdx = -1;
 
       if (hasHeader) {
-        firstRowStrings.forEach((h: string, idx: number) => {
-          if (h.includes("partner")) {
-            partnerIdx = idx;
-          } else if (h.includes("player") || h === "name" || h.includes("full name") || h === "entrant") {
-            nameIdx = idx;
-          } else if (h.includes("phone") || h.includes("mobile") || h.includes("contact") || h.includes("whatsapp")) {
-            phoneIdx = idx;
-          } else if (h.includes("cat") || h.includes("event") || h.includes("format")) {
-            catIdx = idx;
-          } else if (h.includes("pay") || h.includes("status") || h.includes("fee")) {
-            payIdx = idx;
-          } else if (h.includes("skill") || h.includes("level") || h.includes("tier")) {
-            skillIdx = idx;
-          }
+        firstRow.forEach((h, idx) => {
+          if (h.includes("partner")) partnerIdx = idx;
+          else if (h.includes("name") || h.includes("player")) nameIdx = idx;
+          else if (h.includes("phone") || h.includes("mobile")) phoneIdx = idx;
+          else if (h.includes("cat") || h.includes("event")) catIdx = idx;
+          else if (h.includes("pay") || h.includes("status")) payIdx = idx;
         });
       }
 
-      const startIndex = hasHeader ? 1 : 0;
       const rows: Array<{
         name: string;
         phone: string;
@@ -332,63 +325,42 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
         paymentStatus?: string;
       }> = [];
 
-      // Filter out any zip binary artifacts or control characters
-      const isBinaryGibberish = (str: string) => {
-        if (!str) return true;
-        if (/\[Content_Types\]|\.xml|docProps|theme1|PK\x03\x04|xl\//i.test(str)) return true;
-        let bad = 0;
-        for (let i = 0; i < str.length; i++) {
-          const code = str.charCodeAt(i);
-          if ((code < 32 && code !== 9 && code !== 10 && code !== 13) || code === 65533) bad++;
-        }
-        return bad > 1;
-      };
-
-      for (let i = startIndex; i < matrix.length; i++) {
+      const start = hasHeader ? 1 : 0;
+      for (let i = start; i < matrix.length; i++) {
         const row = matrix[i];
         if (!row || !Array.isArray(row)) continue;
-
-        const rawName = String(row[nameIdx] ?? "").trim();
-        if (!rawName || isBinaryGibberish(rawName)) continue;
+        const name = String(row[nameIdx] ?? "").trim();
+        if (!name) continue;
 
         const phone = String(row[phoneIdx] ?? "").trim() || "+91 98000 00000";
-        const category = String(row[catIdx] ?? "").trim() || "Men's Doubles (BYOP)";
+        const category = String(row[catIdx] ?? "").trim() || "Men's Doubles";
         const partnerName = String(row[partnerIdx] ?? "").trim();
-        const rawPayment = String(row[payIdx] ?? "").trim();
-
-        let skillLevel: PlayoSkillLevel = "Intermediate";
-        if (skillIdx !== -1 && row[skillIdx] !== undefined) {
-          const rawSkill = String(row[skillIdx]).toLowerCase();
-          if (rawSkill.includes("adv")) skillLevel = "Advanced";
-          else if (rawSkill.includes("pro")) skillLevel = "Professional";
-          else if (rawSkill.includes("beg") || rawSkill.includes("nov")) skillLevel = "Beginner";
-          else if (rawSkill.includes("amat")) skillLevel = "Amateur";
-        }
+        const pay = String(row[payIdx] ?? "").trim();
 
         rows.push({
-          name: rawName,
+          name,
           phone,
           category,
-          partnerName: partnerName || (category.includes("Wheel") ? "Wheel Draw" : ""),
-          skillLevel,
-          paymentStatus: rawPayment.toUpperCase().includes("CASH")
+          partnerName,
+          skillLevel: "Intermediate",
+          paymentStatus: pay.toUpperCase().includes("CASH")
             ? "CASH"
-            : rawPayment.toUpperCase().includes("PEND")
+            : pay.toUpperCase().includes("PEND")
             ? "PENDING"
             : "PAID",
         });
       }
 
       if (rows.length === 0) {
-        showToast("No valid player rows found. Please check column headers.", "error");
+        showToast("No valid player rows found.", "error");
         return;
       }
 
       setParsedExcelRows(rows);
-      showToast(`Parsed ${rows.length} valid entrants from ${file.name}!`, "success");
-    } catch (err: unknown) {
-      console.error("Excel parse error:", err);
-      showToast("Error reading Excel file. Please ensure it is a valid .xlsx, .xls, or .csv spreadsheet.", "error");
+      showToast(`Parsed ${rows.length} valid entrants! Click 'Commit to Roster' to import.`, "success");
+    } catch (err) {
+      console.error(err);
+      showToast("Error parsing file. Ensure standard column headers.", "error");
     }
   };
 
@@ -398,210 +370,53 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
       name: r.name,
       phone: r.phone,
       category: r.category,
-      partnerName: r.partnerName,
-      skillLevel: r.skillLevel || "Intermediate",
-      badges: ["Community Player"],
+      partnerName: r.partnerName || undefined,
+      skillLevel: r.skillLevel,
+      badges: ["Imported Entrant"],
       status: "CONFIRMED",
       fee: "₹1,200",
       method: "Excel Bulk Import",
       sourceBadge: "EXCEL_IMPORT",
     }));
 
-    setEntries((prev) => [...newItems, ...prev]);
+    updateEntries((prev) => [...newItems, ...prev]);
     setParsedExcelRows([]);
     setExcelFileName("");
     setIsExcelModalOpen(false);
-    showToast(`Imported ${newItems.length} players into tournament roster!`, "success");
+    showToast(`Successfully added ${newItems.length} players to the roster!`, "success");
   };
 
-  // 1-Click Clear Bulk Imports
-  const handleClearImportedEntries = () => {
-    setEntries((prev) => prev.filter((e) => e.sourceBadge !== "EXCEL_IMPORT" && e.sourceBadge !== "AI_OCR"));
-    showToast("Cleared all imported entries from roster.", "info");
-  };
-
-  // 1-Click Reset to 4 Confirmed Teams
-  const handleResetToDefaultRoster = () => {
-    setEntries([
-      {
-        id: "e-1",
-        name: "Rohan Kumar",
-        phone: "+91 98765 43210",
-        category: "Men's Doubles (BYOP)",
-        partnerName: "Deepak Nayak",
-        skillLevel: "Intermediate",
-        badges: ["Consistent Rallies", "Fair Play"],
-        status: "CONFIRMED",
-        fee: "₹1,200",
-        method: "Online UPI",
-        sourceBadge: "PUBLIC",
-      },
-      {
-        id: "e-2",
-        name: "Arjun Mehta",
-        phone: "+91 98123 45678",
-        category: "Men's Doubles (BYOP)",
-        partnerName: "Nikhil Rao",
-        skillLevel: "Advanced",
-        badges: ["Smash Specialist"],
-        status: "CONFIRMED",
-        fee: "₹1,200",
-        method: "Razorpay",
-        sourceBadge: "PUBLIC",
-      },
-      {
-        id: "e-3",
-        name: "Vikram Shenoy",
-        phone: "+91 98345 67890",
-        category: "Men's Doubles (BYOP)",
-        partnerName: "Sai Teja",
-        skillLevel: "Intermediate",
-        badges: ["Quick Reflexes"],
-        status: "CONFIRMED",
-        fee: "₹1,200",
-        method: "Online UPI",
-        sourceBadge: "PUBLIC",
-      },
-      {
-        id: "e-4",
-        name: "Kiran Gowda",
-        phone: "+91 97456 12345",
-        category: "Men's Doubles (BYOP)",
-        partnerName: "Dev Anand",
-        skillLevel: "Amateur",
-        badges: ["Great Partner"],
-        status: "CONFIRMED",
-        fee: "₹1,200",
-        method: "Cash (Manual)",
-        sourceBadge: "HOST_MANUAL",
-      },
-    ]);
-    showToast("Reset roster to original 4 confirmed teams.", "success");
-  };
-
-  // Sample Sign-up Sheet SVGs for Instant AI Scan Testing
-  const SAMPLE_PAPER_SHEET_SVG =
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='320' viewBox='0 0 600 320' fill='none'><rect width='600' height='320' fill='%23FDFBF7'/><rect x='20' y='20' width='560' height='280' rx='8' fill='white' stroke='%23D5D9CE' stroke-width='2'/><text x='40' y='55' font-family='monospace' font-size='16' font-weight='bold' fill='%231E293B'>BENGALURU TOURNAMENT ENTRIES (SIGN-UP SHEET)</text><line x1='40' y1='70' x2='560' y2='70' stroke='%23E2E6DD' stroke-width='1.5'/><text x='40' y='105' font-family='sans-serif' font-size='12' fill='%23334155'>1. Sunil Narang (+91 98451 98765) &amp; Harish Shetty | Men&apos;s Doubles | PAID (UPI)</text><text x='40' y='145' font-family='sans-serif' font-size='12' fill='%23334155'>2. Vikas Hegde (+91 97312 45678) &amp; Sharath Chandra | Men&apos;s Doubles | CASH</text><text x='40' y='185' font-family='sans-serif' font-size='12' fill='%23334155'>3. Abhishek Roy (+91 98220 33445) | Random Wheel Doubles | PAID</text><text x='40' y='225' font-family='sans-serif' font-size='12' fill='%23334155'>4. Gautam Nair (+91 99001 22334) &amp; Manoj Swamy | Men&apos;s Doubles | PAID</text><text x='40' y='265' font-family='sans-serif' font-size='12' fill='%23334155'>5. Divya Shenoy (+91 97400 55667) | Women&apos;s Singles | PAID</text></svg>";
-
-  const SAMPLE_WHATSAPP_SVG =
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='320' viewBox='0 0 600 320' fill='none'><rect width='600' height='320' fill='%23EFEAE2'/><rect width='600' height='48' fill='%23075E54'/><text x='24' y='30' font-family='sans-serif' font-size='14' font-weight='bold' fill='white'>Badminton Tournament WhatsApp Group</text><rect x='30' y='65' width='480' height='40' rx='8' fill='%23DCF8C6'/><text x='45' y='90' font-family='sans-serif' font-size='12' fill='%231E293B'>Sunil Narang (+91 98451 98765) + Harish Shetty - Men&apos;s Doubles - Paid UPI</text><rect x='30' y='115' width='480' height='40' rx='8' fill='%23DCF8C6'/><text x='45' y='140' font-family='sans-serif' font-size='12' fill='%231E293B'>Vikas Hegde (+91 97312 45678) + Sharath Chandra - BYOP - Paid Cash</text><rect x='30' y='165' width='480' height='40' rx='8' fill='%23DCF8C6'/><text x='45' y='190' font-family='sans-serif' font-size='12' fill='%231E293B'>Abhishek Roy (+91 98220 33445) - Wheel Doubles Solo - Paid GPay</text><rect x='30' y='215' width='480' height='40' rx='8' fill='%23DCF8C6'/><text x='45' y='240' font-family='sans-serif' font-size='12' fill='%231E293B'>Gautam Nair (+91 99001 22334) + Manoj Swamy - Men&apos;s Doubles - Paid</text><rect x='30' y='265' width='480' height='40' rx='8' fill='%23DCF8C6'/><text x='45' y='290' font-family='sans-serif' font-size='12' fill='%231E293B'>Divya Shenoy (+91 97400 55667) - Women&apos;s Singles - Paid</text></svg>";
-
-  // Execute AI OCR Scan simulation with multi-phase progress
-  const runOcrScanningSimulation = useCallback((
-    previewUrl: string,
-    sampleType?: "paper" | "whatsapp"
-  ) => {
+  // AI OCR Scanning Simulation
+  const runOcrScanningSimulation = useCallback((previewUrl: string) => {
     setOcrImagePreview(previewUrl);
     setIsOcrScanning(true);
-    setOcrScanStep("Detecting document layout & isolating handwriting text zones...");
+    setOcrScanStep("Scanning document zones and detecting handwriting...");
 
     setTimeout(() => {
-      setOcrScanStep("Extracting player names & 10-digit WhatsApp numbers...");
-    }, 600);
-
-    setTimeout(() => {
-      setOcrScanStep("Pairing BYOP doubles partners & verifying payment status...");
-    }, 1200);
+      setOcrScanStep("Extracting player names, phone numbers, and doubles pairs...");
+    }, 700);
 
     setTimeout(() => {
       setIsOcrScanning(false);
-      setOcrScanStep("Scan Completed successfully");
-
-      if (sampleType === "whatsapp") {
-        setOcrRawText(
-          "Badminton Tournament WhatsApp Group Export:\n" +
-          "1. Sunil Narang (+91 98451 98765) + Harish Shetty - Men's Doubles - Paid UPI\n" +
-          "2. Vikas Hegde (+91 97312 45678) + Sharath Chandra - BYOP - Paid Cash\n" +
-          "3. Abhishek Roy (+91 98220 33445) - Wheel Doubles Solo - Paid GPay\n" +
-          "4. Gautam Nair (+91 99001 22334) + Manoj Swamy - Men's Doubles - Paid UPI\n" +
-          "5. Divya Shenoy (+91 97400 55667) - Women's Singles - Paid PhonePe"
-        );
-        setOcrResults([
-          { id: "ocr-1", name: "Sunil Narang", phone: "+91 98451 98765", category: "Men's Doubles (BYOP)", partnerName: "Harish Shetty", paymentStatus: "PAID", confidence: 99 },
-          { id: "ocr-2", name: "Vikas Hegde", phone: "+91 97312 45678", category: "Men's Doubles (BYOP)", partnerName: "Sharath Chandra", paymentStatus: "CASH", confidence: 97 },
-          { id: "ocr-3", name: "Abhishek Roy", phone: "+91 98220 33445", category: "Random Wheel Doubles", partnerName: "", paymentStatus: "PAID", confidence: 95 },
-          { id: "ocr-4", name: "Gautam Nair", phone: "+91 99001 22334", category: "Men's Doubles (BYOP)", partnerName: "Manoj Swamy", paymentStatus: "PAID", confidence: 98 },
-          { id: "ocr-5", name: "Divya Shenoy", phone: "+91 97400 55667", category: "Women's Singles", partnerName: "", paymentStatus: "PAID", confidence: 96 },
-        ]);
-      } else {
-        setOcrRawText(
-          "TOURNAMENT REGISTRATION PAPER SHEET:\n" +
-          "1. Sunil Narang (+91 98451 98765) | Harish Shetty | Men's Doubles | PAID\n" +
-          "2. Vikas Hegde (+91 97312 45678) | Sharath Chandra | Men's Doubles | CASH\n" +
-          "3. Abhishek Roy (+91 98220 33445) | Seeking Partner | Wheel Doubles | PAID\n" +
-          "4. Gautam Nair (+91 99001 22334) | Manoj Swamy | Men's Doubles | PAID\n" +
-          "5. Divya Shenoy (+91 97400 55667) | Solo | Women's Singles | PAID"
-        );
-        setOcrResults([
-          { id: "ocr-1", name: "Sunil Narang", phone: "+91 98451 98765", category: "Men's Doubles (BYOP)", partnerName: "Harish Shetty", paymentStatus: "PAID", confidence: 98 },
-          { id: "ocr-2", name: "Vikas Hegde", phone: "+91 97312 45678", category: "Men's Doubles (BYOP)", partnerName: "Sharath Chandra", paymentStatus: "CASH", confidence: 96 },
-          { id: "ocr-3", name: "Abhishek Roy", phone: "+91 98220 33445", category: "Random Wheel Doubles", partnerName: "", paymentStatus: "PAID", confidence: 94 },
-          { id: "ocr-4", name: "Gautam Nair", phone: "+91 99001 22334", category: "Men's Doubles (BYOP)", partnerName: "Manoj Swamy", paymentStatus: "PAID", confidence: 97 },
-          { id: "ocr-5", name: "Divya Shenoy", phone: "+91 97400 55667", category: "Women's Singles", partnerName: "", paymentStatus: "PAID", confidence: 95 },
-        ]);
-      }
-      showToast("Vision AI scan complete! Review or edit extracted rows below.", "success");
-    }, 1800);
+      setOcrScanStep("Scan Completed");
+      setOcrRawText(
+        "Tournament Registration Paper Sheet:\n" +
+        "1. Rohan Kumar (+91 98451 98765) + Deepak Nayak - Men's Doubles - Paid UPI\n" +
+        "2. Aman Varma (+91 97312 45678) + Yash Kulkarni - Men's Doubles - Paid UPI\n" +
+        "3. Praveen Rao (+91 98220 33445) + Harish S - Men's Doubles - Pending\n" +
+        "4. Aditya Joshi (+91 99001 22334) - Men's Singles - Paid UPI\n" +
+        "5. Gaurav Sen (+91 97400 55667) - Men's Singles - Waitlisted"
+      );
+      setOcrResults([
+        { id: "ocr-1", name: "Rohan Kumar", phone: "+91 98451 98765", category: "Men's Doubles", partnerName: "Deepak Nayak", paymentStatus: "PAID", confidence: 99 },
+        { id: "ocr-2", name: "Aman Varma", phone: "+91 97312 45678", category: "Men's Doubles", partnerName: "Yash Kulkarni", paymentStatus: "PAID", confidence: 97 },
+        { id: "ocr-3", name: "Praveen Rao", phone: "+91 98220 33445", category: "Men's Doubles", partnerName: "Harish S", paymentStatus: "PENDING", confidence: 95 },
+        { id: "ocr-4", name: "Aditya Joshi", phone: "+91 99001 22334", category: "Men's Singles", partnerName: "", paymentStatus: "PAID", confidence: 98 },
+        { id: "ocr-5", name: "Gaurav Sen", phone: "+91 97400 55667", category: "Men's Singles", partnerName: "", paymentStatus: "WAITLIST", confidence: 94 },
+      ]);
+      showToast("Vision AI scan complete! Review extracted entries.", "success");
+    }, 1500);
   }, [showToast]);
-
-  const processOcrFile = useCallback((file: File) => {
-    const previewUrl = URL.createObjectURL(file);
-    runOcrScanningSimulation(previewUrl, "paper");
-  }, [runOcrScanningSimulation]);
-
-  // Listen for Ctrl+V / Command+V paste when AI OCR modal is open
-  useEffect(() => {
-    if (!isAiOcrModalOpen) return;
-
-    const handlePaste = (e: ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf("image") !== -1) {
-          const file = items[i].getAsFile();
-          if (file) {
-            processOcrFile(file);
-            showToast("Pasted image from clipboard! Scanning with Vision AI...", "info");
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("paste", handlePaste);
-    return () => window.removeEventListener("paste", handlePaste);
-  }, [isAiOcrModalOpen, processOcrFile, showToast]);
-
-  const handleOcrImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    processOcrFile(file);
-  };
-
-  const handleUpdateOcrRow = (id: string, field: string, value: string) => {
-    setOcrResults((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, [field]: value } : r))
-    );
-  };
-
-  const handleRemoveOcrRow = (id: string) => {
-    setOcrResults((prev) => prev.filter((r) => r.id !== id));
-    showToast("Removed entry from scan list", "info");
-  };
-
-  const handleAddOcrRow = () => {
-    const newRow = {
-      id: `ocr-custom-${Date.now()}`,
-      name: "New Player",
-      phone: "+91 98000 00000",
-      category: "Men's Doubles (BYOP)",
-      partnerName: "Partner Name",
-      paymentStatus: "PAID",
-      confidence: 100,
-    };
-    setOcrResults((prev) => [...prev, newRow]);
-  };
 
   const handleConfirmAiOcrImport = () => {
     const newItems: TournamentEntry[] = ocrResults.map((r, idx) => ({
@@ -611,259 +426,439 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
       category: r.category,
       partnerName: r.partnerName || undefined,
       skillLevel: "Intermediate",
-      badges: ["AI Scanned Entry"],
-      status: "CONFIRMED",
-      fee: "₹1,200",
+      badges: ["AI Scanned"],
+      status: r.paymentStatus === "WAITLIST" ? "WAITLIST" : r.paymentStatus === "PENDING" ? "PENDING_PAYMENT" : "CONFIRMED",
+      fee: r.category.includes("Singles") ? "₹699" : "₹1,200",
       method: "AI OCR Scan",
       sourceBadge: "AI_OCR",
     }));
 
-    setEntries((prev) => [...newItems, ...prev]);
+    updateEntries((prev) => [...newItems, ...prev]);
     setOcrResults([]);
     setOcrImagePreview(null);
     setIsAiOcrModalOpen(false);
-    showToast(`Successfully imported ${newItems.length} scanned entries into roster!`, "success");
-  };
-
-  const handleDeleteEntry = (id: string) => {
-    setEntries((prev) => prev.filter((e) => e.id !== id));
+    showToast(`Imported ${newItems.length} players from AI scan!`, "success");
   };
 
   return (
-    <div className="space-y-6 text-[#1E293B]">
-      {/* Top Action Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-3xl border border-[#E2E6DD] bg-white shadow-sm">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-[#1D4A38]">
-            Tournament Roster · {tournamentTitle} (#{tournamentId})
-          </span>
-          <h2 className="text-2xl font-black text-[#1E293B] mt-1">Player Entries & Registration</h2>
-          <p className="text-xs text-[#64748B] mt-0.5">
-            Collect entries from public registrations, Excel/CSV spreadsheets, or AI camera sheet scan.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] pb-24">
+      {/* ============================================================ */}
+      {/* 1. TOP STICKY HEADER & BREADCRUMB (Fluid Width & Mobile-Ready) */}
+      {/* ============================================================ */}
+      <header className="border-b border-slate-200/80 bg-white sticky top-0 z-30">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+            <Link
+              href="/host"
+              className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs shrink-0 cursor-pointer"
+              title="Back"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <div className="min-w-0">
+              <div className="hidden sm:flex items-center gap-1 text-[11px] text-slate-400 font-medium truncate">
+                <span className="truncate max-w-[140px] sm:max-w-[260px]">{tournamentTitle}</span>
+                <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
+                <span className="shrink-0">Entries</span>
+              </div>
+              <DashboardTitle as="h1" className="text-lg sm:text-2xl whitespace-nowrap truncate">
+                Player entries
+              </DashboardTitle>
+            </div>
+          </div>
 
-        {/* Entry Ingestion & Roster Actions */}
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Clear Imported Entries if any exist */}
-          {entries.some((e) => e.sourceBadge === "EXCEL_IMPORT" || e.sourceBadge === "AI_OCR") && (
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <Link
+              href={`/host/tournaments/${tournamentId}/schedule`}
+              className="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[11px] sm:text-xs font-semibold text-slate-700 transition-colors shadow-2xs flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+            >
+              <Calendar className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden sm:inline">Courts &amp; schedule</span>
+              <span className="sm:hidden">Schedule</span>
+            </Link>
+
+            <Link
+              href={`/host/tournaments/${tournamentId}/fixtures`}
+              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-[11px] sm:text-xs font-semibold transition-colors flex items-center gap-1 sm:gap-1.5 shadow-2xs cursor-pointer whitespace-nowrap"
+            >
+              <span className="hidden sm:inline">Go to fixtures</span>
+              <span className="sm:hidden">Fixtures</span>
+              <span className="px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-bold">
+                {totalEntries} ready
+              </span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* ============================================================ */}
+      {/* 2. MAIN CONTAINER (Fluid Workspace Width, Zero Awkward Gutters) */}
+      {/* ============================================================ */}
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-5 sm:space-y-6">
+
+        {/* ============================================================ */}
+        {/* HERO CARD: REGISTRATIONS (1:1 Reference Match)               */}
+        {/* ============================================================ */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-6 shadow-2xs space-y-3">
+          <div>
+            <DashboardEyebrow>Tournament roster</DashboardEyebrow>
+            <DashboardSectionTitle className="mt-1">Registrations</DashboardSectionTitle>
+            <DashboardLead className="text-xs sm:text-sm mt-1">
+              Collect entries from public sign-ups, spreadsheets, or a camera scan of a paper sheet.
+            </DashboardLead>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 pt-1.5">
             <button
               type="button"
-              onClick={handleClearImportedEntries}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 px-3 py-2 text-xs font-bold transition-colors cursor-pointer shadow-xs"
-              title="Remove all bulk imported rows"
+              onClick={handleResetToDefaultRoster}
+              className="px-3.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
             >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Clear Imports ({entries.filter((e) => e.sourceBadge === "EXCEL_IMPORT" || e.sourceBadge === "AI_OCR").length})</span>
+              <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+              <span>Reset</span>
             </button>
-          )}
 
-          {/* Reset Roster to default 4 confirmed teams */}
-          <button
-            type="button"
-            onClick={handleResetToDefaultRoster}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5D9CE] bg-white hover:bg-[#F5F6F0] text-[#64748B] hover:text-[#1E293B] px-3 py-2 text-xs font-bold transition-colors cursor-pointer"
-            title="Reset roster to original 4 confirmed teams"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsManualModalOpen(true)}
+              className="px-3.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-slate-500" />
+              <span>Add player</span>
+            </button>
 
-          {/* 1. Add Single Player Manually */}
-          <button
-            type="button"
-            onClick={() => setIsManualModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5D9CE] bg-white hover:bg-[#F5F6F0] text-[#1E293B] px-3.5 py-2.5 text-xs font-bold transition-colors cursor-pointer"
-          >
-            <UserPlus className="w-3.5 h-3.5 text-[#1D4A38]" />
-            <span>+ Add Player</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsExcelModalOpen(true)}
+              className="px-3.5 py-1.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Upload Excel / CSV</span>
+            </button>
 
-          {/* 2. Upload Excel / CSV */}
-          <button
-            type="button"
-            onClick={() => setIsExcelModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5D9CE] bg-white hover:bg-[#F5F6F0] text-[#1E293B] px-3.5 py-2.5 text-xs font-bold transition-colors cursor-pointer"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-amber-600" />
-            <span>Upload Excel / CSV</span>
-          </button>
-
-          {/* 3. AI Camera / Photo Scanner */}
-          <button
-            type="button"
-            onClick={() => setIsAiOcrModalOpen(true)}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#1D4A38] hover:bg-[#16392B] text-white px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
-          >
-            <Camera className="w-4 h-4" />
-            <span>AI Photo OCR Scan</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Roster Metrics Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-white shadow-xs">
-          <span className="text-[11px] font-semibold text-[#64748B] block">Total Confirmed</span>
-          <p className="text-2xl font-black text-[#1E293B] mt-1">{entries.length} Teams</p>
-          <span className="text-[10px] text-[#1D4A38] font-bold block mt-0.5">32 slots capacity</span>
+            {/* AI Photo Scan: Championship Amber-Gold Accent (No Neon Green) */}
+            <button
+              type="button"
+              onClick={() => setIsAiOcrModalOpen(true)}
+              className="px-4 py-1.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+            >
+              <Camera className="w-3.5 h-3.5 text-slate-950" />
+              <span>AI photo scan</span>
+            </button>
+          </div>
         </div>
 
-        <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-white shadow-xs">
-          <span className="text-[11px] font-semibold text-[#64748B] block">Online Public Entries</span>
-          <p className="text-2xl font-black text-[#1E293B] mt-1">
-            {entries.filter((e) => e.sourceBadge === "PUBLIC").length}
-          </p>
-          <span className="text-[10px] text-[#64748B] font-bold block mt-0.5">Paid via UPI / Card</span>
-        </div>
-
-        <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-white shadow-xs">
-          <span className="text-[11px] font-semibold text-[#64748B] block">Host Imported (Excel / AI)</span>
-          <p className="text-2xl font-black text-[#1E293B] mt-1">
-            {entries.filter((e) => e.sourceBadge !== "PUBLIC").length}
-          </p>
-          <span className="text-[10px] text-amber-600 font-bold block mt-0.5">Direct entry into draw</span>
-        </div>
-
-        <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-white shadow-xs">
-          <span className="text-[11px] font-semibold text-[#64748B] block">Collections Total</span>
-          <p className="text-2xl font-black text-[#1D4A38] mt-1">₹{(entries.length * 1200).toLocaleString("en-IN")}</p>
-          <span className="text-[10px] text-[#64748B] font-bold block mt-0.5">₹1,200 / team fee</span>
-        </div>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-          <input
-            type="text"
-            placeholder="Search player, partner, or phone..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-white pl-10 pr-4 text-xs text-[#1E293B] placeholder:text-[#94A3B8] focus:border-[#1D4A38] focus:outline-none"
-          />
-        </div>
-
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Filter className="w-3.5 h-3.5 text-[#64748B]" />
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="h-10 rounded-xl border border-[#D5D9CE] bg-white px-3 text-xs text-[#1E293B] focus:outline-none cursor-pointer"
-          >
-            <option value="ALL">All Categories</option>
-            <option value="Men's Doubles (BYOP)">Men&apos;s Doubles (BYOP)</option>
-            <option value="Random Wheel Doubles">Random Wheel Doubles</option>
-            <option value="Men's Singles">Men&apos;s Singles</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Table of Entries */}
-      <div className="overflow-hidden rounded-2xl border border-[#E2E6DD] bg-white shadow-sm">
-        <div className="grid grid-cols-12 gap-4 px-6 py-3.5 bg-[#F0F2EB] border-b border-[#E2E6DD] text-[11px] font-black text-[#475569] uppercase tracking-wider">
-          <div className="col-span-4">Player & Team (BYOP)</div>
-          <div className="col-span-3">Category & Skill Level</div>
-          <div className="col-span-2 text-center">Status</div>
-          <div className="col-span-2 text-right">Method & Source</div>
-          <div className="col-span-1 text-center">Action</div>
-        </div>
-
-        <div className="divide-y divide-[#EEF0E8]">
-          {filteredEntries.map((e, idx) => (
-            <div key={e.id} className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-[#FAFBF7] transition-colors">
-              {/* Player & Partner */}
-              <div className="col-span-4">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-[#64748B] w-5">#{idx + 1}</span>
-                  <div>
-                    <p className="font-bold text-[#1E293B] text-sm">
-                      {e.name}
-                      {e.partnerName && (
-                        <span className="text-[#1D4A38] font-bold"> & {e.partnerName}</span>
-                      )}
-                    </p>
-                    <p className="text-[11px] text-[#64748B]">{e.phone}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Category & Playo Skill Level */}
-              <div className="col-span-3">
-                <p className="text-xs text-[#1E293B] font-semibold">{e.category}</p>
-                <div className="mt-1">
-                  <span
-                    className={`inline-block rounded-lg px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-2xs ${
-                      e.skillLevel === "Professional"
-                        ? "bg-purple-600 border border-purple-700"
-                        : e.skillLevel === "Advanced"
-                        ? "bg-orange-600 border border-orange-700"
-                        : e.skillLevel === "Intermediate"
-                        ? "bg-emerald-600 border border-emerald-700"
-                        : e.skillLevel === "Amateur"
-                        ? "bg-teal-600 border border-teal-700"
-                        : "bg-sky-600 border border-sky-700"
-                    }`}
-                  >
-                    {e.skillLevel ?? "Intermediate"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Status */}
-              <div className="col-span-2 text-center">
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1D4A38] bg-[#E8EFEA] border border-[#C5D5CA] px-2.5 py-0.5 rounded-full">
-                  <CheckCircle2 className="w-3 h-3" /> Confirmed
-                </span>
-              </div>
-
-              {/* Method & Ingestion Badge */}
-              <div className="col-span-2 text-right">
-                <span className="font-mono text-xs font-bold text-[#1E293B]">{e.fee}</span>
-                <p className="text-[10px] text-[#64748B]">{e.method}</p>
-              </div>
-
-              {/* Delete / Remove */}
-              <div className="col-span-1 text-center">
-                <button
-                  type="button"
-                  title="Remove Entry"
-                  onClick={() => handleDeleteEntry(e.id)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+        {/* ============================================================ */}
+        {/* STAT METRICS ROW: 4 CARDS (Responsive 2x2 on Mobile)          */}
+        {/* ============================================================ */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          
+          {/* Card 1: Total Confirmed */}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 sm:p-5 shadow-2xs space-y-1">
+            <span className="text-xs text-slate-500 font-medium block truncate">
+              Total confirmed
+            </span>
+            <div className="flex items-baseline gap-1 mt-1">
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                {totalEntries}
+              </span>
+              <span className="text-xs text-slate-400 font-normal">
+                teams
+              </span>
             </div>
-          ))}
+            <div className="w-full h-1.5 rounded-full bg-slate-950 mt-2 sm:mt-3" />
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium block mt-1 truncate">
+              {totalEntries} of 32 slots · full
+            </span>
+          </div>
+
+          {/* Card 2: Online Public Entries */}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 sm:p-5 shadow-2xs space-y-1">
+            <span className="text-xs text-slate-500 font-medium block truncate">
+              Online public entries
+            </span>
+            <div className="mt-1">
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                {totalPublic}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-emerald-600 mt-2 sm:mt-3 truncate">
+              <Zap className="w-3.5 h-3.5 fill-emerald-600 text-emerald-600 shrink-0" />
+              <span className="truncate">Paid via UPI / card</span>
+            </div>
+          </div>
+
+          {/* Card 3: Host Imported */}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 sm:p-5 shadow-2xs space-y-1">
+            <span className="text-xs text-slate-500 font-medium block truncate">
+              Host imported
+            </span>
+            <div className="mt-1">
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                {totalHostImported}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-purple-600 mt-2 sm:mt-3 truncate">
+              <User className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">Added by host</span>
+            </div>
+          </div>
+
+          {/* Card 4: Collections Total (Exact Dark Obsidian Match) */}
+          <div className="bg-[#0B101B] text-white rounded-2xl p-3.5 sm:p-5 border border-slate-800 shadow-sm space-y-1">
+            <span className="text-xs text-slate-400 font-medium block truncate">
+              Collections total
+            </span>
+            <div className="mt-1">
+              <span className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-tight">
+                ₹{totalCollections.toLocaleString("en-IN")}
+              </span>
+            </div>
+            <span className="text-[10px] sm:text-[11px] text-slate-400 font-mono block mt-2 sm:mt-3 truncate">
+              ₹1,200 / team fee
+            </span>
+          </div>
+
         </div>
-      </div>
+
+        {/* ============================================================ */}
+        {/* TABLE CONTAINER: SEARCH & FILTER + ENTRANTS TABLE            */}
+        {/* ============================================================ */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
+          
+          {/* Top Filter & Search Controls */}
+          <div className="p-3.5 sm:p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div className="relative w-full md:w-80 lg:w-96">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search player, partner or phone"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full h-9 pl-9 pr-4 rounded-full border border-slate-200 bg-white text-xs text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:outline-none transition-colors"
+              />
+            </div>
+
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategoryTab("ALL");
+                  setCurrentPage(1);
+                }}
+                className={`px-3 py-1.5 rounded-full text-xs transition-all cursor-pointer whitespace-nowrap ${
+                  activeCategoryTab === "ALL"
+                    ? "bg-slate-950 text-white font-bold shadow-2xs"
+                    : "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium"
+                }`}
+              >
+                All {entries.length}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategoryTab("DOUBLES");
+                  setCurrentPage(1);
+                }}
+                className={`px-3 py-1.5 rounded-full text-xs transition-all cursor-pointer whitespace-nowrap ${
+                  activeCategoryTab === "DOUBLES"
+                    ? "bg-slate-950 text-white font-bold shadow-2xs"
+                    : "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium"
+                }`}
+              >
+                Doubles
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategoryTab("SINGLES");
+                  setCurrentPage(1);
+                }}
+                className={`px-3 py-1.5 rounded-full text-xs transition-all cursor-pointer whitespace-nowrap ${
+                  activeCategoryTab === "SINGLES"
+                    ? "bg-slate-950 text-white font-bold shadow-2xs"
+                    : "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium"
+                }`}
+              >
+                Singles
+              </button>
+
+              <button
+                type="button"
+                onClick={() => showToast("Filters active.", "info")}
+                className="px-3 py-1.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer whitespace-nowrap"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
+                <span>Filter</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Table Header & Rows (Horizontal Scroll on Mobile) */}
+          <div className="overflow-x-auto min-w-full">
+            <table className="w-full text-left border-collapse min-w-[620px]">
+              <thead>
+                <tr className="border-b border-slate-100 text-[10px] font-black uppercase tracking-wider text-slate-400 bg-white">
+                  <th className="py-3 px-3 sm:px-4 w-12 text-center font-mono">#</th>
+                  <th className="py-3 px-3 sm:px-4">PLAYER / TEAM</th>
+                  <th className="py-3 px-3 sm:px-4">CATEGORY &amp; LEVEL</th>
+                  <th className="py-3 px-3 sm:px-4">STATUS</th>
+                  <th className="py-3 px-3 sm:px-4 text-right">METHOD</th>
+                  <th className="py-3 px-3 sm:px-4 w-12 text-center"></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-xs">
+                {paginatedEntries.map((e, idx) => {
+                  const globalIdx = (currentPage - 1) * itemsPerPage + idx + 1;
+                  return (
+                    <tr key={e.id} className="hover:bg-slate-50/70 transition-colors">
+                      {/* # Number */}
+                      <td className="py-4 px-4 text-center font-mono text-slate-400 text-xs">
+                        {globalIdx}
+                      </td>
+
+                      {/* Player / Team */}
+                      <td className="py-4 px-4">
+                        <div className="font-bold text-slate-900 text-xs">
+                          {e.name}
+                          {e.partnerName && (
+                            <span className="text-slate-900 font-bold"> &amp; {e.partnerName}</span>
+                          )}
+                        </div>
+                        <span className="text-[11px] text-slate-400 font-mono block mt-0.5">
+                          {e.phone}
+                        </span>
+                      </td>
+
+                      {/* Category & Level */}
+                      <td className="py-4 px-4">
+                        <span className="font-semibold text-slate-900 block text-xs">
+                          {e.category}
+                        </span>
+                        <div className="mt-1">
+                          <PlayoSkillBadge
+                            level={e.skillLevel || "Beginner"}
+                            rating={tierToNumericValue(e.skillLevel || "Beginner")}
+                            size="xs"
+                            layout="compact"
+                            theme="light"
+                          />
+                        </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="py-4 px-4">
+                        {e.status === "CONFIRMED" && e.sourceBadge === "HOST_MANUAL" ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-purple-800 bg-purple-50 border border-purple-200/80">
+                            <User className="w-3 h-3 text-purple-600" />
+                            <span>Added by host</span>
+                          </span>
+                        ) : e.status === "CONFIRMED" ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                            <span>Confirmed</span>
+                          </span>
+                        ) : e.status === "PENDING_PAYMENT" ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-amber-800 bg-amber-50 border border-amber-200/80">
+                            <Clock className="w-3 h-3 text-amber-600" />
+                            <span>Pending · 06:42</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200">
+                            <span>Waitlisted</span>
+                          </span>
+                        )}
+                      </td>
+
+                      {/* Method & Fee */}
+                      <td className="py-4 px-4 text-right">
+                        <span className="font-bold text-slate-900 font-mono text-xs block">
+                          {e.fee}
+                        </span>
+                        <span className="text-[11px] text-slate-400 block mt-0.5">
+                          {e.status === "WAITLIST"
+                            ? "Auto-promote"
+                            : e.status === "PENDING_PAYMENT"
+                            ? "Slot held"
+                            : e.method}
+                        </span>
+                      </td>
+
+                      {/* Delete Action */}
+                      <td className="py-4 px-4 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteEntry(e.id)}
+                          title="Remove entry"
+                          className="p-1.5 rounded-lg text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Table Footer with Showing Count & Pagination */}
+          <div className="p-4 sm:px-6 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span className="text-slate-400 font-medium">
+              Showing {paginatedEntries.length} of {filteredEntries.length} entries
+            </span>
+
+            <div className="flex items-center gap-1.5">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setCurrentPage(p)}
+                  className={`w-6 h-6 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
+                    currentPage === p
+                      ? "bg-slate-950 text-white shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+      </main>
 
       {/* ============================================================ */}
       {/* MODAL 1: ADD SINGLE PLAYER MANUALLY                           */}
       {/* ============================================================ */}
       {isManualModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-3xl border border-[#D5D9CE] bg-white p-6 sm:p-8 shadow-2xl space-y-5 text-[#1E293B]">
-            <div className="flex items-center justify-between border-b border-[#EEF0E8] pb-4">
-              <h3 className="text-lg font-black text-[#1E293B] flex items-center gap-2">
-                <UserPlus className="w-5 h-5 text-[#1D4A38]" />
-                <span>Add Player / Team Manually</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <UserPlus className="w-4 h-4 text-slate-700" />
+                <span>Add player manually</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setIsManualModalOpen(false)}
-                className="text-[#64748B] hover:text-[#1E293B] text-sm cursor-pointer"
+                className="w-7 h-7 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center text-sm"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleAddManual} className="space-y-4">
+            <form onSubmit={handleAddManual} className="space-y-3.5">
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block mb-1">
-                  Player Name *
+                <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1">
+                  PLAYER NAME *
                 </label>
                 <input
                   type="text"
@@ -871,84 +866,84 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
                   value={manualName}
                   onChange={(e) => setManualName(e.target.value)}
                   required
-                  className="w-full h-11 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
+                  className="w-full h-10 px-3.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-900 focus:border-amber-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block mb-1">
-                  Mobile Number (WhatsApp)
+                <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1">
+                  PHONE (WHATSAPP)
                 </label>
                 <input
                   type="text"
                   placeholder="+91 98765 43210"
                   value={manualPhone}
                   onChange={(e) => setManualPhone(e.target.value)}
-                  className="w-full h-11 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
+                  className="w-full h-10 px-3.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-900 focus:border-amber-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block mb-1">
-                  Category
+                <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1">
+                  CATEGORY
                 </label>
-                <select
+                <CustomDropdown
                   value={manualCategory}
-                  onChange={(e) => setManualCategory(e.target.value)}
-                  className="w-full h-11 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:outline-none cursor-pointer"
-                >
-                  <option value="Men's Doubles (BYOP)">Men&apos;s Doubles (BYOP)</option>
-                  <option value="Men's Singles">Men&apos;s Singles</option>
-                  <option value="Random Wheel Doubles">Random Wheel Doubles</option>
-                  <option value="Mixed Doubles">Mixed Doubles</option>
-                </select>
+                  onChange={setManualCategory}
+                  options={[
+                    { value: "Men's Doubles", label: "Men's Doubles", badge: "Pairs" },
+                    { value: "Mixed Doubles", label: "Mixed Doubles", badge: "Combo" },
+                    { value: "Men's Singles", label: "Men's Singles", badge: "1v1" },
+                    { value: "Women's Singles", label: "Women's Singles", badge: "1v1" },
+                  ]}
+                />
               </div>
 
               {manualCategory.includes("Doubles") && (
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block mb-1">
-                    Partner Name (BYOP)
+                  <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1">
+                    PARTNER NAME
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Karthik Prabhu (or leave empty if seeking partner)"
+                    placeholder="e.g. Karthik Prabhu"
                     value={manualPartner}
                     onChange={(e) => setManualPartner(e.target.value)}
-                    className="w-full h-11 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
+                    className="w-full h-10 px-3.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-900 focus:border-amber-500 focus:outline-none"
                   />
                 </div>
               )}
 
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block mb-1">
-                  Skill Level (Playo Standard)
+                <label className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1">
+                  SKILL LEVEL
                 </label>
-                <select
+                <CustomDropdown
                   value={manualSkillLevel}
-                  onChange={(e) => setManualSkillLevel(e.target.value as PlayoSkillLevel)}
-                  className="w-full h-11 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs font-bold text-[#1E293B] focus:border-[#1D4A38] focus:outline-none cursor-pointer"
-                >
-                  <option value="Beginner">Beginner — Learning basics, short rallies</option>
-                  <option value="Amateur">Amateur — Can rally consistently, developing control</option>
-                  <option value="Intermediate">Intermediate — Good control, clears, drops &amp; smashes</option>
-                  <option value="Advanced">Advanced — High pace, tactical power, sharp reflex</option>
-                  <option value="Professional">Professional — State / national tournament circuit</option>
-                </select>
+                  onChange={(v) => setManualSkillLevel(v as PlayoSkillLevel)}
+                  options={[
+                    { value: "Intermediate", label: "Intermediate", badge: "Level 4" },
+                    { value: "Amateur", label: "Amateur", badge: "Level 3" },
+                    { value: "Advanced", label: "Advanced", badge: "Level 5" },
+                    { value: "Professional", label: "Professional", badge: "Pro" },
+                    { value: "Beginner", label: "Beginner", badge: "Level 2" },
+                  ]}
+                />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#EEF0E8]">
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setIsManualModalOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-[#64748B] hover:text-[#1E293B]"
+                  className="px-4 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-full bg-[#1D4A38] hover:bg-[#16392B] text-white text-xs font-black uppercase tracking-wider cursor-pointer shadow-sm"
+                  className="px-5 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer"
                 >
-                  Add Player to Draw
+                  Add player
                 </button>
               </div>
             </form>
@@ -957,623 +952,284 @@ export function PlayerEntriesManager({ tournamentId, tournamentTitle = "Bengalur
       )}
 
       {/* ============================================================ */}
-      {/* MODAL 2: UPLOAD EXCEL / CSV SPREADSHEET (FULLSCREEN WIDESCREEN) */}
+      {/* MODAL 2: UPLOAD EXCEL / CSV                                   */}
       {/* ============================================================ */}
       {isExcelModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-7xl h-[92vh] max-h-[960px] rounded-3xl border border-[#D5D9CE] bg-white shadow-2xl flex flex-col overflow-hidden text-[#1E293B]">
-            {/* Fixed Header */}
-            <div className="flex items-center justify-between px-6 sm:px-8 py-4 sm:py-5 border-b border-[#EEF0E8] bg-white shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
-                  <FileSpreadsheet className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg sm:text-xl font-black text-[#1E293B]">
-                    Bulk Upload Entries via Excel / CSV
-                  </h3>
-                  <p className="text-xs text-[#64748B]">
-                    Import players &amp; BYOP teams for {tournamentTitle}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                {excelFileName && (
-                  <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#E8EFEA] text-[#1D4A38] px-3.5 py-1 text-xs font-bold border border-[#C5D5CA]">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>Loaded: {excelFileName}</span>
-                  </div>
-                )}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsExcelModalOpen(false);
-                    setParsedExcelRows([]);
-                  }}
-                  className="w-9 h-9 rounded-full bg-[#F5F6F0] hover:bg-[#E8EFEA] text-[#64748B] hover:text-[#1E293B] flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
-                  title="Close modal"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-
-            {/* Widescreen 2-Column Body */}
-            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-              {/* Left Column (5 cols): Upload Zone, Templates & Format Reference */}
-              <div className="lg:col-span-5 p-6 border-b lg:border-b-0 lg:border-r border-[#EEF0E8] bg-[#FDFDFB] flex flex-col gap-4 overflow-y-auto">
-                {/* Drag & Drop File Zone */}
-                <div>
-                  <span className="text-[11px] font-black uppercase tracking-wider text-[#475569] block mb-2">
-                    1. Select Spreadsheet (.xlsx, .xls, .csv)
-                  </span>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".csv,.xlsx,.xls,.txt"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <div
-                    onClick={() => fileInputRef.current?.click()}
-                    className="border-2 border-dashed border-[#C5D5CA] hover:border-[#1D4A38] hover:bg-[#F4F6F0] rounded-2xl p-6 text-center cursor-pointer transition-all bg-white group shadow-2xs"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-[#E8EFEA] text-[#1D4A38] flex items-center justify-center mx-auto mb-2 group-hover:scale-105 transition-transform">
-                      <Upload className="w-6 h-6" />
-                    </div>
-                    <p className="text-sm font-bold text-[#1E293B]">
-                      Click or drag &amp; drop spreadsheet here
-                    </p>
-                    <p className="text-xs text-[#64748B] mt-1">
-                      Supports native Excel workbooks (.xlsx) &amp; CSV files
-                    </p>
-                    {excelFileName ? (
-                      <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#E8EFEA] text-[#1D4A38] px-3 py-1 text-xs font-bold border border-[#C5D5CA]">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Ready: {excelFileName}</span>
-                      </div>
-                    ) : (
-                      <span className="mt-3 inline-block text-[10px] text-[#94A3B8] font-mono">
-                        Drag file from your desktop
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Official Templates & Quick Actions */}
-                <div className="rounded-2xl bg-white border border-[#E2E6DD] p-4 space-y-2.5 shadow-2xs">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-[#475569] block">
-                    2. Official Gelavu Templates
-                  </span>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={handleDownloadXlsxTemplate}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#1D4A38] text-white text-xs font-bold hover:bg-[#16392B] transition-colors cursor-pointer shadow-xs"
-                      title="Download genuine Microsoft Excel (.xlsx) file"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download .XLSX Excel</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleDownloadTemplate}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F5F6F0] border border-[#D5D9CE] text-[#1E293B] text-xs font-bold hover:bg-[#EEF1EB] transition-colors cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5 text-[#64748B]" />
-                      <span>Download .CSV</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleCopyHeaderRow}
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#F5F6F0] border border-[#D5D9CE] text-xs font-bold text-[#1E293B] hover:bg-[#EEF1EB] transition-colors cursor-pointer"
-                    >
-                      {copiedHeaders ? <Check className="w-3.5 h-3.5 text-[#1D4A38]" /> : <Copy className="w-3.5 h-3.5 text-[#64748B]" />}
-                      <span>{copiedHeaders ? "Copied!" : "Copy Headers"}</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Column Format Guide (Compact & Comprehensive) */}
-                <div className="rounded-2xl bg-white border border-[#E2E6DD] p-4 space-y-2.5 flex-1 flex flex-col shadow-2xs">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-[#475569] flex items-center gap-1.5">
-                      <FileText className="w-3.5 h-3.5 text-[#1D4A38]" />
-                      <span>Required &amp; Optional Columns</span>
-                    </span>
-                    <span className="text-[10px] font-bold text-[#1D4A38] bg-[#E8EFEA] px-2 py-0.5 rounded-full">
-                      5 Standard Columns
-                    </span>
-                  </div>
-
-                  <div className="overflow-x-auto rounded-xl border border-[#EEF0E8] flex-1">
-                    <table className="w-full text-left text-xs">
-                      <thead className="bg-[#F9FAF6] border-b border-[#EEF0E8] text-[#475569] font-bold text-[11px]">
-                        <tr>
-                          <th className="p-2">Header</th>
-                          <th className="p-2">Status</th>
-                          <th className="p-2">Description / Value</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-[#F1F3EC] text-[11px]">
-                        <tr>
-                          <td className="p-2 font-mono font-bold text-[#1D4A38]">Player_Name</td>
-                          <td className="p-2 text-rose-600 font-bold">Required</td>
-                          <td className="p-2 text-[#475569]">Player full name</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2 font-mono font-bold text-[#1D4A38]">Phone</td>
-                          <td className="p-2 text-rose-600 font-bold">Required</td>
-                          <td className="p-2 text-[#475569]">WhatsApp contact number</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2 font-mono font-bold text-[#1D4A38]">Category</td>
-                          <td className="p-2 text-rose-600 font-bold">Required</td>
-                          <td className="p-2 text-[#475569]">Men&apos;s Doubles, Mixed, Wheel, Singles</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2 font-mono text-[#1E293B]">Partner_Name</td>
-                          <td className="p-2 text-amber-700 font-bold">BYOP Only</td>
-                          <td className="p-2 text-[#64748B]">Blank for singles/wheel draw</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2 font-mono text-[#1E293B]">Payment_Status</td>
-                          <td className="p-2 text-[#1D4A38] font-bold">Required</td>
-                          <td className="p-2 text-[#64748B]">PAID, CASH, or PENDING</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <p className="text-[10px] text-[#64748B] bg-[#F5F6F0] p-2.5 rounded-xl border border-[#E2E6DD] leading-relaxed">
-                    💡 <strong>Pure Registration Format:</strong> Only the essential 5 columns are needed. Bracket placement, seeding, and draws happen transparently in the Fixtures &amp; Live Picker Wheel stage!
-                  </p>
-                </div>
-              </div>
-
-              {/* Right Column (7 cols): Live Parsed Entrants Grid */}
-              <div className="lg:col-span-7 p-6 flex flex-col overflow-hidden bg-white">
-                {parsedExcelRows.length > 0 ? (
-                  <div className="flex flex-col h-full overflow-hidden space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-[#EEF0E8] shrink-0">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-base font-black text-[#1E293B]">
-                            Parsed {parsedExcelRows.length} Valid Entrants
-                          </span>
-                          <span className="text-[10px] text-[#1D4A38] font-black uppercase tracking-wider bg-[#E8EFEA] px-2.5 py-0.5 rounded-full border border-[#CAD7CE]">
-                            ✓ Ready to Import
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#64748B] mt-0.5">
-                          Review extracted entries before committing into the tournament draw.
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setParsedExcelRows([]);
-                          setExcelFileName("");
-                        }}
-                        className="text-xs font-bold text-[#64748B] hover:text-rose-600 transition-colors cursor-pointer px-2 py-1 rounded-lg hover:bg-rose-50"
-                      >
-                        Clear List
-                      </button>
-                    </div>
-
-                    {/* Scrollable Data Grid */}
-                    <div className="flex-1 overflow-y-auto rounded-2xl border border-[#E2E6DD] bg-[#FAFBF7]">
-                      <table className="w-full text-left text-xs">
-                        <thead className="sticky top-0 bg-[#F0F2EB] border-b border-[#E2E6DD] text-[11px] font-black text-[#475569] uppercase tracking-wider z-10">
-                          <tr>
-                            <th className="p-3 w-12 text-center">#</th>
-                            <th className="p-3">Player &amp; Partner</th>
-                            <th className="p-3">Phone</th>
-                            <th className="p-3">Category</th>
-                            <th className="p-3 text-center">Payment</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#EEF0E8]">
-                          {parsedExcelRows.map((r, i) => (
-                            <tr key={i} className="hover:bg-white transition-colors">
-                              <td className="p-3 text-center font-mono font-bold text-[#64748B]">{i + 1}</td>
-                              <td className="p-3">
-                                <span className="font-bold text-[#1E293B] block">{r.name}</span>
-                                {r.partnerName && (
-                                  <span className="text-[11px] text-[#1D4A38] font-semibold">
-                                    &amp; {r.partnerName}
-                                  </span>
-                                )}
-                              </td>
-                              <td className="p-3 font-mono text-[11px] text-[#475569]">{r.phone}</td>
-                              <td className="p-3 font-medium text-[#1E293B]">{r.category}</td>
-                              <td className="p-3 text-center">
-                                <span
-                                  className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
-                                    r.paymentStatus === "CASH"
-                                      ? "bg-[#FEF3C7] text-[#B45309] border-[#FDE68A]"
-                                      : r.paymentStatus === "PENDING"
-                                      ? "bg-[#F1F5F9] text-[#64748B] border-[#E2E8F0]"
-                                      : "bg-[#E8EFEA] text-[#1D4A38] border-[#CAD7CE]"
-                                  }`}
-                                >
-                                  {r.paymentStatus || "PAID"}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ) : (
-                  /* Empty state when no file uploaded */
-                  <div className="h-full flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-[#E2E6DD] rounded-2xl bg-[#FAFBF7]">
-                    <div className="w-16 h-16 rounded-3xl bg-[#E8EFEA] text-[#1D4A38] flex items-center justify-center mb-3">
-                      <FileSpreadsheet className="w-8 h-8" />
-                    </div>
-                    <h4 className="text-base font-bold text-[#1E293B]">
-                      No Spreadsheet Uploaded Yet
-                    </h4>
-                    <p className="text-xs text-[#64748B] max-w-sm mt-1 leading-relaxed">
-                      Drop an <strong>.xlsx</strong> or <strong>.csv</strong> file on the left (or click Download Template) to see a live table preview of your entrants here.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Fixed Sticky Footer */}
-            <div className="px-6 sm:px-8 py-4 border-t border-[#EEF0E8] bg-[#F9FAF6] flex items-center justify-between shrink-0">
-              <div className="text-xs text-[#64748B]">
-                {parsedExcelRows.length > 0 ? (
-                  <span>
-                    Ready to commit <strong>{parsedExcelRows.length} players</strong> into tournament roster.
-                  </span>
-                ) : (
-                  <span>Select or drop a spreadsheet file to preview.</span>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsExcelModalOpen(false);
-                    setParsedExcelRows([]);
-                  }}
-                  className="px-4 py-2 text-xs font-bold text-[#64748B] hover:text-[#1E293B] cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  disabled={parsedExcelRows.length === 0}
-                  onClick={handleConfirmExcelImport}
-                  className="px-6 py-2.5 rounded-full bg-[#1D4A38] hover:bg-[#16392B] disabled:opacity-40 text-white text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm flex items-center gap-2"
-                >
-                  <span>Import {parsedExcelRows.length > 0 ? `${parsedExcelRows.length} Players` : ""} into Roster</span>
-                  <CheckCircle2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ============================================================ */}
-      {/* MODAL 3: AI PHOTO / OCR CAMERA LIST SCANNER (FULLSCREEN WIDESCREEN) */}
-      {/* ============================================================ */}
-      {isAiOcrModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-7xl h-[92vh] max-h-[960px] rounded-3xl border border-[#D5D9CE] bg-white shadow-2xl flex flex-col overflow-hidden text-[#1E293B]">
-            {/* Fixed Header */}
-            <div className="flex items-center justify-between px-6 sm:px-8 py-4 sm:py-5 border-b border-[#EEF0E8] bg-white shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#E8EFEA] border border-[#CAD7CE] flex items-center justify-center text-[#1D4A38]">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg sm:text-xl font-black text-[#1E293B]">
-                    AI Tournament Sheet &amp; Photo OCR Scanner
-                  </h3>
-                  <p className="text-xs text-[#64748B]">
-                    Gelavu Vision AI extracts names, phone numbers, and categories from paper &amp; chat screenshots
-                  </p>
-                </div>
-              </div>
-
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="relative w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>Upload Excel / CSV Entries</span>
+              </h3>
               <button
                 type="button"
                 onClick={() => {
-                  setIsAiOcrModalOpen(false);
-                  setOcrResults([]);
-                  setOcrImagePreview(null);
+                  setIsExcelModalOpen(false);
+                  setParsedExcelRows([]);
                 }}
-                className="w-9 h-9 rounded-full bg-[#F5F6F0] hover:bg-[#E8EFEA] text-[#64748B] hover:text-[#1E293B] flex items-center justify-center text-sm font-bold transition-colors cursor-pointer"
-                title="Close modal"
+                className="w-7 h-7 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center text-sm"
               >
                 ✕
               </button>
             </div>
 
-            {/* Widescreen 2-Column Body */}
-            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-              {/* Left Column (5 cols): Photo Upload & Scanner Controls */}
-              <div className="lg:col-span-5 p-6 border-b lg:border-b-0 lg:border-r border-[#EEF0E8] bg-[#FDFDFB] flex flex-col gap-4 overflow-y-auto">
-                {!ocrImagePreview ? (
-                  <div className="space-y-4">
-                    <label className="border-2 border-dashed border-[#C5D5CA] hover:border-[#1D4A38] hover:bg-[#F4F6F0] rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all bg-white shadow-2xs group">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        capture="environment"
-                        onChange={handleOcrImageUpload}
-                        className="hidden"
-                      />
-                      <div className="w-14 h-14 rounded-2xl bg-[#E8EFEA] text-[#1D4A38] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                        <Camera className="w-7 h-7" />
-                      </div>
-                      <span className="text-sm font-bold text-[#1E293B]">
-                        Snap Photo or Upload Tournament Paper / Screenshot
-                      </span>
-                      <span className="text-xs text-[#64748B] mt-1 max-w-sm">
-                        Automatically recognizes player names, WhatsApp phone numbers, and categories.
-                      </span>
-                    </label>
-
-                    {/* Instant 1-Click Sample Testers */}
-                    <div className="rounded-2xl bg-white border border-[#E2E6DD] p-4 space-y-2.5 shadow-2xs">
-                      <span className="text-[11px] font-black uppercase tracking-wider text-[#475569] block">
-                        Quick Sample Testers
-                      </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <button
-                          type="button"
-                          onClick={() => runOcrScanningSimulation(SAMPLE_PAPER_SHEET_SVG, "paper")}
-                          className="flex items-center justify-center gap-2 p-3 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] hover:bg-[#EEF1EB] text-xs font-bold text-[#1E293B] transition-colors cursor-pointer"
-                        >
-                          <span>📄 Test Paper Sheet</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => runOcrScanningSimulation(SAMPLE_WHATSAPP_SVG, "whatsapp")}
-                          className="flex items-center justify-center gap-2 p-3 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] hover:bg-[#EEF1EB] text-xs font-bold text-[#1E293B] transition-colors cursor-pointer"
-                        >
-                          <span>💬 Test WhatsApp Chat</span>
-                        </button>
-                      </div>
-                      <p className="text-[10px] text-center text-[#64748B] pt-1">
-                        💡 <strong>Clipboard Paste:</strong> Press <strong>Ctrl+V</strong> anywhere in this modal to paste an image!
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {/* Image Preview with Laser Scanning Animation */}
-                    <div className="relative rounded-2xl overflow-hidden border border-[#D5D9CE] max-h-60 bg-slate-900 flex items-center justify-center shadow-sm">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={ocrImagePreview} alt="OCR Target" className="w-full h-auto object-cover opacity-85" />
-
-                      {isOcrScanning && (
-                        <div className="absolute inset-0 bg-[#1D4A38]/30 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 p-4 text-center">
-                          <div className="w-full h-1 bg-[#1D4A38] animate-bounce shadow-[0_0_15px_#1D4A38]" />
-                          <span className="rounded-full bg-white/95 px-4 py-1.5 text-xs font-black text-[#1D4A38] border border-[#C5D5CA] shadow-md animate-pulse">
-                            ⚡ {ocrScanStep || "Gelavu Vision AI: Extracting Participant Names..."}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOcrResults([]);
-                          setOcrImagePreview(null);
-                        }}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1D4A38] hover:underline cursor-pointer"
-                      >
-                        <RefreshCw className="w-3.5 h-3.5" />
-                        <span>Choose another image</span>
-                      </button>
-
-                      {ocrRawText && (
-                        <button
-                          type="button"
-                          onClick={() => setShowRawOcrText(!showRawOcrText)}
-                          className="text-xs font-bold text-[#64748B] hover:text-[#1E293B] underline cursor-pointer"
-                        >
-                          {showRawOcrText ? "Hide Raw OCR" : "View Raw OCR"}
-                        </button>
-                      )}
-                    </div>
-
-                    {showRawOcrText && ocrRawText && (
-                      <div className="p-3 rounded-xl bg-[#F0F2EB] border border-[#E2E6DD] text-xs font-mono space-y-1.5 animate-in fade-in">
-                        <div className="flex items-center justify-between border-b border-[#D5D9CE] pb-1.5">
-                          <span className="font-bold text-[#1E293B] text-[11px]">Detected Document Text Lines:</span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              navigator.clipboard?.writeText(ocrRawText);
-                              showToast("Copied raw OCR transcription!", "info");
-                            }}
-                            className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1D4A38] hover:underline"
-                          >
-                            <Copy className="w-3 h-3" /> Copy
-                          </button>
-                        </div>
-                        <pre className="whitespace-pre-wrap text-[10px] text-[#475569]">{ocrRawText}</pre>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Right Column (7 cols): Extracted & Editable Player Cards */}
-              <div className="lg:col-span-7 p-6 flex flex-col overflow-hidden bg-white">
-                {ocrResults.length > 0 ? (
-                  <div className="flex flex-col h-full overflow-hidden space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-[#EEF0E8] shrink-0">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-base font-black text-[#1E293B]">
-                            AI Identified {ocrResults.length} Entries
-                          </span>
-                          <span className="text-[10px] text-[#1D4A38] font-black uppercase tracking-wider bg-[#E8EFEA] px-2.5 py-0.5 rounded-full border border-[#CAD7CE]">
-                            ✓ Editable
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#64748B] mt-0.5">
-                          Edit inline to adjust any player name, mobile number, or category before importing.
-                        </p>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={handleAddOcrRow}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-[#1D4A38] bg-[#E8EFEA] hover:bg-[#D5E4D9] px-3 py-1.5 rounded-xl border border-[#CAD7CE] cursor-pointer shadow-2xs"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Add Missed Player</span>
-                      </button>
-                    </div>
-
-                    {/* Scrollable Editable Cards List */}
-                    <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
-                      {ocrResults.map((r, i) => (
-                        <div key={r.id || i} className="p-3.5 rounded-2xl border border-[#E2E6DD] bg-[#FAFBF7] space-y-2.5 shadow-2xs">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-[10px] font-bold text-[#1D4A38] bg-[#E8EFEA] px-2.5 py-0.5 rounded-full border border-[#CAD7CE]">
-                              #{i + 1} · {r.confidence}% Confidence
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveOcrRow(r.id)}
-                              className="text-[#94A3B8] hover:text-rose-600 p-1 rounded-md transition-colors cursor-pointer"
-                              title="Remove entry"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                            <div>
-                              <label className="text-[10px] font-bold text-[#64748B] block mb-1">Player Name</label>
-                              <input
-                                type="text"
-                                value={r.name}
-                                onChange={(e) => handleUpdateOcrRow(r.id, "name", e.target.value)}
-                                className="w-full h-9 rounded-xl border border-[#D5D9CE] bg-white px-3 text-xs font-bold text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
-                              />
-                            </div>
-                            <div>
-                              <label className="text-[10px] font-bold text-[#64748B] block mb-1">Mobile Number (WhatsApp)</label>
-                              <input
-                                type="text"
-                                value={r.phone}
-                                onChange={(e) => handleUpdateOcrRow(r.id, "phone", e.target.value)}
-                                className="w-full h-9 rounded-xl border border-[#D5D9CE] bg-white px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-                            <div>
-                              <label className="text-[10px] font-bold text-[#64748B] block mb-1">Category</label>
-                              <select
-                                value={r.category}
-                                onChange={(e) => handleUpdateOcrRow(r.id, "category", e.target.value)}
-                                className="w-full h-9 rounded-xl border border-[#D5D9CE] bg-white px-2 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:outline-none cursor-pointer"
-                              >
-                                <option value="Men's Doubles (BYOP)">Men&apos;s Doubles (BYOP)</option>
-                                <option value="Mixed Doubles">Mixed Doubles</option>
-                                <option value="Random Wheel Doubles">Random Wheel Doubles</option>
-                                <option value="Men's Singles">Men&apos;s Singles</option>
-                                <option value="Women's Singles">Women&apos;s Singles</option>
-                              </select>
-                            </div>
-                            <div>
-                              <label className="text-[10px] font-bold text-[#64748B] block mb-1">Partner Name (BYOP)</label>
-                              <input
-                                type="text"
-                                value={r.partnerName}
-                                placeholder={r.category.includes("Doubles") ? "Partner Name" : "N/A"}
-                                onChange={(e) => handleUpdateOcrRow(r.id, "partnerName", e.target.value)}
-                                className="w-full h-9 rounded-xl border border-[#D5D9CE] bg-white px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
-                              />
-                            </div>
-                            <div>
-                              <label className="text-[10px] font-bold text-[#64748B] block mb-1">Payment Status</label>
-                              <select
-                                value={r.paymentStatus}
-                                onChange={(e) => handleUpdateOcrRow(r.id, "paymentStatus", e.target.value)}
-                                className="w-full h-9 rounded-xl border border-[#D5D9CE] bg-white px-2 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:outline-none cursor-pointer"
-                              >
-                                <option value="PAID">PAID</option>
-                                <option value="CASH">CASH</option>
-                                <option value="PENDING">PENDING</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-[#E2E6DD] rounded-2xl bg-[#FAFBF7]">
-                    <div className="w-16 h-16 rounded-3xl bg-[#E8EFEA] text-[#1D4A38] flex items-center justify-center mb-3">
-                      <Camera className="w-8 h-8" />
-                    </div>
-                    <h4 className="text-base font-bold text-[#1E293B]">
-                      No Image Scanned Yet
-                    </h4>
-                    <p className="text-xs text-[#64748B] max-w-sm mt-1 leading-relaxed">
-                      Snap or upload a sign-up sheet on the left (or click a sample test) to see editable participant cards extracted here.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Fixed Sticky Footer */}
-            <div className="px-6 sm:px-8 py-4 border-t border-[#EEF0E8] bg-[#F9FAF6] flex items-center justify-between shrink-0">
-              <div className="text-xs text-[#64748B]">
-                {ocrResults.length > 0 ? (
-                  <span>
-                    Ready to import <strong>{ocrResults.length} scanned players</strong> into tournament roster.
+            <div className="space-y-4">
+              {/* File Dropzone */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-slate-200 hover:border-amber-400 hover:bg-amber-50/20 rounded-2xl p-6 text-center cursor-pointer transition-all"
+              >
+                <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+                <p className="text-xs font-bold text-slate-900">
+                  Click to select spreadsheet (.xlsx, .csv)
+                </p>
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Supports player names, phone, category, partner, and payment status
+                </p>
+                {excelFileName && (
+                  <span className="mt-2 inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+                    ✓ {excelFileName}
                   </span>
-                ) : (
-                  <span>Select or snap a photo on the left to extract.</span>
                 )}
               </div>
-              <div className="flex items-center gap-3">
+
+              {/* Template Buttons */}
+              <div className="flex items-center justify-between gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                <span className="text-slate-600 font-medium">Templates:</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleDownloadXlsxTemplate}
+                    className="px-3 py-1 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1 cursor-pointer"
+                  >
+                    <Download className="w-3 h-3 text-slate-500" />
+                    <span>.XLSX</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDownloadTemplate}
+                    className="px-3 py-1 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1 cursor-pointer"
+                  >
+                    <Download className="w-3 h-3 text-slate-500" />
+                    <span>.CSV</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyHeaderRow}
+                    className="px-3 py-1 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1 cursor-pointer"
+                  >
+                    {copiedHeaders ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                    <span>Copy Headers</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Preview Parsed Rows */}
+              {parsedExcelRows.length > 0 && (
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-slate-900 block">
+                    Parsed {parsedExcelRows.length} Entrants:
+                  </span>
+                  <div className="max-h-48 overflow-y-auto rounded-xl border border-slate-200 divide-y divide-slate-100 text-xs">
+                    {parsedExcelRows.slice(0, 10).map((r, i) => (
+                      <div key={i} className="p-2.5 flex items-center justify-between">
+                        <div>
+                          <strong className="text-slate-900 font-bold">{r.name}</strong>
+                          {r.partnerName && <span className="text-slate-600"> &amp; {r.partnerName}</span>}
+                          <span className="text-slate-400 block text-[11px]">{r.phone} · {r.category}</span>
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                          {r.paymentStatus}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => {
-                    setIsAiOcrModalOpen(false);
-                    setOcrResults([]);
-                    setOcrImagePreview(null);
+                    setIsExcelModalOpen(false);
+                    setParsedExcelRows([]);
                   }}
-                  className="px-4 py-2 text-xs font-bold text-[#64748B] hover:text-[#1E293B] cursor-pointer"
+                  className="px-4 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  disabled={ocrResults.length === 0}
-                  onClick={handleConfirmAiOcrImport}
-                  className="px-6 py-2.5 rounded-full bg-[#1D4A38] hover:bg-[#16392B] disabled:opacity-40 text-white text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm flex items-center gap-2"
+                  onClick={handleConfirmExcelImport}
+                  disabled={parsedExcelRows.length === 0}
+                  className="px-5 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
                 >
-                  <span>Import {ocrResults.length > 0 ? `${ocrResults.length} Players` : ""} into Roster</span>
-                  <CheckCircle2 className="w-4 h-4" />
+                  Commit {parsedExcelRows.length} to Roster
                 </button>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* ============================================================ */}
+      {/* MODAL 3: AI PHOTO SCAN                                        */}
+      {/* ============================================================ */}
+      {isAiOcrModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="relative w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Camera className="w-4 h-4 text-amber-600" />
+                <span>AI Photo Scan (Paper &amp; WhatsApp)</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAiOcrModalOpen(false);
+                  setOcrResults([]);
+                }}
+                className="w-7 h-7 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center text-sm"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-xs text-slate-500">
+                Take or upload a photo of handwritten entries or WhatsApp registration lists.
+              </p>
+
+              {/* Test Scan Buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => runOcrScanningSimulation("test-paper-url")}
+                  className="flex-1 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <FileText className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Scan Paper Sheet Sample</span>
+                </button>
+              </div>
+
+              {isOcrScanning && (
+                <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-center space-y-2">
+                  <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-xs font-bold text-amber-900">{ocrScanStep}</p>
+                </div>
+              )}
+
+              {ocrResults.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-900">
+                      Extracted {ocrResults.length} Entrants:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowRawOcrText(!showRawOcrText)}
+                      className="text-[11px] font-semibold text-slate-500 hover:text-slate-800"
+                    >
+                      {showRawOcrText ? "Hide text" : "View raw text"}
+                    </button>
+                  </div>
+
+                  {showRawOcrText && (
+                    <pre className="p-2.5 rounded-xl bg-slate-900 text-slate-200 text-[11px] font-mono whitespace-pre-wrap max-h-32 overflow-y-auto">
+                      {ocrRawText}
+                    </pre>
+                  )}
+
+                  <div className="max-h-48 overflow-y-auto rounded-xl border border-slate-200 divide-y divide-slate-100 text-xs">
+                    {ocrResults.map((r) => (
+                      <div key={r.id} className="p-2.5 flex items-center justify-between">
+                        <div>
+                          <strong className="text-slate-900 font-bold">{r.name}</strong>
+                          {r.partnerName && <span className="text-slate-600"> &amp; {r.partnerName}</span>}
+                          <span className="text-slate-400 block text-[11px]">{r.phone} · {r.category}</span>
+                        </div>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                          {r.confidence}% confidence
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAiOcrModalOpen(false);
+                    setOcrResults([]);
+                  }}
+                  className="px-4 py-2 rounded-full border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleConfirmAiOcrImport}
+                  disabled={ocrResults.length === 0}
+                  className="px-5 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+                >
+                  Import {ocrResults.length} to Roster
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================ */}
+      {/* 6. RESET CONFIRMATION DIALOG (No Native confirm())           */}
+      {/* ============================================================ */}
+      {isResetConfirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-md w-full p-6 space-y-5 animate-in zoom-in-95 duration-200">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+                <RotateCcw className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-base font-bold text-slate-900 leading-tight">
+                  Reset Tournament Roster?
+                </h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  This will restore the original 32 seeded tournament entries. Any custom players added via spreadsheet or camera scan will be removed.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setIsResetConfirmOpen(false)}
+                className="px-4 py-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmResetRoster}
+                className="px-5 py-2 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm cursor-pointer"
+              >
+                Confirm Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

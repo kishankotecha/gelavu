@@ -7,7 +7,6 @@ import {
   CalendarPlus,
   Check,
   ArrowRight,
-  MapPin,
   User as UserIcon,
   Building2,
   Sparkles,
@@ -22,6 +21,7 @@ import { Avatar } from "@/components/common/Avatar";
 import { AvatarPickerModal } from "@/components/common/AvatarPickerModal";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/components/ui/toast";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
 import { GelavuLogo } from "@/components/common/GelavuLogo";
 import {
   PLAYO_SKILL_TIERS,
@@ -290,20 +290,12 @@ function OnboardingContent() {
               <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
                 Home City *
               </label>
-              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
-                <MapPin className="w-4 h-4 text-[#DE9D35] mr-2 shrink-0" />
-                <select
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] outline-none cursor-pointer"
-                >
-                  {CITIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <CustomDropdown
+                value={city}
+                onChange={setCity}
+                options={CITIES.map((c) => ({ value: c, label: c }))}
+                buttonClassName="h-11 rounded-2xl border-gray-200 bg-gray-50/80 text-sm font-semibold"
+              />
             </div>
           </div>
 
