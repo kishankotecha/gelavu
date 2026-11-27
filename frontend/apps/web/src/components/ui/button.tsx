@@ -11,12 +11,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const base = "inline-flex items-center justify-center font-medium transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:pointer-events-none disabled:opacity-50 cursor-pointer";
     
     const variants = {
-      primary: "bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700 shadow-sm",
-      secondary: "bg-gray-800 text-gray-100 hover:bg-gray-700 border border-gray-700",
-      outline: "border border-gray-700 text-gray-200 hover:bg-gray-800/60 hover:text-white",
-      ghost: "text-gray-300 hover:bg-gray-800/50 hover:text-white",
-      danger: "bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700",
-      gold: "bg-amber-500 text-gray-950 font-bold hover:bg-amber-400 active:bg-amber-600 shadow-sm",
+      primary: "bg-hotpink text-white hover:bg-hotpink/90 active:bg-hotpink/80 shadow-sm",
+      secondary: "bg-navy text-white hover:bg-navy/90 border border-navy",
+      outline: "border border-navy text-navy hover:bg-navy/10 hover:text-white",
+      ghost: "text-navy hover:bg-navy/10 hover:text-white",
+      danger: "bg-hotpink text-white hover:bg-rose-500 active:bg-rose-700",
+      gold: "bg-hotpink text-white font-bold hover:bg-hotpink/80 active:bg-hotpink/70 shadow-sm",
     };
 
     const sizes = {

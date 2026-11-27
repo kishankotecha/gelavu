@@ -10,30 +10,22 @@ import {
   Check,
   Calendar,
   Clock,
-  MapPin,
-  Star,
   BarChart3,
   Dices,
+  Sparkles,
 } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { VenuePicker } from "@/features/host/VenuePicker";
+import { CITIES, liveCities } from "@/config/cities";
+import type { VenueSelection } from "@/types/venue";
 import {
-  GoogleCourtLocationPicker,
-  POPULAR_BADMINTON_VENUES,
-  type BadmintonCourtVenue,
-} from "@/features/host/GoogleCourtLocationPicker";
+  ChampionIcon,
+  DivisionBadge,
+  RunnerUpIcon,
+  SemiFinalIcon,
+} from "@/components/common/DivisionBadge";
 import { createNewTournament } from "@/lib/tournamentStore";
-import {
-  RealisticTrophy,
-  RealisticSilverMedal,
-  RealisticBronzeMedal,
-  RealisticMensDoublesIcon,
-  RealisticWomensSinglesIcon,
-  RealisticMensSinglesIcon,
-  RealisticMixedDoublesIcon,
-  RealisticRandomWheelIcon,
-  RealisticMastersDoublesIcon,
-} from "@/components/common/RealisticSportsIcons";
 
 // 3 Curated Fast Blueprint Presets matching reference
 const BLUEPRINT_PRESETS = [
@@ -121,11 +113,10 @@ export default function CreateTournamentPage() {
   // ---------------------------------------------------------------------------
   // STATE: SECTION 03 - VENUE & COURTS
   // ---------------------------------------------------------------------------
-  const [city, setCity] = useState("Bengaluru");
-  const [selectedVenue, setSelectedVenue] = useState<BadmintonCourtVenue | null>(POPULAR_BADMINTON_VENUES[0]);
-  const [customVenueName, setCustomVenueName] = useState("");
-  const [customAddress, setCustomAddress] = useState("");
-  const [showLocationPicker, setShowLocationPicker] = useState(false);
+  const [cityId, setCityId] = useState(liveCities()[0].id);
+  const city = CITIES.find((c) => c.id === cityId)!;
+  const [venue, setVenue] = useState<VenueSelection | null>(null);
+  const [venueCost, setVenueCost] = useState("21600");
   const [courtsBooked, setCourtsBooked] = useState("6");
   const [amenities, setAmenities] = useState<string[]>([
     "Parking",
@@ -170,7 +161,7 @@ export default function CreateTournamentPage() {
   const prizePoolNum = parseInt(prizePool, 10) || 0;
   const courtsNum = parseInt(courtsBooked, 10) || 4;
   const projectedGross = totalSlotsNum * entryFeeNum;
-  const estCourtCosts = courtsNum * 8 * 450; // 8 hrs @ ₹450/hr
+  const estCourtCosts = parseInt(venueCost, 10) || 0;
   const hostNet = projectedGross - prizePoolNum - estCourtCosts;
 
   // Apply Blueprint
@@ -220,18 +211,26 @@ export default function CreateTournamentPage() {
       return;
     }
 
+    if (!venue) {
+      showToast("Please select the venue.", "error");
+      return;
+    }
+
     setIsSubmitting(true);
-    const venueName = selectedVenue ? selectedVenue.name : customVenueName || "Play9 Badminton Arena";
-    const venueAddress = selectedVenue ? selectedVenue.address : customAddress || `${city}, Karnataka`;
 
     const newTournament = createNewTournament({
       title: title.trim(),
       sport: "BADMINTON",
       tier,
       hostName: hostName.trim() || "Apex Badminton Academy",
-      city,
-      venueName,
-      address: venueAddress,
+      city: city.name,
+      venueName: venue.name,
+      address: venue.address,
+      placeId: venue.placeId,
+      area: venue.area,
+      lat: venue.lat,
+      lng: venue.lng,
+      locationSource: venue.source,
       startDate,
       endDate: isMultiDay ? endDate : startDate,
       entryFee: entryFeeNum,
@@ -254,43 +253,43 @@ export default function CreateTournamentPage() {
     }, 500);
   };
 
-  // Division catalogue items
+  // Division catalogue items using standard Badminton codes
   const divisionList = [
     {
       id: "Men's Doubles - BYOP",
       title: "Men's Doubles · BYOP",
       subtitle: "Bring your partner",
-      icon: <RealisticMensDoublesIcon size={26} />,
+      icon: <DivisionBadge code="MD" />,
     },
     {
       id: "Mixed Doubles",
       title: "Mixed Doubles",
       subtitle: "1 male + 1 female",
-      icon: <RealisticMixedDoublesIcon size={26} />,
+      icon: <DivisionBadge code="XD" />,
     },
     {
       id: "Men's Singles",
       title: "Men's Singles",
       subtitle: "1v1 knockout",
-      icon: <RealisticMensSinglesIcon size={26} />,
+      icon: <DivisionBadge code="MS" />,
     },
     {
       id: "Random wheel doubles",
       title: "Random wheel doubles",
       subtitle: "Solo players paired live",
-      icon: <RealisticRandomWheelIcon size={26} />,
+      icon: <DivisionBadge code="RD" />,
     },
     {
       id: "Women's Singles",
       title: "Women's Singles",
       subtitle: "1v1 knockout",
-      icon: <RealisticWomensSinglesIcon size={26} />,
+      icon: <DivisionBadge code="WS" />,
     },
     {
       id: "Masters 40+",
       title: "Masters 40+",
       subtitle: "Veteran category",
-      icon: <RealisticMastersDoublesIcon size={26} />,
+      icon: <DivisionBadge code="40+" />,
     },
   ];
 
@@ -322,9 +321,9 @@ export default function CreateTournamentPage() {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <div className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-3 py-1.5 rounded-full">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>UPI escrow &amp; anti-rigging on</span>
+            <div className="hidden lg:flex items-center gap-1.5 text-xs font-semibold text-navy bg-cream border border-navy/15 px-3 py-1.5 rounded-full">
+              <ShieldCheck className="w-3.5 h-3.5 text-coral" />
+              <span>Payments held until your event ends</span>
             </div>
 
             <button
@@ -339,7 +338,7 @@ export default function CreateTournamentPage() {
               type="button"
               onClick={() => handleSubmit()}
               disabled={isSubmitting}
-              className="px-3.5 sm:px-5 py-1.5 rounded-full bg-slate-950 hover:bg-slate-800 text-white text-[11px] sm:text-xs font-semibold transition-colors flex items-center gap-1 sm:gap-1.5 shadow-2xs cursor-pointer disabled:opacity-50 whitespace-nowrap"
+              className="px-3.5 sm:px-5 py-1.5 rounded-full bg-hotpink hover:bg-hotpink/90 active:bg-hotpink/80 text-white text-[11px] sm:text-xs font-semibold transition-colors flex items-center gap-1 sm:gap-1.5 shadow-sm shadow-hotpink/25 cursor-pointer disabled:opacity-50 whitespace-nowrap"
             >
               <span>Publish</span>
               <Check className="w-3.5 h-3.5" />
@@ -354,9 +353,9 @@ export default function CreateTournamentPage() {
       <main className="w-full px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
         
         {/* QUICK START BLUEPRINT BANNER (Exact Dark Card Match) */}
-        <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-[#0B101B] text-white flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm border border-slate-800/80">
+        <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-navy text-white flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm border border-slate-800/80">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 block mb-0.5">
+            <span className="text-[10px] font-black uppercase tracking-wider text-hotpink block mb-0.5">
               QUICK START
             </span>
             <p className="text-xs text-slate-300">
@@ -374,7 +373,7 @@ export default function CreateTournamentPage() {
                   onClick={() => handleApplyBlueprint(bp)}
                   className={`px-3.5 py-1.5 rounded-full text-xs transition-all cursor-pointer ${
                     isActive
-                      ? "bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold shadow-md shadow-amber-400/20"
+                      ? "bg-hotpink hover:bg-hotpink text-slate-950 font-bold shadow-md shadow-hotpink/20"
                       : "bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold"
                   }`}
                 >
@@ -423,7 +422,7 @@ export default function CreateTournamentPage() {
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder="e.g. Bengaluru City Badminton Grand Slam 2026"
                       required
-                      className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-colors"
+                      className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-hotpink/30 focus:ring-1 focus:ring-hotpink/40 focus:outline-none transition-colors"
                     />
                   </div>
 
@@ -439,7 +438,7 @@ export default function CreateTournamentPage() {
                         onChange={(e) => setHostName(e.target.value)}
                         placeholder="Apex Badminton Academy"
                         required
-                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-colors"
+                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 placeholder:text-slate-400 focus:border-hotpink/30 focus:ring-1 focus:ring-hotpink/40 focus:outline-none transition-colors"
                       />
                     </div>
 
@@ -528,7 +527,7 @@ export default function CreateTournamentPage() {
                           type="text"
                           value={startDate === "2026-12-12" ? "12 Dec 2026" : startDate}
                           onChange={(e) => setStartDate(e.target.value)}
-                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                         />
                         <Calendar className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
@@ -544,7 +543,7 @@ export default function CreateTournamentPage() {
                           value={endDate === "2026-12-13" ? "13 Dec 2026" : endDate}
                           onChange={(e) => setEndDate(e.target.value)}
                           disabled={!isMultiDay}
-                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none disabled:bg-slate-50 disabled:text-slate-400"
+                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none disabled:bg-slate-50 disabled:text-slate-400"
                         />
                         <Calendar className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
@@ -559,7 +558,7 @@ export default function CreateTournamentPage() {
                           type="text"
                           value={registrationDeadline}
                           onChange={(e) => setRegistrationDeadline(e.target.value)}
-                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                          className="w-full h-10 px-3.5 pr-8 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                         />
                         <Clock className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                       </div>
@@ -576,7 +575,7 @@ export default function CreateTournamentPage() {
                         type="text"
                         value={playerCheckIn}
                         onChange={(e) => setPlayerCheckIn(e.target.value)}
-                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                       />
                     </div>
 
@@ -588,7 +587,7 @@ export default function CreateTournamentPage() {
                         type="text"
                         value={firstMatch}
                         onChange={(e) => setFirstMatch(e.target.value)}
-                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -616,71 +615,44 @@ export default function CreateTournamentPage() {
                 <div className="space-y-4 pt-1">
                   {/* City Selector */}
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block mb-1.5">
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-wider text-slate-500">
                       CITY
                     </span>
                     <div className="flex flex-wrap gap-2">
-                      {["Bengaluru", "Mysuru", "Hyderabad", "Chennai", "Mumbai"].map((c) => (
-                        <button
-                          key={c}
-                          type="button"
-                          onClick={() => setCity(c)}
-                          className={`px-3.5 py-1 rounded-full text-xs transition-all cursor-pointer ${
-                            city === c
-                              ? "bg-slate-950 text-white font-bold shadow-xs"
-                              : "bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-medium"
-                          }`}
-                        >
-                          {c}
-                        </button>
-                      ))}
+                      {CITIES.map((c) => {
+                        const live = c.status === "live";
+                        return (
+                          <button
+                            key={c.id}
+                            type="button"
+                            disabled={!live}
+                            aria-pressed={cityId === c.id}
+                            onClick={() => {
+                              setCityId(c.id);
+                              setVenue(null);
+                            }}
+                            className={`rounded-full px-3.5 py-1 text-xs transition-all ${
+                              cityId === c.id
+                                ? "bg-slate-950 font-bold text-white shadow-xs"
+                                : live
+                                ? "border border-slate-200 bg-white font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                                : "cursor-not-allowed border border-dashed border-slate-200 text-slate-400"
+                            }`}
+                          >
+                            {c.name}{!live && " · Soon"}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  {/* Selected Venue Card */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center text-amber-700 shrink-0">
-                        <MapPin className="w-4 h-4 text-amber-600" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-bold text-slate-900 truncate">
-                            {selectedVenue ? selectedVenue.name : customVenueName || "Play9 Badminton Arena"}
-                          </span>
-                          <span className="flex items-center gap-0.5 text-[11px] font-bold text-amber-500">
-                            <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
-                            <span>{selectedVenue?.rating || "4.8"}</span>
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-400 truncate mt-0.5">
-                          {selectedVenue ? `${selectedVenue.address} · 8 courts · synthetic mats` : "Sarjapur Main Rd, Doddakannelli · 8 courts · synthetic mats"}
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setShowLocationPicker(!showLocationPicker)}
-                      className="text-xs font-bold text-slate-800 hover:text-amber-600 hover:underline shrink-0 cursor-pointer"
-                    >
-                      {showLocationPicker ? "Done" : "Change"}
-                    </button>
+                  {/* Venue Picker */}
+                  <div>
+                    <span className="mb-1.5 block text-[10px] font-black uppercase tracking-wider text-slate-500">
+                      VENUE *
+                    </span>
+                    <VenuePicker city={city} value={venue} onChange={setVenue} />
                   </div>
-
-                  {/* Expandable Google Court Location Picker */}
-                  {showLocationPicker && (
-                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                      <GoogleCourtLocationPicker
-                        selectedVenue={selectedVenue}
-                        onSelectVenue={setSelectedVenue}
-                        customVenueName={customVenueName}
-                        onCustomVenueNameChange={setCustomVenueName}
-                        customAddress={customAddress}
-                        onCustomAddressChange={setCustomAddress}
-                      />
-                    </div>
-                  )}
 
                   {/* Courts Reserved */}
                   <div>
@@ -754,7 +726,7 @@ export default function CreateTournamentPage() {
                     </div>
                   </div>
 
-                  <span className="px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-hotpink/10 border border-hotpink/40 text-navy text-[10px] font-bold">
                     {selectedCategories.length} active
                   </span>
                 </div>
@@ -765,12 +737,14 @@ export default function CreateTournamentPage() {
                     {divisionList.map((div) => {
                       const isSelected = selectedCategories.includes(div.id);
                       return (
-                        <div
+                        <button
                           key={div.id}
+                          type="button"
+                          aria-pressed={isSelected}
                           onClick={() => toggleCategory(div.id)}
-                          className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                          className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 text-left w-full ${
                             isSelected
-                              ? "border-slate-950 bg-amber-50/20 ring-1 ring-slate-950/10 shadow-xs"
+                              ? "border-slate-950 bg-hotpink/10/20 ring-1 ring-slate-950/10 shadow-xs"
                               : "border-slate-200 bg-white hover:border-slate-300"
                           }`}
                         >
@@ -793,14 +767,11 @@ export default function CreateTournamentPage() {
                               <Check className="w-3 h-3 stroke-[3]" />
                             </div>
                           ) : (
-                            <button
-                              type="button"
-                              className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700 shrink-0 cursor-pointer"
-                            >
+                            <span className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700 shrink-0">
                               Add
-                            </button>
+                            </span>
                           )}
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
@@ -873,7 +844,7 @@ export default function CreateTournamentPage() {
                         value={maxTeams}
                         onChange={(e) => setMaxTeams(e.target.value)}
                         required
-                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                        className="w-full h-10 px-3.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                       />
                     </div>
 
@@ -890,7 +861,7 @@ export default function CreateTournamentPage() {
                           value={entryFee}
                           onChange={(e) => setEntryFee(e.target.value)}
                           required
-                          className="w-full h-10 pl-7 pr-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                          className="w-full h-10 pl-7 pr-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -908,7 +879,7 @@ export default function CreateTournamentPage() {
                           value={prizePool}
                           onChange={(e) => setPrizePool(e.target.value)}
                           required
-                          className="w-full h-10 pl-7 pr-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-amber-500 focus:outline-none"
+                          className="w-full h-10 pl-7 pr-3 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-900 focus:border-hotpink/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -917,9 +888,9 @@ export default function CreateTournamentPage() {
                   {/* Row 2: 3 Podium Payout Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {/* Champion Card */}
-                    <div className="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200/80 space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-                        <RealisticTrophy size={16} />
+                    <div className="p-3.5 rounded-xl bg-hotpink/10/60 border border-hotpink/40/80 space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-navy">
+                        <ChampionIcon />
                         <span>Champion</span>
                       </div>
                       <div className="text-base font-extrabold text-slate-900 font-mono">
@@ -930,7 +901,7 @@ export default function CreateTournamentPage() {
                     {/* Runner-up Card */}
                     <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
-                        <RealisticSilverMedal size={16} />
+                        <RunnerUpIcon />
                         <span>Runner-up</span>
                       </div>
                       <div className="text-base font-extrabold text-slate-900 font-mono">
@@ -939,9 +910,9 @@ export default function CreateTournamentPage() {
                     </div>
 
                     {/* Semi-finalists Card */}
-                    <div className="p-3.5 rounded-xl bg-orange-50/60 border border-orange-200/80 space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-orange-950">
-                        <RealisticBronzeMedal size={16} />
+                    <div className="p-3.5 rounded-xl bg-hotpink/60 border border-hotpink/30 space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-hotpink">
+                        <SemiFinalIcon />
                         <span>Semi-finalists</span>
                       </div>
                       <div className="text-base font-extrabold text-slate-900 font-mono">
@@ -955,17 +926,26 @@ export default function CreateTournamentPage() {
                     <span className="text-slate-500 font-medium">
                       Projected gross <strong className="text-slate-800 font-mono">₹{projectedGross.toLocaleString("en-IN")}</strong>
                     </span>
-                    <span className="text-slate-500 font-medium">
-                      Est. court costs <strong className="text-slate-800 font-mono">₹{estCourtCosts.toLocaleString("en-IN")}</strong>
-                    </span>
+                    <label className="flex items-center gap-1.5 text-slate-500 font-medium">
+                      <span>Your venue cost:</span>
+                      <span className="font-semibold text-slate-700">₹</span>
+                      <input
+                        type="number"
+                        min="0"
+                        step="500"
+                        value={venueCost}
+                        onChange={(e) => setVenueCost(e.target.value)}
+                        className="w-24 h-7 px-2 rounded-lg border border-slate-200 bg-white font-mono text-xs font-bold text-slate-800 focus:border-hotpink/30 focus:outline-none"
+                      />
+                    </label>
 
                     {hostNet < 0 ? (
-                      <span className="text-rose-800 bg-rose-50 border border-rose-200 px-3 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1">
+                      <span className="text-coral bg-cream border border-coral px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1">
                         <span>⚠</span>
                         <span>Host net -₹{Math.abs(hostNet).toLocaleString("en-IN")} · raise fee or cut prizes</span>
                       </span>
                     ) : (
-                      <span className="text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1">
+                      <span className="text-navy bg-cream border border-navy/20 px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1">
                         <span>✓</span>
                         <span>Host net +₹{hostNet.toLocaleString("en-IN")} · sustainable margin</span>
                       </span>
@@ -995,11 +975,12 @@ export default function CreateTournamentPage() {
                 <div className="space-y-3.5 pt-1">
                   {/* Row 1: Live Picker-Wheel vs Ranked Seeding */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div
+                    <button
+                      type="button"
                       onClick={() => setDrawEngine("wheel")}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                      className={`p-3.5 rounded-xl border transition-all cursor-pointer text-left w-full ${
                         drawEngine === "wheel"
-                          ? "border-slate-950 bg-amber-50/20 ring-1 ring-slate-950/10 shadow-xs"
+                          ? "border-slate-950 bg-hotpink/10/20 ring-1 ring-slate-950/10 shadow-xs"
                           : "border-slate-200 bg-white hover:border-slate-300"
                       }`}
                     >
@@ -1012,13 +993,14 @@ export default function CreateTournamentPage() {
                       <p className="text-[11px] text-slate-500 mt-1">
                         Transparent spin, server-verified result.
                       </p>
-                    </div>
+                    </button>
 
-                    <div
+                    <button
+                      type="button"
                       onClick={() => setDrawEngine("standard")}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                      className={`p-3.5 rounded-xl border transition-all cursor-pointer text-left w-full ${
                         drawEngine === "standard"
-                          ? "border-slate-950 bg-amber-50/20 ring-1 ring-slate-950/10 shadow-xs"
+                          ? "border-slate-950 bg-hotpink/10/20 ring-1 ring-slate-950/10 shadow-xs"
                           : "border-slate-200 bg-white hover:border-slate-300"
                       }`}
                     >
@@ -1031,7 +1013,7 @@ export default function CreateTournamentPage() {
                       <p className="text-[11px] text-slate-500 mt-1">
                         Top seeds at opposite poles.
                       </p>
-                    </div>
+                    </button>
                   </div>
 
                   {/* Row 2: 2 Full-Width Checkboxes */}
@@ -1097,21 +1079,21 @@ export default function CreateTournamentPage() {
           {/* RIGHT FIXED-WIDTH COLUMN: LIVE SUMMARY (Docked on Right)   */}
           {/* ========================================================== */}
           <div className="w-full xl:w-[360px] 2xl:w-[380px] shrink-0 xl:sticky xl:top-20">
-            <div className="bg-[#0B101B] text-white rounded-2xl p-5 sm:p-6 border border-slate-800/90 shadow-xl space-y-4">
+            <div className="bg-navy text-white rounded-2xl p-5 sm:p-6 border border-slate-800/90 shadow-xl space-y-4">
               
               {/* Header: LIVE SUMMARY & Ready to publish badge */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
                   LIVE SUMMARY
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-hotpink/20 text-hotpink border border-hotpink/30 text-[10px] font-bold">
                   Ready to publish
                 </span>
               </div>
 
               {/* Title & Host Info */}
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 block mb-1">
+                <span className="text-[10px] font-black uppercase tracking-wider text-hotpink block mb-1">
                   {tier}
                 </span>
                 <h3 className="text-base font-bold text-white leading-snug">
@@ -1133,8 +1115,8 @@ export default function CreateTournamentPage() {
 
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Venue</span>
-                  <span className="font-semibold text-white truncate max-w-[170px]">
-                    {selectedVenue ? selectedVenue.name.replace("Badminton", "").trim() : "Play9 Arena"}
+                  <span className="font-semibold text-white truncate max-w-[170px]" title={venue?.name ?? "Not selected yet"}>
+                    {venue?.name ?? "Not selected yet"}
                   </span>
                 </div>
 
@@ -1161,9 +1143,23 @@ export default function CreateTournamentPage() {
 
                 <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 font-bold">
                   <span className="text-slate-400">Prize pool</span>
-                  <span className="text-amber-400 font-mono text-base font-black">
+                  <span className="text-coral font-mono text-base font-black">
                     ₹{parseInt(prizePool, 10).toLocaleString("en-IN")}
                   </span>
+                </div>
+              </div>
+
+              {/* Automated SaaS Features Included Strip */}
+              <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1.5 text-[11px] text-slate-300">
+                <div className="flex items-center gap-1.5 text-white font-bold">
+                  <Sparkles className="w-3.5 h-3.5 text-coral" />
+                  <span>SaaS Automation Included:</span>
+                </div>
+                <div className="space-y-1 text-slate-400 pl-5 list-disc">
+                  <div>• 1-Click Automated Seeded Brackets</div>
+                  <div>• QR Mobile Umpire Scoring (No app required)</div>
+                  <div>• Automated WhatsApp Match Calls</div>
+                  <div>• 100% Escrow Direct Bank Payout</div>
                 </div>
               </div>
 
@@ -1173,26 +1169,23 @@ export default function CreateTournamentPage() {
                   type="button"
                   onClick={() => handleSubmit()}
                   disabled={isSubmitting}
-                  className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 px-4 rounded-xl bg-coral hover:brightness-105 active:scale-[0.99] text-navy text-sm font-black transition-all shadow-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span>Publish tournament</span>
+                  <span>Publish tournament &amp; launch entries</span>
                 </button>
               </div>
 
               {/* Footer Trust Pill */}
               <div className="pt-1 flex items-center justify-center text-[10px] text-slate-400 font-medium">
                 <span className="flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>UPI escrow · Audit locked</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-coral" />
+                  <span>100% entry fee escrow protected · Direct bank payout</span>
                 </span>
               </div>
-
             </div>
           </div>
-
         </div>
       </main>
-
     </div>
   );
 }

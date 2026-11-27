@@ -120,7 +120,7 @@ export function PartnerPoolModal({ tournament, isOpen, onClose }: PartnerPoolMod
                         <span className="inline-flex items-center gap-1 rounded-full bg-paper px-2 py-0.5 text-[11px] font-semibold text-muted border border-line">
                           {cand.area}
                         </span>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-700 dark:text-amber-400">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-hotpink/100/10 px-2 py-0.5 text-[11px] font-bold text-hotpink dark:text-hotpink">
                           <Trophy className="h-3 w-3" /> #{cand.circuitRank} Circuit
                         </span>
                       </div>
@@ -172,7 +172,7 @@ export function PartnerPoolModal({ tournament, isOpen, onClose }: PartnerPoolMod
           <div className="rounded-2xl border border-dashed border-line bg-paper p-4 text-center sm:text-left sm:flex items-center justify-between gap-4">
             <div className="space-y-0.5">
               <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-bold text-ink">
-                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                <Sparkles className="h-3.5 w-3.5 text-hotpink" />
                 <span>Prefer the Host to assign a random partner?</span>
               </div>
               <p className="text-[11px] text-muted">

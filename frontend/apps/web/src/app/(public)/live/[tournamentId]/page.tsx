@@ -45,7 +45,7 @@ export default async function BigScreenLiveBoardPage({
             className="rounded-3xl border-2 border-emerald-500/40 bg-gray-900/90 p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden"
           >
             <div className="flex items-center justify-between pb-4 border-b border-gray-800">
-              <span className="text-lg font-black text-amber-400 uppercase tracking-wider">
+              <span className="text-lg font-black text-hotpink uppercase tracking-wider">
                 COURT {m.courtNumber || idx + 1}
               </span>
               <span className="text-xs font-bold text-red-400 bg-red-500/20 px-3 py-1 rounded-full animate-pulse">

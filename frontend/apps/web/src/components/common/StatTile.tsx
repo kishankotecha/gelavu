@@ -19,23 +19,23 @@ export function StatTile({
   return (
     <div
       className={cn(
-        "rounded-xl border border-gray-800 bg-gray-900/60 p-4 transition-all hover:border-gray-700/80",
+        "rounded-xl border border-white/10 bg-navy/80 p-4 transition-all hover:border-white/10/80",
         className
       )}
     >
       <div className="flex items-center justify-between">
-        <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500">{label}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-white/60">{label}</p>
         {Icon && (
-          <div className="rounded-lg bg-gray-800/80 p-2 text-emerald-400">
+          <div className="rounded-lg bg-navy/80 p-2 text-hotpink">
             <Icon className="h-4 w-4" />
           </div>
         )}
       </div>
       <div className="mt-2 flex items-baseline gap-2">
         <span className="font-rogenz text-2xl sm:text-3xl font-bold tracking-wide text-white tabular-nums">{value}</span>
-        {trend && <span className="text-xs font-semibold text-emerald-400">{trend}</span>}
+        {trend && <span className="text-xs font-semibold text-hotpink">{trend}</span>}
       </div>
-      {subtext && <p className="mt-1 text-xs text-gray-500">{subtext}</p>}
+      {subtext && <p className="mt-1 text-xs text-white/60">{subtext}</p>}
     </div>
   );
 }

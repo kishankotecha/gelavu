@@ -16,11 +16,11 @@ export const SPORTS: { label: string; value: SportType; icon: string }[] = [
 ];
 
 export const TOURNAMENT_STATUSES: Record<TournamentStatus, { label: string; color: string }> = {
-  DRAFT: { label: "Draft", color: "bg-gray-500/10 text-gray-400 border-gray-600" },
+  DRAFT: { label: "Draft", color: "bg-gray-500/10 text-white/70 border-gray-600" },
   UPCOMING: { label: "Upcoming", color: "bg-blue-500/10 text-blue-400 border-blue-600" },
-  REGISTRATION_OPEN: { label: "Open for Entries", color: "bg-emerald-500/10 text-emerald-400 border-emerald-600" },
-  REGISTRATION_CLOSED: { label: "Entries Closed", color: "bg-amber-500/10 text-amber-400 border-amber-600" },
+  REGISTRATION_OPEN: { label: "Open for Entries", color: "bg-hotpink/10 text-hotpink border-emerald-600" },
+  REGISTRATION_CLOSED: { label: "Entries Closed", color: "bg-hotpink/100/10 text-hotpink border-hotpink/30" },
   LIVE: { label: "Live Now", color: "bg-red-500/10 text-red-400 border-red-600 animate-pulse" },
   COMPLETED: { label: "Finished", color: "bg-purple-500/10 text-purple-400 border-purple-600" },
-  CANCELLED: { label: "Cancelled", color: "bg-rose-500/10 text-rose-400 border-rose-600" },
+  CANCELLED: { label: "Cancelled", color: "bg-hotpink/10 text-hotpink border-rose-600" },
 };

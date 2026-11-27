@@ -43,16 +43,16 @@ export function PartnerWheel({
     }, 4000);
   };
 
-  const colors = ["#059669", "#0284c7", "#d97706", "#7c3aed", "#e11d48", "#0d9488", "#4f46e5", "#b45309"];
+  const colors = ["#059669", "#0284c7", "#d97706", "#7c3aed", "#e11d48", "#0d9488", "#4f46e5", "#FF685B"];
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-gray-900/80 rounded-2xl border border-gray-800 backdrop-blur-md">
+    <div className="flex flex-col items-center justify-center p-6 bg-gray-900/80 rounded-2xl border border-white/10 backdrop-blur-md">
       <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-white flex items-center justify-center gap-2">
-          <Sparkles className="w-5 h-5 text-amber-400" />
+          <Sparkles className="w-5 h-5 text-hotpink" />
           {title}
         </h3>
-        <p className="text-xs text-gray-400 mt-1 max-w-md mx-auto">
+        <p className="text-xs text-white/70 mt-1 max-w-md mx-auto">
           {subtitle}
         </p>
       </div>
@@ -60,11 +60,11 @@ export function PartnerWheel({
       {/* Wheel Container */}
       <div className="relative w-72 h-72 my-4 flex items-center justify-center">
         {/* Pointer indicator */}
-        <div className="absolute top-0 z-20 -mt-3 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[20px] border-t-amber-400 drop-shadow-md" />
+        <div className="absolute top-0 z-20 -mt-3 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[20px] border-t-hotpink drop-shadow-md" />
 
         {/* The rotating wheel */}
         <div
-          className="w-full h-full rounded-full border-4 border-amber-400/80 shadow-2xl overflow-hidden relative transition-transform duration-[4000ms] ease-out"
+          className="w-full h-full rounded-full border-4 border-hotpink/30 shadow-2xl overflow-hidden relative transition-transform duration-[4000ms] ease-out"
           style={{ transform: `rotate(${rotation}deg)` }}
         >
           {candidates.map((cand, index) => {
@@ -85,8 +85,8 @@ export function PartnerWheel({
         </div>
 
         {/* Center hub */}
-        <div className="absolute z-10 w-16 h-16 rounded-full bg-gray-950 border-4 border-amber-400 flex items-center justify-center shadow-lg">
-          <Users className="w-6 h-6 text-amber-400" />
+        <div className="absolute z-10 w-16 h-16 rounded-full bg-gray-950 border-4 border-hotpink/30 flex items-center justify-center shadow-lg">
+          <Users className="w-6 h-6 text-hotpink" />
         </div>
       </div>
 
@@ -96,14 +96,14 @@ export function PartnerWheel({
           disabled={spinning || candidates.length === 0}
           variant="gold"
           size="lg"
-          className="px-8 shadow-lg shadow-amber-500/20 cursor-pointer"
+          className="px-8 shadow-lg shadow-hotpink/20 cursor-pointer"
         >
           {spinning ? "Drawing Random Team..." : buttonLabel}
         </Button>
 
         {selectedPartner && (
-          <div className="mt-4 p-4 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-center animate-in zoom-in-95">
-            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">Host Draw Result</span>
+          <div className="mt-4 p-4 rounded-xl bg-hotpink/10 border border-hotpink/30 text-center animate-in zoom-in-95">
+            <span className="text-xs font-semibold text-hotpink uppercase tracking-widest">Host Draw Result</span>
             <h4 className="text-lg font-bold text-white mt-1">Drawn Partner: {selectedPartner.name}</h4>
           </div>
         )}

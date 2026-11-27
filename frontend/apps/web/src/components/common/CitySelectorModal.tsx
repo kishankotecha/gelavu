@@ -100,7 +100,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
             <h2 id="city-modal-title" className="text-lg font-black text-gray-900 tracking-tight">
               Select Your City
             </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs text-white/60 mt-0.5">
               Find tournaments and live matches happening in your area
             </p>
           </div>
@@ -121,7 +121,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
               e.stopPropagation();
               onClose();
             }}
-            className="p-2.5 -mr-1.5 rounded-full hover:bg-gray-100 active:bg-gray-200 text-gray-400 hover:text-gray-900 transition-colors cursor-pointer flex items-center justify-center shrink-0"
+            className="p-2.5 -mr-1.5 rounded-full hover:bg-gray-100 active:bg-gray-200 text-white/70 hover:text-gray-900 transition-colors cursor-pointer flex items-center justify-center shrink-0"
             aria-label="Close modal"
             title="Close modal"
           >
@@ -133,19 +133,19 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
         <div className="p-6 pb-2 space-y-3">
           {/* Search Box */}
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70" />
             <input
               type="text"
               placeholder="Search city, e.g. Bengaluru, Hyderabad, Mumbai, Mysuru..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 pl-10 pr-9 rounded-2xl bg-gray-50 border border-gray-200 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-black focus:bg-white transition-all"
+              className="w-full h-11 pl-10 pr-9 rounded-2xl bg-gray-50 border border-gray-200 text-xs sm:text-sm text-gray-900 placeholder:text-white/70 focus:outline-none focus:border-black focus:bg-white transition-all"
               autoFocus
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-white/70 hover:text-gray-600"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -160,7 +160,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
             className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/80 text-emerald-900 transition-all cursor-pointer group disabled:opacity-60"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <div className="w-8 h-8 rounded-xl bg-hotpink text-white flex items-center justify-center shrink-0 shadow-xs">
                 {isDetecting ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
@@ -185,7 +185,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
           </button>
 
           {detectionError && (
-            <p className="text-[11px] text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+            <p className="text-[11px] text-hotpink bg-hotpink/10 p-2.5 rounded-xl border border-hotpink/40">
               {detectionError}
             </p>
           )}
@@ -196,10 +196,10 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
           {!searchQuery && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">
+                <span className="text-[11px] font-black uppercase tracking-wider text-white/70">
                   Popular Sports Hubs
                 </span>
-                <span className="text-[11px] text-gray-400">12 major hubs</span>
+                <span className="text-[11px] text-white/70">12 major hubs</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -220,7 +220,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
                         <span className="text-xs font-bold block truncate">{c.name}</span>
                         <span
                           className={`text-[10px] block truncate ${
-                            isSelected ? "text-gray-300" : "text-gray-400"
+                            isSelected ? "text-white/80" : "text-white/70"
                           }`}
                         >
                           {c.state}
@@ -229,7 +229,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
                       {isSelected ? (
                         <Check className="w-3.5 h-3.5 text-[#D4FF00] shrink-0" />
                       ) : (
-                        <MapPin className="w-3 h-3 text-gray-300 shrink-0" />
+                        <MapPin className="w-3 h-3 text-white/80 shrink-0" />
                       )}
                     </button>
                   );
@@ -240,17 +240,17 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
 
           {/* All Cities / Search Results */}
           <div>
-            <span className="text-[11px] font-black uppercase tracking-wider text-gray-400 block mb-3">
+            <span className="text-[11px] font-black uppercase tracking-wider text-white/70 block mb-3">
               {searchQuery ? `Search Results (${filteredCities.length})` : "All Other Cities & Towns"}
             </span>
 
             {filteredCities.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
+              <div className="text-center py-8 text-white/70">
                 <Building2 className="w-8 h-8 mx-auto mb-2 opacity-40" />
                 <p className="text-xs font-semibold text-gray-600">
                   No registered tournament city matches &ldquo;{searchQuery}&rdquo;
                 </p>
-                <p className="text-[11px] text-gray-400 mt-1">
+                <p className="text-[11px] text-white/70 mt-1">
                   You can still host a tournament in your town!
                 </p>
               </div>
@@ -268,7 +268,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
                       <div className="flex items-center gap-2.5">
                         <MapPin
                           className={`w-3.5 h-3.5 ${
-                            isSelected ? "text-emerald-600" : "text-gray-400 group-hover:text-black"
+                            isSelected ? "text-hotpink" : "text-white/70 group-hover:text-black"
                           }`}
                         />
                         <div>
@@ -279,7 +279,7 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
                           >
                             {c.name}
                           </span>
-                          <span className="text-[10px] text-gray-400 block">{c.state}</span>
+                          <span className="text-[10px] text-white/70 block">{c.state}</span>
                         </div>
                       </div>
 
@@ -297,9 +297,9 @@ export function CitySelectorModal({ isOpen, onClose }: CitySelectorModalProps) {
         </div>
 
         {/* Footer info */}
-        <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+        <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-white/60">
           <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+            <Sparkles className="w-3.5 h-3.5 text-hotpink shrink-0" />
             <span>Tournaments, courts and live draws adapt to your chosen city</span>
           </div>
           <button

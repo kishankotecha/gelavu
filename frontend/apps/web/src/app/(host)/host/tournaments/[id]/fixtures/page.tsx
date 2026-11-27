@@ -330,9 +330,9 @@ export default function HostFixturesPage({
           <div className="space-y-1">
             <Link
               href={`/host/tournaments/${tournamentId}/entries`}
-              className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#1D4A38] transition-colors font-bold cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#14212D] transition-colors font-bold cursor-pointer"
             >
-              <ArrowLeft className="w-3.5 h-3.5 text-[#1D4A38]" />
+              <ArrowLeft className="w-3.5 h-3.5 text-[#14212D]" />
               <span>← Back to Entrants ({confirmedEntries.length} Players in #{tournamentId})</span>
             </Link>
 
@@ -347,7 +347,7 @@ export default function HostFixturesPage({
             </div>
 
             <DashboardLead className="text-xs sm:text-sm flex items-center gap-2 pt-1 !mt-0">
-              <Users className="w-3.5 h-3.5 text-[#1D4A38]" />
+              <Users className="w-3.5 h-3.5 text-[#14212D]" />
               <span>
                 <strong className="text-[#1E293B] font-extrabold">
                   {activeCategoryEntries.length > 0 ? activeCategoryEntries.length : confirmedEntries.length}
@@ -364,7 +364,7 @@ export default function HostFixturesPage({
             type="button"
             onClick={handleRegenerateFromEntries}
             disabled={isLocked}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#DE9D35] hover:bg-[#C98B28] text-[#0B1220] px-5 py-3 text-xs font-black transition-all shadow-xs disabled:opacity-50 cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-2xl bg-[#FF685B] hover:bg-[#C98B28] text-[#14212D] px-5 py-3 text-xs font-black transition-all shadow-xs disabled:opacity-50 cursor-pointer"
             title="Re-populate bracket seeds using latest Excel / manual player entries"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -376,8 +376,8 @@ export default function HostFixturesPage({
             onClick={handleLockPublish}
             className={`inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-xs font-black transition-all shadow-xs cursor-pointer ${
               isLocked
-                ? "bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] hover:bg-[#DCE7E0]"
-                : "bg-gradient-to-r from-[#1D4A38] to-[#153A2C] hover:brightness-105 text-white shadow-md shadow-emerald-950/15"
+                ? "bg-[#E8EFEA] border border-[#CAD7CE] text-[#14212D] hover:bg-[#DCE7E0]"
+                : "bg-navy hover:brightness-105 text-white shadow-md shadow-emerald-950/15"
             }`}
           >
             <Lock className="w-3.5 h-3.5" />
@@ -399,7 +399,7 @@ export default function HostFixturesPage({
               onClick={() => handleCategoryChange(cat)}
               className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-[#1D4A38] text-white shadow-2xs"
+                  ? "bg-[#14212D] text-white shadow-2xs"
                   : "bg-[#F9FAF6] text-[#64748B] hover:text-[#1E293B] border border-[#E2E6DD]"
               }`}
             >
@@ -415,7 +415,7 @@ export default function HostFixturesPage({
             onClick={() => setDrawStrategy("standard")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-black transition-all cursor-pointer ${
               drawStrategy === "standard"
-                ? "bg-[#1D4A38] text-white shadow-xs"
+                ? "bg-[#14212D] text-white shadow-xs"
                 : "text-[#64748B] hover:text-[#1E293B]"
             }`}
           >
@@ -427,7 +427,7 @@ export default function HostFixturesPage({
             onClick={() => setDrawStrategy("wheel")}
             className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-black transition-all cursor-pointer ${
               drawStrategy === "wheel"
-                ? "bg-[#DE9D35] text-[#0B1220] shadow-xs"
+                ? "bg-[#FF685B] text-[#14212D] shadow-xs"
                 : "text-[#64748B] hover:text-[#1E293B]"
             }`}
           >
@@ -465,10 +465,10 @@ export default function HostFixturesPage({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-lg font-black text-[#1E293B] flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-[#DE9D35]" />
+              <Trophy className="w-5 h-5 text-[#FF685B]" />
               <span>Championship Knockout Tree</span>
             </h3>
-            <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] px-2.5 py-0.5 text-[11px] font-black text-[#1D4A38]">
+            <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] px-2.5 py-0.5 text-[11px] font-black text-[#14212D]">
               {selectedCategory}
             </span>
             <span className="text-xs font-semibold text-[#64748B]">
@@ -481,21 +481,21 @@ export default function HostFixturesPage({
             <button
               type="button"
               onClick={() => scrollToRound(0)}
-              className="px-3 py-1.5 rounded-lg bg-white border border-[#CAD7CE] hover:bg-[#E8EFEA] text-[#1D4A38] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-white border border-[#CAD7CE] hover:bg-[#E8EFEA] text-[#14212D] transition-colors cursor-pointer"
             >
               1. Quarter-Finals (4)
             </button>
             <button
               type="button"
               onClick={() => scrollToRound(50)}
-              className="px-3 py-1.5 rounded-lg bg-white border border-[#CAD7CE] hover:bg-[#E8EFEA] text-[#1D4A38] transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-white border border-[#CAD7CE] hover:bg-[#E8EFEA] text-[#14212D] transition-colors cursor-pointer"
             >
               2. Semi-Finals (2)
             </button>
             <button
               type="button"
               onClick={() => scrollToRound(100)}
-              className="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-300 hover:bg-amber-100 text-amber-900 transition-colors cursor-pointer flex items-center gap-1"
+              className="px-3 py-1.5 rounded-lg bg-hotpink/10 border border-hotpink/30 hover:bg-hotpink/15 text-navy transition-colors cursor-pointer flex items-center gap-1"
             >
               <span>3. Grand Final 🏆</span>
             </button>
@@ -505,7 +505,7 @@ export default function HostFixturesPage({
         {/* ============================================================ */}
         {/* Integrated Bracket Container with Attached Bottom Scroller    */}
         {/* ============================================================ */}
-        <div className="rounded-3xl border-2 border-[#1D4A38]/20 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-3xl border-2 border-[#14212D]/20 bg-white shadow-sm overflow-hidden">
           
           {/* Scrollable Bracket Rounds Canvas */}
           <div
@@ -527,7 +527,7 @@ export default function HostFixturesPage({
             {/* -------------------------------------------------------- */}
             <div className="w-[280px] shrink-0 space-y-4">
               <div className="flex items-center justify-between pb-2.5 border-b-2 border-emerald-600">
-                <span className="text-xs font-black uppercase tracking-wider text-[#1D4A38] flex items-center gap-1.5">
+                <span className="text-xs font-black uppercase tracking-wider text-[#14212D] flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   Quarter-Finals (QF)
                 </span>
@@ -552,7 +552,7 @@ export default function HostFixturesPage({
                       <button
                         type="button"
                         onClick={() => setSelectedMatchForIssue(m)}
-                        className="inline-flex items-center gap-1 text-[10px] font-bold text-[#B45309] hover:underline cursor-pointer"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold text-[#FF685B] hover:underline cursor-pointer"
                       >
                         <Edit3 className="w-2.5 h-2.5" /> Adjust
                       </button>
@@ -571,7 +571,7 @@ export default function HostFixturesPage({
                       title="Click to advance as Winner"
                     >
                       <div className="flex items-center gap-2 truncate mr-2">
-                        <span className="w-5 h-5 rounded-md bg-gradient-to-tr from-[#1D4A38] to-emerald-600 text-white font-mono text-[9px] font-black flex items-center justify-center shrink-0 shadow-2xs">
+                        <span className="w-5 h-5 rounded-md bg-navy text-white font-mono text-[9px] font-black flex items-center justify-center shrink-0 shadow-2xs">
                           {m.team1.seed ? `#${m.team1.seed}` : "1"}
                         </span>
                         <span className="truncate">{m.team1.name}</span>
@@ -601,7 +601,7 @@ export default function HostFixturesPage({
                       title="Click to advance as Winner"
                     >
                       <div className="flex items-center gap-2 truncate mr-2">
-                        <span className="w-5 h-5 rounded-md bg-gradient-to-tr from-slate-700 to-slate-900 text-white font-mono text-[9px] font-black flex items-center justify-center shrink-0 shadow-2xs">
+                        <span className="w-5 h-5 rounded-md bg-navy text-white font-mono text-[9px] font-black flex items-center justify-center shrink-0 shadow-2xs">
                           {m.team2.seed ? `#${m.team2.seed}` : "2"}
                         </span>
                         <span className="truncate">{m.team2.name}</span>
@@ -652,12 +652,12 @@ export default function HostFixturesPage({
             {/* COLUMN 2: SEMI-FINALS (2 Matches)                        */}
             {/* -------------------------------------------------------- */}
             <div className="w-[280px] shrink-0 h-[620px] flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-2.5 border-b-2 border-amber-500">
-                <span className="text-xs font-black uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <div className="flex items-center justify-between pb-2.5 border-b-2 border-hotpink/30">
+                <span className="text-xs font-black uppercase tracking-wider text-navy flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-hotpink animate-pulse" />
                   Semi-Finals (SF)
                 </span>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-200">
+                <span className="text-[10px] font-mono font-bold text-navy bg-hotpink/15 px-2 py-0.5 rounded-full border border-hotpink/30">
                   2 Matches
                 </span>
               </div>
@@ -672,16 +672,16 @@ export default function HostFixturesPage({
                   return (
                     <div
                       key={m.id}
-                      className="rounded-2xl p-3.5 space-y-2 border-2 border-amber-300 bg-white shadow-xs transition-all hover:shadow-md hover:border-amber-500"
+                      className="rounded-2xl p-3.5 space-y-2 border-2 border-hotpink/30 bg-white shadow-xs transition-all hover:shadow-md hover:border-hotpink/30"
                     >
                       <div className="flex items-center justify-between text-[11px] text-[#64748B]">
-                        <span className="font-mono font-bold text-[10px] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md text-amber-900">
+                        <span className="font-mono font-bold text-[10px] bg-hotpink/10 border border-hotpink/30 px-2 py-0.5 rounded-md text-navy">
                           {m.court} · {m.time}
                         </span>
                         <button
                           type="button"
                           onClick={() => setSelectedMatchForIssue(m)}
-                          className="inline-flex items-center gap-1 text-[10px] font-bold text-[#B45309] hover:underline cursor-pointer"
+                          className="inline-flex items-center gap-1 text-[10px] font-bold text-[#FF685B] hover:underline cursor-pointer"
                         >
                           <Edit3 className="w-2.5 h-2.5" /> Adjust
                         </button>
@@ -692,10 +692,10 @@ export default function HostFixturesPage({
                         onClick={() => handlePickWinner(matchIdx, 1)}
                         className={`p-2 rounded-xl border-2 transition-all flex items-center justify-between text-xs cursor-pointer ${
                           isT1Winner
-                            ? "bg-amber-100 border-amber-500 text-amber-950 font-black shadow-2xs"
+                            ? "bg-hotpink/15 border-hotpink/30 text-navy font-black shadow-2xs"
                             : isT2Winner
                             ? "bg-slate-50/50 border-slate-100 text-slate-400 opacity-60"
-                            : "bg-white border-slate-200 hover:border-amber-300 text-slate-800 font-bold hover:bg-amber-50/30"
+                            : "bg-white border-slate-200 hover:border-hotpink/30 text-slate-800 font-bold hover:bg-hotpink/10/30"
                         }`}
                       >
                         <span className="truncate mr-2">{m.team1.name}</span>
@@ -704,9 +704,9 @@ export default function HostFixturesPage({
                             {m.team1.score ?? "—"}
                           </span>
                           {isT1Winner ? (
-                            <CheckCircle2 className="w-4 h-4 text-amber-700" />
+                            <CheckCircle2 className="w-4 h-4 text-hotpink" />
                           ) : (
-                            <span className="text-[10px] text-slate-400 font-bold hover:text-amber-800">Advance</span>
+                            <span className="text-[10px] text-slate-400 font-bold hover:text-navy">Advance</span>
                           )}
                         </div>
                       </div>
@@ -716,10 +716,10 @@ export default function HostFixturesPage({
                         onClick={() => handlePickWinner(matchIdx, 2)}
                         className={`p-2 rounded-xl border-2 transition-all flex items-center justify-between text-xs cursor-pointer ${
                           isT2Winner
-                            ? "bg-amber-100 border-amber-500 text-amber-950 font-black shadow-2xs"
+                            ? "bg-hotpink/15 border-hotpink/30 text-navy font-black shadow-2xs"
                             : isT1Winner
                             ? "bg-slate-50/50 border-slate-100 text-slate-400 opacity-60"
-                            : "bg-white border-slate-200 hover:border-amber-300 text-slate-800 font-bold hover:bg-amber-50/30"
+                            : "bg-white border-slate-200 hover:border-hotpink/30 text-slate-800 font-bold hover:bg-hotpink/10/30"
                         }`}
                       >
                         <span className="truncate mr-2">{m.team2.name}</span>
@@ -728,9 +728,9 @@ export default function HostFixturesPage({
                             {m.team2.score ?? "—"}
                           </span>
                           {isT2Winner ? (
-                            <CheckCircle2 className="w-4 h-4 text-amber-700" />
+                            <CheckCircle2 className="w-4 h-4 text-hotpink" />
                           ) : (
-                            <span className="text-[10px] text-slate-400 font-bold hover:text-amber-800">Advance</span>
+                            <span className="text-[10px] text-slate-400 font-bold hover:text-navy">Advance</span>
                           )}
                         </div>
                       </div>
@@ -749,7 +749,7 @@ export default function HostFixturesPage({
                 <path
                   d="M 0 178 H 20 V 482 H 0 M 20 330 H 40"
                   fill="none"
-                  stroke={matches[6]?.status === "COMPLETED" ? "#DE9D35" : "#CBD5E1"}
+                  stroke={matches[6]?.status === "COMPLETED" ? "#FF685B" : "#CBD5E1"}
                   strokeWidth="3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -761,29 +761,29 @@ export default function HostFixturesPage({
             {/* COLUMN 3: CHAMPIONSHIP FINAL (1 Match)                   */}
             {/* -------------------------------------------------------- */}
             <div className="w-[310px] shrink-0 h-[620px] flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-2.5 border-b-2 border-[#DE9D35]">
-                <span className="text-xs font-black uppercase tracking-wider text-[#855305] flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#DE9D35] animate-pulse" />
+              <div className="flex items-center justify-between pb-2.5 border-b-2 border-[#FF685B]">
+                <span className="text-xs font-black uppercase tracking-wider text-[#FF685B] flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#FF685B] animate-pulse" />
                   Grand Championship Final
                 </span>
-                <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                <span className="text-[10px] font-mono font-bold text-navy bg-hotpink/15 px-2 py-0.5 rounded-full border border-hotpink/30">
                   Gold Showdown
                 </span>
               </div>
 
               {matches[6] && (
-                <div className="my-auto rounded-3xl p-5 space-y-3.5 border-3 border-[#DE9D35] bg-gradient-to-b from-[#FFFDF7] via-white to-amber-50/40 shadow-xl shadow-amber-500/10">
+                <div className="my-auto rounded-3xl p-5 space-y-3.5 border-3 border-coral bg-white shadow-xl">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <RealisticShuttlecock size={24} />
-                      <span className="text-xs font-black text-[#855305] uppercase">
+                      <span className="text-xs font-black text-[#FF685B] uppercase">
                         Center Court Gold Match
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={() => setSelectedMatchForIssue(matches[6])}
-                      className="text-[10px] font-bold text-[#B45309] hover:underline cursor-pointer"
+                      className="text-[10px] font-bold text-[#FF685B] hover:underline cursor-pointer"
                     >
                       Adjust
                     </button>
@@ -792,7 +792,7 @@ export default function HostFixturesPage({
                   {/* Finalist 1 */}
                   <div
                     onClick={() => handlePickWinner(6, 1)}
-                    className="p-3 rounded-2xl border-2 border-amber-300 hover:border-amber-500 bg-white flex items-center justify-between text-xs font-black text-[#1E293B] cursor-pointer shadow-xs transition-all hover:scale-[1.01]"
+                    className="p-3 rounded-2xl border-2 border-hotpink/30 hover:border-hotpink/30 bg-white flex items-center justify-between text-xs font-black text-[#1E293B] cursor-pointer shadow-xs transition-all hover:scale-[1.01]"
                   >
                     <div className="flex items-center gap-2 truncate mr-2">
                       <span className="text-sm">🥇</span>
@@ -800,7 +800,7 @@ export default function HostFixturesPage({
                     </div>
                     <button
                       type="button"
-                      className="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-[#DE9D35] to-[#F3D15A] text-[#0B1220] text-[10px] font-black uppercase hover:brightness-105 shadow-xs cursor-pointer shrink-0"
+                      className="px-2.5 py-1.5 rounded-xl bg-coral text-[#14212D] text-[10px] font-black uppercase hover:brightness-105 shadow-xs cursor-pointer shrink-0"
                     >
                       Crown Winner 👑
                     </button>
@@ -809,7 +809,7 @@ export default function HostFixturesPage({
                   {/* Finalist 2 */}
                   <div
                     onClick={() => handlePickWinner(6, 2)}
-                    className="p-3 rounded-2xl border-2 border-amber-300 hover:border-amber-500 bg-white flex items-center justify-between text-xs font-black text-[#1E293B] cursor-pointer shadow-xs transition-all hover:scale-[1.01]"
+                    className="p-3 rounded-2xl border-2 border-hotpink/30 hover:border-hotpink/30 bg-white flex items-center justify-between text-xs font-black text-[#1E293B] cursor-pointer shadow-xs transition-all hover:scale-[1.01]"
                   >
                     <div className="flex items-center gap-2 truncate mr-2">
                       <span className="text-sm">🥇</span>
@@ -817,13 +817,13 @@ export default function HostFixturesPage({
                     </div>
                     <button
                       type="button"
-                      className="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-[#DE9D35] to-[#F3D15A] text-[#0B1220] text-[10px] font-black uppercase hover:brightness-105 shadow-xs cursor-pointer shrink-0"
+                      className="px-2.5 py-1.5 rounded-xl bg-coral text-[#14212D] text-[10px] font-black uppercase hover:brightness-105 shadow-xs cursor-pointer shrink-0"
                     >
                       Crown Winner 👑
                     </button>
                   </div>
 
-                  <div className="pt-2 text-xs font-bold text-slate-600 flex items-center justify-between border-t border-amber-200">
+                  <div className="pt-2 text-xs font-bold text-slate-600 flex items-center justify-between border-t border-hotpink/30">
                     <span>{matches[6].time} · Center Court</span>
                     <span className="text-emerald-700 font-black">Official BWF · Best of 3 Sets</span>
                   </div>
@@ -841,7 +841,7 @@ export default function HostFixturesPage({
                   y1="330"
                   x2="32"
                   y2="330"
-                  stroke={championTeam ? "#DE9D35" : "#CBD5E1"}
+                  stroke={championTeam ? "#FF685B" : "#CBD5E1"}
                   strokeWidth="3"
                   strokeDasharray={championTeam ? "none" : "4 4"}
                   strokeLinecap="round"
@@ -853,9 +853,9 @@ export default function HostFixturesPage({
             {/* COLUMN 4: PODIUM & CHAMPION PRESENTATION                 */}
             {/* -------------------------------------------------------- */}
             <div className="w-[290px] shrink-0 h-[620px] flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-2.5 border-b-2 border-amber-600">
-                <span className="text-xs font-black uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-600" />
+              <div className="flex items-center justify-between pb-2.5 border-b-2 border-hotpink/30">
+                <span className="text-xs font-black uppercase tracking-wider text-navy flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-hotpink" />
                   Podium Celebration
                 </span>
                 <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-200">
@@ -863,10 +863,10 @@ export default function HostFixturesPage({
                 </span>
               </div>
 
-              <div className="my-auto rounded-3xl border-3 border-amber-400 bg-gradient-to-br from-[#FFFDF7] via-white to-amber-50 p-6 text-center space-y-4 shadow-xl shadow-amber-500/10 relative overflow-hidden">
+              <div className="my-auto rounded-3xl border-3 border-hotpink/30 bg-cream p-6 text-center space-y-4 shadow-xl shadow-hotpink/20 relative overflow-hidden">
                 {/* Top Radiant Specular Ribbon */}
-                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#DE9D35] via-[#F3D15A] to-[#DE9D35]" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[#F3D15A]/15 blur-2xl pointer-events-none" />
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-coral" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[#FF685B]/15 blur-2xl pointer-events-none" />
 
                 {/* 3D Realistic Trophy */}
                 <div className="relative z-10 flex justify-center py-1">
@@ -874,10 +874,10 @@ export default function HostFixturesPage({
                 </div>
 
                 <div className="relative z-10">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#855305] block">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#FF685B] block">
                     OFFICIAL GELAVU CHAMPION
                   </span>
-                  <h4 className="text-lg font-black text-[#0B1220] mt-1 tracking-tight">
+                  <h4 className="text-lg font-black text-[#14212D] mt-1 tracking-tight">
                     {championTeam || "Awaiting Final Result..."}
                   </h4>
                 </div>
@@ -901,11 +901,11 @@ export default function HostFixturesPage({
         {/* ------------------------------------------------------------ */}
         {/* RASA-STYLE INTEGRATED BOTTOM BRACKET SCROLLER BAR            */}
         {/* ------------------------------------------------------------ */}
-        <div className="bg-white border-t-2 border-[#1D4A38]/20 p-4 sm:p-5 space-y-3">
+        <div className="bg-white border-t-2 border-[#14212D]/20 p-4 sm:p-5 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-100 text-[#1D4A38] shadow-2xs">
-                <Sliders className="w-4 h-4 text-[#DE9D35]" />
+              <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-100 text-[#14212D] shadow-2xs">
+                <Sliders className="w-4 h-4 text-[#FF685B]" />
               </span>
               <div>
                 <span className="text-xs font-black text-[#1E293B] block">
@@ -923,7 +923,7 @@ export default function HostFixturesPage({
                 onClick={() => scrollToRound(0)}
                 className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                   scrollProgress < 25
-                    ? "bg-[#1D4A38] text-white border-[#1D4A38] shadow-xs"
+                    ? "bg-[#14212D] text-white border-[#14212D] shadow-xs"
                     : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
                 }`}
               >
@@ -935,7 +935,7 @@ export default function HostFixturesPage({
                 onClick={() => scrollToRound(50)}
                 className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                   scrollProgress >= 25 && scrollProgress < 75
-                    ? "bg-[#1D4A38] text-white border-[#1D4A38] shadow-xs"
+                    ? "bg-[#14212D] text-white border-[#14212D] shadow-xs"
                     : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
                 }`}
               >
@@ -946,8 +946,8 @@ export default function HostFixturesPage({
                 onClick={() => scrollToRound(100)}
                 className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border text-xs font-black transition-all cursor-pointer ${
                   scrollProgress >= 75
-                    ? "bg-[#DE9D35] text-[#0B1220] border-[#DE9D35] shadow-xs"
-                    : "bg-amber-50 border-amber-300 text-amber-900 hover:bg-amber-100"
+                    ? "bg-[#FF685B] text-[#14212D] border-[#FF685B] shadow-xs"
+                    : "bg-hotpink/10 border-hotpink/30 text-navy hover:bg-hotpink/15"
                 }`}
               >
                 <span>Final &amp; Podium 🏆</span>
@@ -965,7 +965,7 @@ export default function HostFixturesPage({
               step="1"
               value={scrollProgress}
               onChange={handleSliderChange}
-              className="w-full h-3 rounded-lg bg-slate-200 accent-[#1D4A38] cursor-pointer"
+              className="w-full h-3 rounded-lg bg-slate-200 accent-[#14212D] cursor-pointer"
               aria-label="Horizontal Bracket Scroller"
             />
             <div className="flex justify-between text-[10px] font-bold text-slate-500 font-mono">
@@ -975,7 +975,7 @@ export default function HostFixturesPage({
               <span className={scrollProgress >= 25 && scrollProgress < 75 ? "text-emerald-800 font-black" : "text-slate-500"}>
                 Semi-Finals (Round 2)
               </span>
-              <span className={scrollProgress >= 75 ? "text-[#DE9D35] font-black" : "text-slate-500"}>
+              <span className={scrollProgress >= 75 ? "text-[#FF685B] font-black" : "text-slate-500"}>
                 Championship Final &amp; Podium 🏆
               </span>
             </div>

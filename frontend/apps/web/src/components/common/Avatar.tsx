@@ -87,7 +87,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "rounded-full bg-gradient-to-tr from-amber-600 via-orange-600 to-red-600 text-white font-black flex items-center justify-center border-2 border-white/20 select-none shadow-md shrink-0",
+        "rounded-full bg-coral text-white font-black flex items-center justify-center border-2 border-white/20 select-none shadow-md shrink-0",
         sizeMap[size],
         className
       )}

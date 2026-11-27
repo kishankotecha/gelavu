@@ -25,6 +25,7 @@ function writeStore(data: StoredPlayoRatings) {
 
 /** Demo seed: badminton peer graph + pool with 8 games (recent games unrated). */
 export function getDemoPeerRatingsForUser(_userId: string): PlayoPeerRatingEvent[] {
+  void _userId;
   return [
     {
       activityId: "pool-legacy",

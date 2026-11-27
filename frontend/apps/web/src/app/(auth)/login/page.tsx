@@ -125,7 +125,7 @@ export default function LoginPage() {
 
         {/* Security badge */}
         <div className="flex items-center justify-center gap-1.5 text-[11px] font-medium text-muted mt-5">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <ShieldCheck className="w-4 h-4 text-hotpink" />
           <span>Your number stays private and secure</span>
         </div>
       </div>

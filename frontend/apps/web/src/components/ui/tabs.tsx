@@ -32,7 +32,7 @@ export function TabsList({ className, ...props }: React.HTMLAttributes<HTMLDivEl
   return (
     <div
       className={cn(
-        "inline-flex h-10 items-center justify-start rounded-lg bg-gray-900 p-1 text-gray-400 border border-gray-800",
+        "inline-flex h-10 items-center justify-start rounded-lg bg-gray-900 p-1 text-white/70 border border-white/10",
         className
       )}
       {...props}
@@ -59,8 +59,8 @@ export function TabsTrigger({
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-all cursor-pointer",
         isActive
-          ? "bg-emerald-600 text-white shadow-sm font-semibold"
-          : "text-gray-400 hover:text-white hover:bg-gray-800/50",
+          ? "bg-hotpink text-white shadow-sm font-semibold"
+          : "text-white/70 hover:text-white hover:bg-navy/50",
         className
       )}
     >

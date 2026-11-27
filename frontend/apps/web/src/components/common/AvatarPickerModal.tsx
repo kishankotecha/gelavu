@@ -203,15 +203,15 @@ export function AvatarPickerModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-3xl bg-[#121622] border border-[#313747] text-white shadow-2xl overflow-hidden"
+        className="relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-3xl bg-navy border border-[#14212D] text-white shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#313747] bg-[#182030]/60 shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#14212D] bg-navy/60 shrink-0">
           <div>
             <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 rounded-full bg-[#F3D15A] animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#F3D15A]">
+              <span className="flex h-2 w-2 rounded-full bg-hotpink animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-wider text-hotpink">
                 Athlete Identity
               </span>
             </div>
@@ -223,7 +223,7 @@ export function AvatarPickerModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -231,14 +231,14 @@ export function AvatarPickerModal({
         </div>
 
         {/* 3 Mode Navigation Tabs */}
-        <div className="grid grid-cols-3 gap-1 p-2 bg-[#0A0D14]/80 border-b border-[#313747] shrink-0">
+        <div className="grid grid-cols-3 gap-1 p-2 bg-navy/80 border-b border-[#14212D] shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab("stickers")}
             className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === "stickers"
-                ? "bg-[#F3D15A] text-[#0A0D14] shadow-md"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
+                ? "bg-hotpink text-navy shadow-md"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             <Smile className="w-4 h-4" />
@@ -250,8 +250,8 @@ export function AvatarPickerModal({
             onClick={() => setActiveTab("upload")}
             className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === "upload"
-                ? "bg-[#F3D15A] text-[#0A0D14] shadow-md"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
+                ? "bg-hotpink text-navy shadow-md"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             <Upload className="w-4 h-4" />
@@ -263,8 +263,8 @@ export function AvatarPickerModal({
             onClick={() => setActiveTab("camera")}
             className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-black transition-all cursor-pointer ${
               activeTab === "camera"
-                ? "bg-[#F3D15A] text-[#0A0D14] shadow-md"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
+                ? "bg-hotpink text-navy shadow-md"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             <Camera className="w-4 h-4" />
@@ -281,10 +281,10 @@ export function AvatarPickerModal({
             <div className="space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-bold text-gray-300">
+                  <p className="text-xs font-bold text-white/80">
                     Express your game with a crazy cartoon sports sticker.
                   </p>
-                  <p className="text-[11px] text-gray-500">
+                  <p className="text-[11px] text-white/60">
                     No photo? Stand out on the leaderboard with pure humor &amp; energy.
                   </p>
                 </div>
@@ -293,7 +293,7 @@ export function AvatarPickerModal({
                   type="button"
                   onClick={handleRollSticker}
                   disabled={isRolling}
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#DE9D35]/20 border border-[#DE9D35]/40 text-[#F3D15A] text-xs font-black hover:bg-[#DE9D35]/30 active:scale-95 transition-all cursor-pointer shrink-0"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-hotpink/20 border border-[#FF685B]/40 text-hotpink text-xs font-black hover:bg-hotpink/30 active:scale-95 transition-all cursor-pointer shrink-0"
                 >
                   <Dices className={`w-4 h-4 ${isRolling ? "animate-spin" : ""}`} />
                   <span>{isRolling ? "Rolling..." : "Roll Random 🎲"}</span>
@@ -302,18 +302,18 @@ export function AvatarPickerModal({
 
               {/* Active Selection Highlight Bar */}
               {currentStickerObj && (
-                <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-gradient-to-r from-[#182030] to-[#121622] border border-[#313747] shadow-inner">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#F3D15A] shrink-0 shadow-lg">
+                <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-navy border border-[#14212D] shadow-inner">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF685B] shrink-0 shadow-lg">
                     {React.createElement(currentStickerObj.SvgComponent, { className: "w-full h-full" })}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-base font-black text-white">{currentStickerObj.name}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-[#F3D15A]/20 text-[#F3D15A] font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-hotpink/20 text-hotpink font-bold">
                         {currentStickerObj.trait}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-300 italic mt-0.5 truncate">
+                    <p className="text-xs text-white/80 italic mt-0.5 truncate">
                       &ldquo;{currentStickerObj.tagline}&rdquo;
                     </p>
                   </div>
@@ -333,13 +333,13 @@ export function AvatarPickerModal({
                       onClick={() => setSelectedAvatar(`sticker:${sticker.id}`)}
                       className={`group relative flex flex-col items-center p-3 rounded-2xl border transition-all cursor-pointer text-center ${
                         isSelected
-                          ? "bg-[#1f293d] border-[#F3D15A] ring-2 ring-[#F3D15A]/50 shadow-lg scale-[1.03]"
-                          : "bg-[#0E1526]/70 border-[#313747] hover:border-gray-500 hover:bg-[#161D2E]"
+                          ? "bg-[#1f293d] border-[#FF685B] ring-2 ring-[#FF685B]/50 shadow-lg scale-[1.03]"
+                          : "bg-[#14212D]/70 border-[#14212D] hover:border-gray-500 hover:bg-[#161D2E]"
                       }`}
                     >
                       {/* Selection Check Badge */}
                       {isSelected && (
-                        <span className="absolute top-1.5 right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#F3D15A] text-[#0A0D14] shadow-sm">
+                        <span className="absolute top-1.5 right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-hotpink text-navy shadow-sm">
                           <Check className="h-3 w-3 stroke-[3]" />
                         </span>
                       )}
@@ -352,7 +352,7 @@ export function AvatarPickerModal({
                       <span className="text-xs font-bold text-white mt-2 truncate w-full">
                         {sticker.name}
                       </span>
-                      <span className="text-[10px] text-gray-400 font-medium truncate w-full">
+                      <span className="text-[10px] text-white/70 font-medium truncate w-full">
                         {sticker.trait}
                       </span>
                     </button>
@@ -394,15 +394,15 @@ export function AvatarPickerModal({
                 onClick={() => fileInputRef.current?.click()}
                 className={`flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-dashed transition-all cursor-pointer text-center ${
                   isDragging
-                    ? "border-[#F3D15A] bg-[#F3D15A]/10 scale-[1.01]"
-                    : "border-[#313747] bg-[#0E1526]/60 hover:border-gray-500 hover:bg-[#161D2E]"
+                    ? "border-[#FF685B] bg-hotpink/10 scale-[1.01]"
+                    : "border-[#14212D] bg-[#14212D]/60 hover:border-gray-500 hover:bg-[#161D2E]"
                 }`}
               >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-[#F3D15A] shadow-inner mb-3">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-hotpink shadow-inner mb-3">
                   <Upload className="w-7 h-7" />
                 </div>
                 <h3 className="text-base font-bold text-white">Upload from this device</h3>
-                <p className="text-xs text-gray-400 mt-1 max-w-xs">
+                <p className="text-xs text-white/70 mt-1 max-w-xs">
                   Drag and drop a photo here, or click to browse files (JPEG, PNG, WebP up to 10MB)
                 </p>
                 <span className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white hover:bg-white/20 transition-colors">
@@ -412,7 +412,7 @@ export function AvatarPickerModal({
 
               {/* Uploaded Preview */}
               {selectedAvatar.startsWith("data:image") && (
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-[#161D2E] border border-emerald-500/30">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-[#161D2E] border border-hotpink/30">
                   <div className="flex items-center gap-4">
                     <div
                       className="w-16 h-16 rounded-full bg-cover bg-center border-2 border-emerald-400 shadow-lg shrink-0"
@@ -420,9 +420,9 @@ export function AvatarPickerModal({
                     />
                     <div>
                       <p className="text-sm font-bold text-white flex items-center gap-1.5">
-                        <Check className="w-4 h-4 text-emerald-400" /> Photo Uploaded
+                        <Check className="w-4 h-4 text-hotpink" /> Photo Uploaded
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-white/70 mt-0.5">
                         High-resolution photo ready to apply to your athlete profile.
                       </p>
                     </div>
@@ -433,7 +433,7 @@ export function AvatarPickerModal({
                     onClick={() => {
                       setSelectedAvatar(currentAvatar || "sticker:smash-beast");
                     }}
-                    className="p-2 rounded-xl text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                    className="p-2 rounded-xl text-white/70 hover:text-hotpink hover:bg-hotpink/10 transition-colors cursor-pointer"
                     title="Remove Photo"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -449,8 +449,8 @@ export function AvatarPickerModal({
           {activeTab === "camera" && (
             <div className="space-y-4">
               {cameraError ? (
-                <div className="p-5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs space-y-3">
-                  <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                <div className="p-5 rounded-2xl bg-hotpink/10 border border-hotpink/30 text-rose-300 text-xs space-y-3">
+                  <div className="flex items-center gap-2 text-hotpink font-bold text-sm">
                     <AlertCircle className="w-4 h-4" /> Camera Unavailable
                   </div>
                   <p>{cameraError}</p>
@@ -464,10 +464,10 @@ export function AvatarPickerModal({
                 </div>
               ) : capturedPhoto ? (
                 /* Selfie Review Mode */
-                <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-[#0E1526] border border-[#313747] space-y-4 text-center">
+                <div className="flex flex-col items-center justify-center p-6 rounded-3xl bg-[#14212D] border border-[#14212D] space-y-4 text-center">
                   <div className="relative">
                     <div
-                      className="w-44 h-44 rounded-full bg-cover bg-center border-4 border-[#F3D15A] shadow-2xl"
+                      className="w-44 h-44 rounded-full bg-cover bg-center border-4 border-[#FF685B] shadow-2xl"
                       style={{ backgroundImage: `url(${capturedPhoto})` }}
                     />
                     <span className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg">
@@ -477,7 +477,7 @@ export function AvatarPickerModal({
 
                   <div>
                     <h3 className="text-base font-bold text-white">Selfie Ready!</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-xs text-white/70 mt-0.5">
                       Looking sharp for the city tournament circuit.
                     </p>
                   </div>
@@ -497,8 +497,8 @@ export function AvatarPickerModal({
                 </div>
               ) : (
                 /* Live Viewfinder Mode */
-                <div className="flex flex-col items-center justify-center p-4 rounded-3xl bg-[#0E1526] border border-[#313747] space-y-4">
-                  <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full overflow-hidden border-4 border-[#DE9D35]/60 bg-black shadow-2xl flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center p-4 rounded-3xl bg-[#14212D] border border-[#14212D] space-y-4">
+                  <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full overflow-hidden border-4 border-[#FF685B]/60 bg-black shadow-2xl flex items-center justify-center">
                     <video
                       ref={videoRef}
                       autoPlay
@@ -513,14 +513,14 @@ export function AvatarPickerModal({
                     {/* Countdown Overlay */}
                     {countdown !== null && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs">
-                        <span className="text-6xl font-black text-[#F3D15A] animate-ping">
+                        <span className="text-6xl font-black text-hotpink animate-ping">
                           {countdown}
                         </span>
                       </div>
                     )}
                   </div>
 
-                  <p className="text-xs text-gray-400 text-center">
+                  <p className="text-xs text-white/70 text-center">
                     Center your face inside the circle and smile!
                   </p>
 
@@ -529,7 +529,7 @@ export function AvatarPickerModal({
                       type="button"
                       onClick={triggerCountdown}
                       disabled={countdown !== null}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#F3D15A] text-[#0A0D14] text-sm font-black hover:bg-[#DE9D35] transition-all shadow-lg active:scale-95 cursor-pointer"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-hotpink text-navy text-sm font-black hover:bg-hotpink transition-all shadow-lg active:scale-95 cursor-pointer"
                     >
                       <Camera className="w-4 h-4" />
                       <span>{countdown !== null ? `Snapping in ${countdown}...` : "Snap Selfie"}</span>
@@ -542,11 +542,11 @@ export function AvatarPickerModal({
         </div>
 
         {/* Modal Bottom Confirmation Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-[#313747] bg-[#182030]/80 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[#14212D] bg-navy/80 shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-xl text-xs font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
           >
             Cancel
           </button>
@@ -557,7 +557,7 @@ export function AvatarPickerModal({
               onSelectAvatar(selectedAvatar);
               onClose();
             }}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#DE9D35] to-[#F3D15A] text-[#0A0D14] text-xs font-black hover:opacity-95 shadow-md active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-coral text-navy text-xs font-black hover:opacity-95 shadow-md active:scale-95 transition-all cursor-pointer"
           >
             <Check className="w-4 h-4 stroke-[3]" />
             <span>Apply Avatar</span>

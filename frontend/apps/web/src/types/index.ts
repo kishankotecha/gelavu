@@ -112,6 +112,11 @@ export interface Tournament {
   categories: TournamentCategory[];
   rulesSummary: string;
   partnerDrawEnabled?: boolean;
+  placeId?: string | null;
+  area?: string;
+  lat?: number;
+  lng?: number;
+  locationSource?: "google" | "manual";
 }
 
 export type MatchStatus = "SCHEDULED" | "IN_PROGRESS" | "COMPLETED" | "FORFEIT";

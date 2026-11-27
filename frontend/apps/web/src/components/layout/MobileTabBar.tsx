@@ -34,7 +34,7 @@ export function MobileTabBar() {
               href={tab.href}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 transition-all text-[11px] font-semibold",
-                isActive ? "text-lime font-black" : "text-gray-400 hover:text-white"
+                isActive ? "text-lime font-black" : "text-white/70 hover:text-white"
               )}
             >
               <Icon className={cn("w-5 h-5 transition-transform", isActive && "text-lime scale-110")} />

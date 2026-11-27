@@ -72,7 +72,7 @@ export function NotificationsMenu() {
         onClick={() => setOpen((o) => !o)}
         aria-label="View notifications"
         aria-expanded={open}
-        className="relative grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-300 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all active:scale-95 cursor-pointer shadow-2xs"
+        className="relative grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all active:scale-95 cursor-pointer shadow-2xs"
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
@@ -82,12 +82,12 @@ export function NotificationsMenu() {
 
       {/* Popover Card */}
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-3xl border border-white/15 bg-[#0E1526] p-4 shadow-2xl z-50 text-white animate-fade-up">
+        <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-3xl border border-white/15 bg-[#14212D] p-4 shadow-2xl z-50 text-white animate-fade-up">
           <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
               <strong className="text-sm font-black text-white">Notifications</strong>
               {unreadCount > 0 && (
-                <span className="rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 text-[10px] font-black">
+                <span className="rounded-full bg-rose-500/20 text-rose-300 border border-hotpink/30 px-2 py-0.5 text-[10px] font-black">
                   {unreadCount} new
                 </span>
               )}
@@ -96,7 +96,7 @@ export function NotificationsMenu() {
               <button
                 type="button"
                 onClick={markAllAsRead}
-                className="text-[11px] font-bold text-gray-400 hover:text-white transition-colors cursor-pointer"
+                className="text-[11px] font-bold text-white/70 hover:text-white transition-colors cursor-pointer"
               >
                 Mark all read
               </button>
@@ -113,19 +113,19 @@ export function NotificationsMenu() {
               >
                 <span className="grid h-8 w-8 place-items-center rounded-xl bg-white/10 text-white shrink-0 mt-0.5">
                   {n.type === "match" ? (
-                    <Trophy className="h-4 w-4 text-amber-400" />
+                    <Trophy className="h-4 w-4 text-hotpink" />
                   ) : n.type === "tournament" ? (
                     <CalendarDays className="h-4 w-4 text-[#6366F1]" />
                   ) : (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <CheckCircle2 className="h-4 w-4 text-hotpink" />
                   )}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-1">
                     <strong className="text-xs font-bold text-white truncate">{n.title}</strong>
-                    <span className="text-[10px] text-gray-400 shrink-0">{n.time}</span>
+                    <span className="text-[10px] text-white/70 shrink-0">{n.time}</span>
                   </div>
-                  <p className="text-xs text-gray-300 leading-snug mt-0.5 line-clamp-2">{n.subtitle}</p>
+                  <p className="text-xs text-white/80 leading-snug mt-0.5 line-clamp-2">{n.subtitle}</p>
                 </div>
               </div>
             ))}

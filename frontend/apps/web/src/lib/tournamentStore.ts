@@ -485,6 +485,11 @@ export function createNewTournament(tournament: {
   partnerDrawEnabled?: boolean;
   scoringFormat?: string;
   equipment?: string;
+  placeId?: string | null;
+  area?: string;
+  lat?: number;
+  lng?: number;
+  locationSource?: "google" | "manual";
 }): Tournament {
   const timestamp = Date.now();
   const id = `tour-${timestamp.toString(36)}`;
@@ -524,6 +529,11 @@ export function createNewTournament(tournament: {
         tournament.equipment || "Standard feather shuttles provided"
       }.`,
     partnerDrawEnabled: tournament.partnerDrawEnabled ?? true,
+    placeId: tournament.placeId ?? null,
+    area: tournament.area,
+    lat: tournament.lat,
+    lng: tournament.lng,
+    locationSource: tournament.locationSource,
   };
 
   if (typeof window !== "undefined") {

@@ -41,9 +41,9 @@ export default function HostDashboardPage() {
       category: "Men's Doubles",
       paid: "₹1,260",
       status: "Confirmed",
-      statusClass: "bg-[#E8EFEA] text-[#1D4A38] border border-[#CAD7CE]",
+      statusClass: "bg-[#E8EFEA] text-[#14212D] border border-[#CAD7CE]",
       avatar: "AR",
-      avatarBg: "bg-[#1D4A38]",
+      avatarBg: "bg-navy",
     },
     {
       id: "reg-2",
@@ -51,9 +51,9 @@ export default function HostDashboardPage() {
       category: "Women's Singles",
       paid: "₹839",
       status: "Pending",
-      statusClass: "bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A]",
+      statusClass: "bg-[#FEF3C7] text-[#FF685B] border border-[#FDE68A]",
       avatar: "MI",
-      avatarBg: "bg-[#B45309]",
+      avatarBg: "bg-[#FF685B]",
     },
     {
       id: "reg-3",
@@ -85,8 +85,8 @@ export default function HostDashboardPage() {
           <DashboardEyebrow>Welcome back · Ace Arena Pavilion</DashboardEyebrow>
           <div className="flex flex-wrap items-center gap-3 mt-2">
             <DashboardTitle>Bengaluru Open 2026</DashboardTitle>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8EFEA] border border-[#CAD7CE] px-3 py-0.5 text-xs font-semibold text-[#1D4A38]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#1D4A38] animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8EFEA] border border-[#CAD7CE] px-3 py-0.5 text-xs font-semibold text-[#14212D]">
+              <span className="h-1.5 w-1.5 rounded-full bg-navy animate-pulse" />
               {signupsPaused ? "Registrations paused" : "Registration open • closes 10 Mar"}
             </span>
           </div>
@@ -107,7 +107,7 @@ export default function HostDashboardPage() {
             </div>
             <Link
               href={`/host/tournaments/${selectedTourId}`}
-              className="text-xs font-bold text-slate-900 hover:text-amber-500 transition-colors ml-1"
+              className="text-xs font-bold text-slate-900 hover:text-hotpink transition-colors ml-1"
             >
               Open Space →
             </Link>
@@ -115,7 +115,7 @@ export default function HostDashboardPage() {
         </div>
 
         <Link href="/host/tournaments/new">
-          <button className="inline-flex items-center gap-2 rounded-full bg-[#1D4A38] hover:bg-[#16392B] text-white px-5 py-2.5 text-xs font-bold transition-all shadow-xs cursor-pointer">
+          <button className="inline-flex items-center gap-2 rounded-full bg-navy hover:bg-[#16392B] text-white px-5 py-2.5 text-xs font-bold transition-all shadow-xs cursor-pointer">
             <Plus className="w-3.5 h-3.5" />
             <span>Create tournament</span>
           </button>
@@ -130,11 +130,11 @@ export default function HostDashboardPage() {
           <div className="mt-2 flex items-baseline gap-2">
             <DashboardStatValue>86</DashboardStatValue>
           </div>
-          <span className="text-xs font-bold text-[#1D4A38] mt-2 block">↑ 14 this week</span>
+          <span className="text-xs font-bold text-[#14212D] mt-2 block">↑ 14 this week</span>
         </div>
 
         {/* Metric 2: Payments Collected (British Racing Green Heritage Card) */}
-        <div className="rounded-2xl bg-[#1D4A38] p-5 text-white shadow-sm border border-[#16392B]">
+        <div className="rounded-2xl bg-navy p-5 text-white shadow-sm border border-[#16392B]">
           <span className="text-xs font-semibold text-[#E8EFEA]/80">Payments collected</span>
           <div className="mt-2">
             <DashboardStatValue inverted className="text-white">₹92,400</DashboardStatValue>
@@ -157,7 +157,7 @@ export default function HostDashboardPage() {
           <div className="mt-2">
             <DashboardStatValue>
               79 <span className="text-slate-300 font-sans text-xl">/</span>{" "}
-              <span className="text-amber-700">7</span>
+              <span className="text-hotpink">7</span>
             </DashboardStatValue>
           </div>
           <span className="text-xs text-[#64748B] mt-2 block">Verifications in review</span>
@@ -177,7 +177,7 @@ export default function HostDashboardPage() {
             </div>
             <button
               onClick={() => showToast("Exporting registrations report (PDF/Excel)...", "info")}
-              className="text-xs font-bold text-[#1D4A38] hover:text-[#16392B] flex items-center gap-1.5 underline underline-offset-4 cursor-pointer"
+              className="text-xs font-bold text-[#14212D] hover:text-[#16392B] flex items-center gap-1.5 underline underline-offset-4 cursor-pointer"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
               <span>Export PDF / Excel</span>
@@ -237,7 +237,7 @@ export default function HostDashboardPage() {
                   <span>26/32</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-[#F5F6F0] overflow-hidden">
-                  <div className="h-full bg-[#1D4A38] rounded-full" style={{ width: "81%" }} />
+                  <div className="h-full bg-navy rounded-full" style={{ width: "81%" }} />
                 </div>
               </div>
 
@@ -256,10 +256,10 @@ export default function HostDashboardPage() {
               <div>
                 <div className="flex justify-between text-xs font-bold text-[#1E293B] mb-1.5">
                   <span>Women&apos;s Singles</span>
-                  <span className="text-[#B45309] font-bold">16/16 Full</span>
+                  <span className="text-[#FF685B] font-bold">16/16 Full</span>
                 </div>
                 <div className="w-full h-2 rounded-full bg-[#F5F6F0] overflow-hidden">
-                  <div className="h-full bg-[#B45309] rounded-full" style={{ width: "100%" }} />
+                  <div className="h-full bg-[#FF685B] rounded-full" style={{ width: "100%" }} />
                 </div>
               </div>
             </div>
@@ -274,7 +274,7 @@ export default function HostDashboardPage() {
                 href={`/host/tournaments/${selectedTourId}/entries`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
-                <UserPlus className="w-5 h-5 text-[#1D4A38] mb-1.5" />
+                <UserPlus className="w-5 h-5 text-[#14212D] mb-1.5" />
                 <span className="text-[11px] font-bold text-[#1E293B]">Add player</span>
               </Link>
 
@@ -282,7 +282,7 @@ export default function HostDashboardPage() {
                 href={`/host/tournaments/${selectedTourId}/fixtures`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
-                <Dices className="w-5 h-5 text-[#1D4A38] mb-1.5" />
+                <Dices className="w-5 h-5 text-[#14212D] mb-1.5" />
                 <span className="text-[11px] font-bold text-[#1E293B]">Run draw & fixtures</span>
               </Link>
 
@@ -290,7 +290,7 @@ export default function HostDashboardPage() {
                 href={`/host/tournaments/${selectedTourId}/schedule`}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group"
               >
-                <Zap className="w-5 h-5 text-[#1D4A38] mb-1.5" />
+                <Zap className="w-5 h-5 text-[#14212D] mb-1.5" />
                 <span className="text-[11px] font-bold text-[#1E293B]">Assign umpires</span>
               </Link>
 
@@ -299,7 +299,7 @@ export default function HostDashboardPage() {
                 onClick={togglePause}
                 className="flex flex-col items-center justify-center p-3.5 rounded-xl bg-[#F9FAF6] hover:bg-[#EEF1EB] border border-[#E2E6DD] transition-colors text-center group cursor-pointer"
               >
-                <PauseCircle className="w-5 h-5 text-[#64748B] group-hover:text-[#1D4A38] mb-1.5" />
+                <PauseCircle className="w-5 h-5 text-[#64748B] group-hover:text-[#14212D] mb-1.5" />
                 <span className="text-[11px] font-bold text-[#1E293B]">
                   {signupsPaused ? "Resume signups" : "Pause signups"}
                 </span>

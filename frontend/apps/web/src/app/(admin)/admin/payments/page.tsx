@@ -17,14 +17,14 @@ export default function AdminPaymentsPage() {
 
   return (
     <AdminPageShell>
-      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-200 mb-2">
+      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white/90 mb-2">
         <ArrowLeft className="w-3.5 h-3.5" /> Back to overview
       </Link>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <DashboardTitle tone="dark" className="flex items-center gap-2.5">
-            <IndianRupee className="w-7 h-7 text-emerald-400 shrink-0" />
+            <IndianRupee className="w-7 h-7 text-hotpink shrink-0" />
             Escrow &amp; payments
           </DashboardTitle>
           <DashboardLead tone="dark">
@@ -33,8 +33,8 @@ export default function AdminPaymentsPage() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-xl">
-        <div className="grid grid-cols-12 gap-4 px-6 py-3.5 bg-gray-950/80 border-b border-gray-800 text-xs font-bold text-gray-400 uppercase tracking-wider">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-navy/80 shadow-xl">
+        <div className="grid grid-cols-12 gap-4 px-6 py-3.5 bg-navy border-b border-white/10 text-xs font-bold text-white/70 uppercase tracking-wider">
           <div className="col-span-3">Payer</div>
           <div className="col-span-4">Tournament</div>
           <div className="col-span-2 text-center">Gateway</div>
@@ -45,10 +45,10 @@ export default function AdminPaymentsPage() {
           {transactions.map((tx) => (
             <div key={tx.id} className="grid grid-cols-12 gap-4 px-6 py-4 items-center">
               <div className="col-span-3 font-bold text-white text-sm">{tx.user}</div>
-              <div className="col-span-4 text-xs text-gray-300">{tx.tournament}</div>
-              <div className="col-span-2 text-center text-xs text-gray-400">{tx.gateway}</div>
+              <div className="col-span-4 text-xs text-white/80">{tx.tournament}</div>
+              <div className="col-span-2 text-center text-xs text-white/70">{tx.gateway}</div>
               <div className="col-span-3 text-right">
-                <span className="font-mono font-bold text-emerald-400 text-sm">{formatMoney(tx.amount)}</span>
+                <span className="font-mono font-bold text-hotpink text-sm">{formatMoney(tx.amount)}</span>
                 <span className="block text-[10px] text-emerald-300 font-semibold">{tx.status}</span>
               </div>
             </div>

@@ -24,7 +24,7 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
       }}
     >
       <div 
-        className="relative w-full max-w-lg rounded-xl border border-gray-800 bg-gray-900 p-6 shadow-xl"
+        className="relative w-full max-w-lg rounded-xl border border-white/10 bg-gray-900 p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
       >
@@ -40,7 +40,7 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
             e.stopPropagation();
             onOpenChange(false);
           }}
-          className="absolute right-4 top-4 rounded-md p-1.5 text-gray-400 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer"
+          className="absolute right-4 top-4 rounded-md p-1.5 text-white/70 hover:text-white hover:bg-navy transition-colors cursor-pointer"
           aria-label="Close dialog"
         >
           <X className="h-4 w-4" />
@@ -60,7 +60,7 @@ export function DialogTitle({ className, ...props }: React.HTMLAttributes<HTMLHe
 }
 
 export function DialogDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-sm text-gray-400", className)} {...props} />;
+  return <p className={cn("text-sm text-white/70", className)} {...props} />;
 }
 
 export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

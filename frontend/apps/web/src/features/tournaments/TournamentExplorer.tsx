@@ -85,10 +85,10 @@ export function TournamentExplorer({ tournaments }: { tournaments: TournamentCar
             className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
               scope === "city"
                 ? "bg-white text-gray-900 shadow-xs"
-                : "text-gray-500 hover:text-gray-800"
+                : "text-white/60 hover:text-gray-800"
             }`}
           >
-            <MapPin className="w-3 h-3 text-emerald-600" />
+            <MapPin className="w-3 h-3 text-hotpink" />
             <span>{city} ({hasCityMatches ? cityCount : 0})</span>
           </button>
           <button
@@ -97,10 +97,10 @@ export function TournamentExplorer({ tournaments }: { tournaments: TournamentCar
             className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
               scope === "all"
                 ? "bg-white text-gray-900 shadow-xs"
-                : "text-gray-500 hover:text-gray-800"
+                : "text-white/60 hover:text-gray-800"
             }`}
           >
-            <Globe className="w-3 h-3 text-gray-500" />
+            <Globe className="w-3 h-3 text-white/60" />
             <span>All India</span>
           </button>
         </div>
@@ -108,9 +108,9 @@ export function TournamentExplorer({ tournaments }: { tournaments: TournamentCar
 
       {/* Notice if viewing a city without events */}
       {!hasCityMatches && scope === "city" && (
-        <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-xs text-amber-900 flex flex-wrap items-center justify-between gap-2">
+        <div className="p-3.5 rounded-2xl bg-hotpink/10 border border-hotpink/40/80 text-xs text-navy flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-amber-600 shrink-0" />
+            <MapPin className="w-4 h-4 text-hotpink shrink-0" />
             <span>
               No tournaments listed in <strong>{city}</strong> yet. Showing popular events across India.
             </span>

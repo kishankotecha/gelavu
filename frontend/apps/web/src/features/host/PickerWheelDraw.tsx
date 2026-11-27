@@ -15,9 +15,9 @@ interface Props {
 }
 
 const WHEEL_COLORS = [
-  "#1D4A38", // British Racing Green
+  "#14212D", // British Racing Green
   "#1E3A8A", // Oxford Navy
-  "#B45309", // English Tan / Cognac
+  "#FF685B", // English Tan / Cognac
   "#831843", // Plum / Wine
   "#15803D", // Forest Pine
   "#334155", // Slate Ink
@@ -111,7 +111,7 @@ export function PickerWheelDraw({
     // Center Hub Dot
     ctx.beginPath();
     ctx.arc(center, center, 8, 0, 2 * Math.PI);
-    ctx.fillStyle = "#1D4A38";
+    ctx.fillStyle = "#14212D";
     ctx.fill();
   }, [wheelItems]);
 
@@ -199,20 +199,20 @@ export function PickerWheelDraw({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E6DD] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-1 rounded-lg bg-[#E8EFEA] text-[#1D4A38]">
+            <span className="p-1 rounded-lg bg-[#E8EFEA] text-[#14212D]">
               <Dices className="w-4 h-4" />
             </span>
             <h3 className="text-base font-black text-[#1E293B]">Interactive Picker Wheel</h3>
-            <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] text-[10px] font-black uppercase px-2 py-0.5">
+            <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#14212D] text-[10px] font-black uppercase px-2 py-0.5">
               Anti-Fixing Live Draw
             </span>
             {tournamentId && (
-              <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] text-[10px] font-mono font-black uppercase px-2 py-0.5">
+              <span className="rounded-full bg-[#E8EFEA] border border-[#CAD7CE] text-[#14212D] text-[10px] font-mono font-black uppercase px-2 py-0.5">
                 #{tournamentId}
               </span>
             )}
             {categoryName && (
-              <span className="rounded-full bg-amber-50 border border-amber-300 text-amber-900 text-[10px] font-black uppercase px-2.5 py-0.5">
+              <span className="rounded-full bg-hotpink/10 border border-hotpink/30 text-navy text-[10px] font-black uppercase px-2.5 py-0.5">
                 Category: {categoryName}
               </span>
             )}
@@ -224,7 +224,7 @@ export function PickerWheelDraw({
 
         {/* Verifiable Fairness Seed */}
         <div className="flex items-center gap-1.5 rounded-xl border border-[#E2E6DD] bg-[#F9FAF6] px-3 py-1.5 text-[11px] font-mono text-[#64748B]">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#1D4A38]" />
+          <ShieldCheck className="w-3.5 h-3.5 text-[#14212D]" />
           <span>Proof Hash: {verifiableSeed}</span>
         </div>
       </div>
@@ -236,7 +236,7 @@ export function PickerWheelDraw({
           onClick={() => setActiveTab("random_doubles")}
           className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition-colors cursor-pointer ${
             activeTab === "random_doubles"
-              ? "bg-[#1D4A38] text-white shadow-xs"
+              ? "bg-navy text-white shadow-xs"
               : "bg-[#F9FAF6] text-[#64748B] hover:text-[#1E293B] border border-[#E2E6DD]"
           }`}
         >
@@ -249,7 +249,7 @@ export function PickerWheelDraw({
           onClick={() => setActiveTab("bracket_draw")}
           className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition-colors cursor-pointer ${
             activeTab === "bracket_draw"
-              ? "bg-[#1D4A38] text-white shadow-xs"
+              ? "bg-navy text-white shadow-xs"
               : "bg-[#F9FAF6] text-[#64748B] hover:text-[#1E293B] border border-[#E2E6DD]"
           }`}
         >
@@ -264,7 +264,7 @@ export function PickerWheelDraw({
         <div className="md:col-span-5 flex flex-col items-center justify-center relative">
           {/* Wheel Pointer Arrow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-20">
-            <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[18px] border-t-[#1D4A38] drop-shadow-[0_2px_4px_rgba(29,74,56,0.3)]" />
+            <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[18px] border-t-[#14212D] drop-shadow-[0_2px_4px_rgba(29,74,56,0.3)]" />
           </div>
 
           {/* Rotating Canvas Wheel */}
@@ -287,7 +287,7 @@ export function PickerWheelDraw({
               type="button"
               disabled={isSpinning || wheelItems.length === 0}
               onClick={handleSpin}
-              className="flex-1 rounded-full bg-[#1D4A38] hover:bg-[#16392B] text-white py-3 px-4 text-xs font-black uppercase tracking-wider transition-all shadow-xs disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+              className="flex-1 rounded-full bg-navy hover:bg-[#16392B] text-white py-3 px-4 text-xs font-black uppercase tracking-wider transition-all shadow-xs disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
             >
               <RotateCw className={`w-3.5 h-3.5 ${isSpinning ? "animate-spin" : ""}`} />
               <span>{isSpinning ? "Spinning..." : "Spin Picker Wheel 🎯"}</span>
@@ -311,11 +311,11 @@ export function PickerWheelDraw({
         <div className="md:col-span-7 space-y-4">
           {/* Winner Card */}
           {selectedWinner ? (
-            <div className="p-4 rounded-2xl bg-[#E8EFEA] border border-[#CAD7CE] text-[#1D4A38] shadow-sm space-y-1 animate-in zoom-in-95 duration-200">
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#1D4A38] flex items-center gap-1.5">
+            <div className="p-4 rounded-2xl bg-[#E8EFEA] border border-[#CAD7CE] text-[#14212D] shadow-sm space-y-1 animate-in zoom-in-95 duration-200">
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#14212D] flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" /> Wheel Selection Confirmed
               </span>
-              <h4 className="text-base font-black text-[#1D4A38]">{selectedWinner}</h4>
+              <h4 className="text-base font-black text-[#14212D]">{selectedWinner}</h4>
               <p className="text-xs text-[#2D5A46]">
                 {activeTab === "random_doubles"
                   ? "Assigned to an official doubles pairing. Verifiable anti-rigging draw recorded."
@@ -333,7 +333,7 @@ export function PickerWheelDraw({
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-[#64748B] uppercase tracking-wider">
                 <span>Drawn Wheel Teams ({pairedTeams.length})</span>
-                <span className="text-[#1D4A38] font-mono font-bold">Confirmed</span>
+                <span className="text-[#14212D] font-mono font-bold">Confirmed</span>
               </div>
 
               <div className="max-h-48 overflow-y-auto rounded-xl border border-[#E2E6DD] bg-[#F9FAF6] divide-y divide-[#E2E6DD] text-xs">
@@ -341,12 +341,12 @@ export function PickerWheelDraw({
                   pairedTeams.map((t, idx) => (
                     <div key={idx} className="p-2.5 flex items-center justify-between bg-white">
                       <div className="flex items-center gap-2">
-                        <span className="grid h-5 w-5 place-items-center rounded bg-[#E8EFEA] text-[#1D4A38] text-[10px] font-black">
+                        <span className="grid h-5 w-5 place-items-center rounded bg-[#E8EFEA] text-[#14212D] text-[10px] font-black">
                           #{idx + 1}
                         </span>
                         <strong className="text-[#1E293B]">{t.name}</strong>
                       </div>
-                      <span className="text-[10px] font-bold text-[#1D4A38] bg-[#E8EFEA] px-2 py-0.5 rounded-full border border-[#CAD7CE]">
+                      <span className="text-[10px] font-bold text-[#14212D] bg-[#E8EFEA] px-2 py-0.5 rounded-full border border-[#CAD7CE]">
                         Pair Drawn
                       </span>
                     </div>
@@ -362,7 +362,7 @@ export function PickerWheelDraw({
                 <button
                   type="button"
                   onClick={() => onApplyPairsToBracket?.(pairedTeams)}
-                  className="w-full mt-2 py-2.5 px-3 rounded-xl bg-[#DE9D35] hover:bg-[#C98B28] text-[#0B1220] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
+                  className="w-full mt-2 py-2.5 px-3 rounded-xl bg-hotpink hover:bg-[#C98B28] text-[#14212D] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
                 >
                   <Shuffle className="w-3.5 h-3.5" />
                   <span>Apply {pairedTeams.length} Wheel Pairs to Championship Bracket →</span>
@@ -374,7 +374,7 @@ export function PickerWheelDraw({
           {activeTab === "bracket_draw" && (
             <div className="space-y-3">
               <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-[#F9FAF6] space-y-2 text-xs">
-                <span className="text-[11px] font-black uppercase text-[#B45309] block">
+                <span className="text-[11px] font-black uppercase text-[#FF685B] block">
                   Why use the Picker Wheel for Fixtures?
                 </span>
                 <p className="text-[#475569] leading-relaxed">
@@ -388,7 +388,7 @@ export function PickerWheelDraw({
                   const shuffled = [...teams].sort(() => Math.random() - 0.5).map((t, idx) => ({ ...t, seed: idx + 1 }));
                   onBracketRandomizedTeams?.(shuffled);
                 }}
-                className="w-full py-2.5 px-3 rounded-xl bg-[#DE9D35] hover:bg-[#C98B28] text-[#0B1220] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
+                className="w-full py-2.5 px-3 rounded-xl bg-hotpink hover:bg-[#C98B28] text-[#14212D] font-black text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors"
               >
                 <Shuffle className="w-3.5 h-3.5" />
                 <span>Apply Provably Fair Shuffled Seeds to Bracket Tree →</span>

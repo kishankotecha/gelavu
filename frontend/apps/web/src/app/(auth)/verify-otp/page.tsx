@@ -85,7 +85,7 @@ function VerifyOtpContent() {
         {/* Header */}
         <div className="mb-6">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-paper border border-line text-ink">
-            <ShieldCheck className="h-6 w-6 text-emerald-600" />
+            <ShieldCheck className="h-6 w-6 text-hotpink" />
           </div>
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-lime-600 block">
             STEP 1 OF 2 · VERIFICATION

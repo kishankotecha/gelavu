@@ -29,7 +29,7 @@ export default function UmpireQRSignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B101B] text-white flex flex-col justify-between items-center px-4 py-8 select-none">
+    <div className="min-h-screen bg-navy text-white flex flex-col justify-between items-center px-4 py-8 select-none">
       {/* Top Header: Official Gelavu Logo + UMPIRE Badge */}
       <GelavuLogo variant="dark" badge="UMPIRE" href="/umpire" />
 
@@ -38,12 +38,12 @@ export default function UmpireQRSignInPage() {
         <h1 className="text-2xl sm:text-3xl font-black text-white text-center tracking-tight">
           Scan your court QR
         </h1>
-        <p className="text-xs text-gray-400 text-center mt-2 px-4 leading-relaxed">
+        <p className="text-xs text-white/70 text-center mt-2 px-4 leading-relaxed">
           Point your camera at the QR on your court. No login needed.
         </p>
 
         {/* Viewfinder Container */}
-        <div className="relative w-64 h-64 sm:w-72 sm:h-72 my-8 rounded-3xl bg-[#121826] border border-gray-800/80 flex items-center justify-center overflow-hidden shadow-2xl">
+        <div className="relative w-64 h-64 sm:w-72 sm:h-72 my-8 rounded-3xl bg-[#121826] border border-white/10/80 flex items-center justify-center overflow-hidden shadow-2xl">
           {/* Neon Lime Corner Brackets */}
           <div className="absolute top-4 left-4 w-9 h-9 border-t-4 border-l-4 border-[#D4FF00] rounded-tl-xl" />
           <div className="absolute top-4 right-4 w-9 h-9 border-t-4 border-r-4 border-[#D4FF00] rounded-tr-xl" />
@@ -72,7 +72,7 @@ export default function UmpireQRSignInPage() {
           {!showCodeInput ? (
             <button
               onClick={() => setShowCodeInput(true)}
-              className="text-xs text-gray-400 hover:text-gray-200 transition-colors font-medium cursor-pointer"
+              className="text-xs text-white/70 hover:text-white/90 transition-colors font-medium cursor-pointer"
             >
               Or enter the 6-digit court code instead
             </button>
@@ -83,7 +83,7 @@ export default function UmpireQRSignInPage() {
                 value={courtCode}
                 onChange={(e) => setCourtCode(e.target.value)}
                 placeholder="e.g. CRT-204"
-                className="w-full rounded-xl bg-[#161F30] border border-gray-700 px-3 py-2 text-xs text-white placeholder:text-gray-500 font-mono uppercase focus:outline-none focus:border-[#D4FF00]"
+                className="w-full rounded-xl bg-[#161F30] border border-white/10 px-3 py-2 text-xs text-white placeholder:text-white/60 font-mono uppercase focus:outline-none focus:border-[#D4FF00]"
                 autoFocus
               />
               <button

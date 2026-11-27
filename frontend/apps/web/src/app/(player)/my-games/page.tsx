@@ -13,9 +13,9 @@ export default async function MyGamesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black text-white flex items-center gap-2">
-            <Gamepad2 className="w-7 h-7 text-emerald-400" /> My Tournaments & Matches
+            <Gamepad2 className="w-7 h-7 text-hotpink" /> My Tournaments & Matches
           </h1>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-white/70 mt-1">
             Track your registrations, court assignments and match schedules
           </p>
         </div>
@@ -31,11 +31,11 @@ export default async function MyGamesPage() {
         {registrations.map((reg) => (
           <div
             key={reg.id}
-            className="rounded-2xl border border-gray-800 bg-gray-900/60 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 backdrop-blur-sm"
+            className="rounded-2xl border border-white/10 bg-navy/80 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 backdrop-blur-sm"
           >
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-hotpink bg-hotpink/10 px-2.5 py-0.5 rounded-full border border-hotpink/30">
                   {reg.category.replace(/_/g, " ")}
                 </span>
                 <span className="text-[10px] font-semibold text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
@@ -45,11 +45,11 @@ export default async function MyGamesPage() {
 
               <h3 className="text-lg font-bold text-white">{reg.tournamentTitle}</h3>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-white/70">
                 <span>Entry: {formatMoney(reg.amount)}</span>
                 <span>Date: {formatDate(reg.createdAt)}</span>
                 {reg.partnerName && (
-                  <span className="text-amber-400 font-semibold flex items-center gap-1">
+                  <span className="text-hotpink font-semibold flex items-center gap-1">
                     <Sparkles className="w-3.5 h-3.5" /> Partner: {reg.partnerName}
                   </span>
                 )}

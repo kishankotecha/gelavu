@@ -89,7 +89,7 @@ export default async function PlayerProfilePage({
 
               {/* Playstyle & Handedness Badges */}
               <div className="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                <span className="rounded-xl bg-amber-50 border border-amber-200/80 px-3 py-1 text-xs font-bold text-amber-900">
+                <span className="rounded-xl bg-hotpink/10 border border-hotpink/30 px-3 py-1 text-xs font-bold text-navy">
                   {player.playStyle}
                 </span>
                 <span className="rounded-xl bg-gray-100 border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 flex items-center gap-1">
@@ -109,7 +109,7 @@ export default async function PlayerProfilePage({
                 Circuit Rating
               </span>
               <p className="text-3xl font-black text-gray-900 font-mono mt-0.5">{player.points}</p>
-              <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full inline-block mt-1">
+              <span className="text-[11px] font-bold text-hotpink bg-hotpink/10 border border-hotpink/30 px-2 py-0.5 rounded-full inline-block mt-1">
                 Rank #{player.circuitRank} State
               </span>
             </div>
@@ -125,7 +125,7 @@ export default async function PlayerProfilePage({
           {/* Doubles Synergy & Playstyle Breakdown */}
           <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4.5 space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-gray-800">
-              <Sparkles className="w-4 h-4 text-amber-500" />
+              <Sparkles className="w-4 h-4 text-hotpink" />
               <span>Doubles Compatibility & Synergy</span>
             </div>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">

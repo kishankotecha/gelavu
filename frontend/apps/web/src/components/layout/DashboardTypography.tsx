@@ -5,21 +5,21 @@ type Tone = "light" | "dark";
 
 const toneEyebrow: Record<Tone, string> = {
   light: "text-slate-500",
-  dark: "text-gray-500",
+  dark: "text-white/60",
 };
 
 const toneTitle: Record<Tone, string> = {
-  light: "text-[#0B1220]",
+  light: "text-[#14212D]",
   dark: "text-white",
 };
 
 const toneLead: Record<Tone, string> = {
   light: "text-slate-600",
-  dark: "text-gray-400",
+  dark: "text-white/70",
 };
 
 const toneSection: Record<Tone, string> = {
-  light: "text-[#0B1220]",
+  light: "text-[#14212D]",
   dark: "text-white",
 };
 
@@ -120,7 +120,7 @@ export function DashboardStatValue({
     <span
       className={cn(
         "font-rogenz text-2xl sm:text-3xl font-bold tracking-wide tabular-nums leading-none",
-        inverted ? "text-white" : "text-[#0B1220]",
+        inverted ? "text-white" : "text-[#14212D]",
         className
       )}
     >

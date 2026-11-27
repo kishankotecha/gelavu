@@ -70,7 +70,7 @@ export function FixtureIssueModal({
         {/* Header */}
         <div className="flex items-start justify-between border-b border-[#E2E6DD] pb-4">
           <div className="space-y-1">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF3C7] border border-[#FDE68A] px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#B45309]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FEF3C7] border border-[#FDE68A] px-3 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#FF685B]">
               <ShieldAlert className="w-3.5 h-3.5" /> Host Issue Override
             </span>
             <h3 className="text-xl font-black text-[#1E293B]">Resolve Fixture Issue</h3>
@@ -104,13 +104,13 @@ export function FixtureIssueModal({
                     onClick={() => setSelectedReason(r.label)}
                     className={`w-full text-left p-3 rounded-xl border text-xs font-semibold flex items-center gap-2.5 transition-colors cursor-pointer ${
                       isSelected
-                        ? "border-[#1D4A38] bg-[#E8EFEA] text-[#1D4A38]"
+                        ? "border-[#14212D] bg-[#E8EFEA] text-[#14212D]"
                         : "border-[#E2E6DD] bg-[#F9FAF6] text-[#64748B] hover:text-[#1E293B] hover:bg-[#EEF1EB]"
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${isSelected ? "text-[#1D4A38]" : "text-[#94A3B8]"}`} />
+                    <Icon className={`w-4 h-4 ${isSelected ? "text-[#14212D]" : "text-[#94A3B8]"}`} />
                     <span className="flex-1">{r.label}</span>
-                    {isSelected && <Check className="w-4 h-4 text-[#1D4A38]" />}
+                    {isSelected && <Check className="w-4 h-4 text-[#14212D]" />}
                   </button>
                 );
               })}
@@ -128,7 +128,7 @@ export function FixtureIssueModal({
                 list="teams-list"
                 defaultValue={match.team1.name}
                 onChange={(e) => setTeam1Name(e.target.value)}
-                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:bg-white focus:outline-none"
+                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#14212D] focus:bg-white focus:outline-none"
               />
             </div>
 
@@ -141,7 +141,7 @@ export function FixtureIssueModal({
                 list="teams-list"
                 defaultValue={match.team2.name}
                 onChange={(e) => setTeam2Name(e.target.value)}
-                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:bg-white focus:outline-none"
+                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#14212D] focus:bg-white focus:outline-none"
               />
             </div>
 
@@ -179,7 +179,7 @@ export function FixtureIssueModal({
                 defaultValue={match.time}
                 onChange={(e) => setTime(e.target.value)}
                 placeholder="e.g. 11:30 AM"
-                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:bg-white focus:outline-none"
+                className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#14212D] focus:bg-white focus:outline-none"
               />
             </div>
           </div>
@@ -194,7 +194,7 @@ export function FixtureIssueModal({
               placeholder="e.g. Swapped with permission due to ankle sprain in warmups"
               value={hostNotes}
               onChange={(e) => setHostNotes(e.target.value)}
-              className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#1D4A38] focus:bg-white focus:outline-none placeholder:text-[#94A3B8]"
+              className="w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-xs text-[#1E293B] focus:border-[#14212D] focus:bg-white focus:outline-none placeholder:text-[#94A3B8]"
             />
           </div>
 
@@ -209,7 +209,7 @@ export function FixtureIssueModal({
             </button>
             <button
               type="submit"
-              className="rounded-full bg-[#1D4A38] hover:bg-[#16392B] text-white px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+              className="rounded-full bg-navy hover:bg-[#16392B] text-white px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all shadow-xs cursor-pointer"
             >
               Save & Audit Log
             </button>

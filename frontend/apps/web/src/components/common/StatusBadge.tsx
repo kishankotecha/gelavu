@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function StatusBadge({ status, className }: { status: TournamentStatus; className?: string }) {
   const conf = TOURNAMENT_STATUSES[status] || {
     label: status,
-    color: "bg-gray-800 text-gray-300 border-gray-700",
+    color: "bg-navy text-white/80 border-white/10",
   };
 
   return (

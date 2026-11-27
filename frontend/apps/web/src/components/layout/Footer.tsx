@@ -122,7 +122,7 @@ function CrossedRacquetsBadge({ className = "h-4 w-4" }: { className?: string })
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#91B979"
+      stroke="#FF685B"
       strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -136,9 +136,9 @@ function CrossedRacquetsBadge({ className = "h-4 w-4" }: { className?: string })
       <ellipse cx="16.5" cy="7.5" rx="4" ry="4" transform="rotate(45 16.5 7.5)" />
       <line x1="13.5" y1="10.5" x2="3.5" y2="20.5" strokeWidth="2.4" />
       {/* Sparkle accents */}
-      <circle cx="12" cy="3.5" r="1" fill="#91B979" />
-      <circle cx="20.5" cy="12" r="0.8" fill="#91B979" />
-      <circle cx="3.5" cy="12" r="0.8" fill="#91B979" />
+      <circle cx="12" cy="3.5" r="1" fill="#FF685B" />
+      <circle cx="20.5" cy="12" r="0.8" fill="#FF685B" />
+      <circle cx="3.5" cy="12" r="0.8" fill="#FF685B" />
     </svg>
   );
 }
@@ -157,13 +157,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative w-full bg-[#0A0D14] text-white font-sans overflow-hidden border-t border-[#313747]/40">
+    <footer className="relative w-full bg-navy text-white font-sans overflow-hidden border-t border-[#14212D]/40">
       
       {/* ============================================================== */}
       {/* AMBIENT BACKGROUND GLOW                                         */}
       {/* ============================================================== */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden select-none" aria-hidden="true">
-        <div className="absolute -top-32 -left-20 w-[520px] h-[520px] rounded-full bg-[#DE9D35]/[0.03] blur-[140px]" />
+        <div className="absolute -top-32 -left-20 w-[520px] h-[520px] rounded-full bg-hotpink/[0.03] blur-[140px]" />
       </div>
 
       {/* ============================================================== */}
@@ -179,16 +179,16 @@ export function Footer() {
           {/* Mobile Non-Scrolling Responsive Sports Grid */}
           <div className="py-3 lg:hidden space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#DE9D35]">
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-widest text-hotpink">
                 ONE ARENA · EVERY SPORT
               </span>
               <Link
                 href="/tournaments?sport=badminton"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] px-3 py-1 text-xs font-black text-[#0A0D14] transition-all shadow-xs"
+                className="inline-flex items-center gap-1.5 rounded-full bg-hotpink hover:bg-hotpink px-3 py-1 text-xs font-black text-navy transition-all shadow-xs"
               >
-                <BadmintonIcon className="h-3.5 w-3.5 text-[#0A0D14]" />
+                <BadmintonIcon className="h-3.5 w-3.5 text-navy" />
                 <span>Badminton</span>
-                <span className="rounded-full bg-[#0A0D14] text-[#F3D15A] text-[9px] font-black px-1.5 py-0.5 tracking-wider">
+                <span className="rounded-full bg-navy text-hotpink text-[9px] font-black px-1.5 py-0.5 tracking-wider">
                   LIVE
                 </span>
               </Link>
@@ -198,43 +198,43 @@ export function Footer() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
               <Link
                 href="/tournaments?sport=tennis"
-                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-white/80 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <TennisBallIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                  <TennisBallIcon className="h-3.5 w-3.5 text-white/70 shrink-0" />
                   <span className="truncate">Tennis</span>
                 </div>
-                <span className="text-[9px] font-bold text-gray-400 shrink-0">SOON</span>
+                <span className="text-[9px] font-bold text-white/70 shrink-0">SOON</span>
               </Link>
               <Link
                 href="/tournaments?sport=football"
-                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-white/80 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <FootballIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                  <FootballIcon className="h-3.5 w-3.5 text-white/70 shrink-0" />
                   <span className="truncate">Football</span>
                 </div>
-                <span className="text-[9px] font-bold text-gray-400 shrink-0">SOON</span>
+                <span className="text-[9px] font-bold text-white/70 shrink-0">SOON</span>
               </Link>
               <Link
                 href="/tournaments?sport=basketball"
-                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-white/80 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <BasketballIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                  <BasketballIcon className="h-3.5 w-3.5 text-white/70 shrink-0" />
                   <span className="truncate">Basketball</span>
                 </div>
-                <span className="text-[9px] font-bold text-gray-400 shrink-0">SOON</span>
+                <span className="text-[9px] font-bold text-white/70 shrink-0">SOON</span>
               </Link>
               <Link
                 href="/tournaments?sport=cricket"
-                className="inline-flex items-center justify-between rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-gray-300 transition-all"
+                className="inline-flex items-center justify-between rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-xs font-medium text-white/80 transition-all"
               >
                 <div className="flex items-center gap-1.5 min-w-0">
-                  <CricketIcon className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+                  <CricketIcon className="h-3.5 w-3.5 text-white/70 shrink-0" />
                   <span className="truncate">Cricket</span>
                 </div>
-                <span className="text-[9px] font-bold text-gray-400 shrink-0">SOON</span>
+                <span className="text-[9px] font-bold text-white/70 shrink-0">SOON</span>
               </Link>
             </div>
           </div>
@@ -242,67 +242,67 @@ export function Footer() {
           {/* Desktop 5-column continuous blueprint grid */}
           <div className="hidden lg:grid lg:grid-cols-[1.6fr_1fr_1.1fr_1fr_1.5fr] items-center">
             {/* Col 1 Header */}
-            <div className="py-4 pr-6 lg:pr-10">
-              <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-[#DE9D35]">
+            <div className="py-2.5 pr-6 lg:pr-10">
+              <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-hotpink">
                 ONE ARENA · EVERY SPORT
               </span>
             </div>
 
             {/* Col 2 Pill: Badminton (LIVE) */}
-            <div className="py-4 px-4 sm:px-6 lg:px-8">
+            <div className="py-2.5 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/tournaments?sport=badminton"
-                className="inline-flex items-center gap-2.5 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] px-4 py-2 text-sm font-black text-[#0A0D14] transition-all shadow-xs"
+                className="inline-flex items-center gap-2.5 rounded-full bg-hotpink hover:bg-hotpink px-4 py-1.5 text-sm font-black text-navy transition-all shadow-xs"
               >
-                <BadmintonIcon className="h-4 w-4 text-[#0A0D14]" />
+                <BadmintonIcon className="h-4 w-4 text-navy" />
                 <span>Badminton</span>
-                <span className="rounded-full bg-[#0A0D14] text-[#F3D15A] text-[10px] font-black px-2 py-0.5 tracking-wider">
+                <span className="rounded-full bg-navy text-hotpink text-[10px] font-black px-2 py-0.5 tracking-wider">
                   LIVE
                 </span>
               </Link>
             </div>
 
             {/* Col 3 Pills: Tennis & Football */}
-            <div className="py-4 px-4 sm:px-6 lg:px-8 flex items-center gap-2.5">
+            <div className="py-2.5 px-4 sm:px-6 lg:px-8 flex items-center gap-2.5">
               <Link
                 href="/tournaments?sport=tennis"
-                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-sm font-medium text-white/80 hover:text-white transition-all"
               >
-                <TennisBallIcon className="h-4 w-4 text-gray-400" />
+                <TennisBallIcon className="h-4 w-4 text-white/70" />
                 <span>Tennis</span>
-                <span className="text-[10px] font-bold text-gray-400">SOON</span>
+                <span className="text-[10px] font-bold text-white/70">SOON</span>
               </Link>
               <Link
                 href="/tournaments?sport=football"
-                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3 py-1.5 text-sm font-medium text-white/80 hover:text-white transition-all"
               >
-                <FootballIcon className="h-4 w-4 text-gray-400" />
+                <FootballIcon className="h-4 w-4 text-white/70" />
                 <span>Football</span>
-                <span className="text-[10px] font-bold text-gray-400">SOON</span>
+                <span className="text-[10px] font-bold text-white/70">SOON</span>
               </Link>
             </div>
 
             {/* Col 4 Pill: Basketball */}
-            <div className="py-4 px-4 sm:px-6 lg:px-8">
+            <div className="py-2.5 px-4 sm:px-6 lg:px-8">
               <Link
                 href="/tournaments?sport=basketball"
-                className="inline-flex items-center gap-2 rounded-full border border-[#313747]/60 bg-[#121622] hover:bg-[#1a2133] px-3.5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-[#14212D]/60 bg-navy hover:bg-[#1a2133] px-3.5 py-1.5 text-sm font-medium text-white/80 hover:text-white transition-all"
               >
-                <BasketballIcon className="h-4 w-4 text-gray-400" />
+                <BasketballIcon className="h-4 w-4 text-white/70" />
                 <span>Basketball</span>
-                <span className="text-[10px] font-bold text-gray-400">SOON</span>
+                <span className="text-[10px] font-bold text-white/70">SOON</span>
               </Link>
             </div>
 
             {/* Col 5 Pill: Cricket */}
-            <div className="py-4 pl-4 sm:pl-6 lg:pl-10">
+            <div className="py-2.5 pl-4 sm:pl-6 lg:pl-10">
               <Link
                 href="/tournaments?sport=cricket"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 px-3.5 py-2 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 px-3.5 py-1.5 text-sm font-medium text-white/80 hover:text-white transition-all"
               >
-                <CricketIcon className="h-4 w-4 text-gray-400" />
+                <CricketIcon className="h-4 w-4 text-white/70" />
                 <span>Cricket</span>
-                <span className="text-[10px] font-bold text-gray-400">SOON</span>
+                <span className="text-[10px] font-bold text-white/70">SOON</span>
               </Link>
             </div>
           </div>
@@ -319,13 +319,13 @@ export function Footer() {
           {/* ---------------------------------------------------------- */}
           {/* Col 1: Brand & Social (Full-width on mobile row 1)         */}
           {/* ---------------------------------------------------------- */}
-          <div className="col-span-2 lg:col-span-1 pt-2 lg:pt-8 pb-1 lg:pb-5 lg:pr-10 space-y-3">
-            <p className="text-sm sm:text-base text-gray-200 leading-snug sm:leading-relaxed max-w-sm font-normal">
+          <div className="col-span-2 lg:col-span-1 pt-2 lg:pt-5 pb-1 lg:pb-3 lg:pr-10 space-y-2.5">
+            <p className="text-sm sm:text-base text-white/90 leading-snug sm:leading-relaxed max-w-sm font-normal">
               Where every rally counts. Find the court, win the bracket, get your name on the wall.
             </p>
 
             {/* Signature Sunroom Apricot Accent Bar */}
-            <div className="h-1 w-10 rounded-full bg-[#DE9D35]" />
+            <div className="h-1 w-10 rounded-full bg-hotpink" />
 
             {/* Social Link - Dedicated Instagram Community Pill */}
             <div className="flex items-center pt-0.5">
@@ -334,7 +334,7 @@ export function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Follow Gelavu on Instagram"
-                className="group inline-flex items-center gap-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-[#313747]/60 hover:border-[#DE9D35]/50 px-3.5 py-1.5 text-xs font-medium text-gray-300 hover:text-white transition-all shadow-xs"
+                className="group inline-flex items-center gap-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-[#14212D]/60 hover:border-[#FF685B]/50 px-3.5 py-1.5 text-xs font-medium text-white/80 hover:text-white transition-all shadow-xs"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -343,14 +343,14 @@ export function Footer() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="h-3.5 w-3.5 text-[#DE9D35] group-hover:scale-110 transition-transform shrink-0"
+                  className="h-3.5 w-3.5 text-hotpink group-hover:scale-110 transition-transform shrink-0"
                 >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
                 </svg>
                 <span>Follow @gelavu</span>
-                <span className="text-gray-400 group-hover:text-[#DE9D35] text-[11px] transition-colors">↗</span>
+                <span className="text-white/70 group-hover:text-hotpink text-[11px] transition-colors">↗</span>
               </a>
             </div>
           </div>
@@ -358,38 +358,38 @@ export function Footer() {
           {/* ---------------------------------------------------------- */}
           {/* Col 2: PLAY (Mobile Row 2 - Left)                          */}
           {/* ---------------------------------------------------------- */}
-          <div className="col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
+          <div className="col-span-1 pt-1 lg:pt-5 pb-1 lg:pb-3 lg:px-6 xl:px-8 space-y-2">
             <Link
               href="/tournaments"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-hotpink transition-colors"
             >
               <span>PLAY</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-hotpink" />
             </Link>
-            <div className="space-y-1.5 sm:space-y-2.5 pt-0.5 text-xs sm:text-[15px]">
-              <div><Link href="/tournaments" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Find tournaments</Link></div>
-              <div><Link href="/leaderboard" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Rankings</Link></div>
-              <div><Link href="/profile" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Player profiles</Link></div>
-              <div><Link href="/tournaments" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Live brackets</Link></div>
+            <div className="space-y-1 sm:space-y-2 pt-0.5 text-xs sm:text-[15px]">
+              <div><Link href="/tournaments" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Find tournaments</Link></div>
+              <div><Link href="/leaderboard" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Rankings</Link></div>
+              <div><Link href="/profile" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Player profiles</Link></div>
+              <div><Link href="/tournaments" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Live brackets</Link></div>
             </div>
           </div>
 
           {/* ---------------------------------------------------------- */}
           {/* Col 3: HOST (Mobile Row 2 - Right)                         */}
           {/* ---------------------------------------------------------- */}
-          <div className="col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
+          <div className="col-span-1 pt-1 lg:pt-5 pb-1 lg:pb-3 lg:px-6 xl:px-8 space-y-2">
             <Link
               href="/host"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-hotpink transition-colors"
             >
               <span>HOST</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-hotpink" />
             </Link>
-            <div className="space-y-1.5 sm:space-y-2.5 pt-0.5 text-xs sm:text-[15px]">
-              <div><Link href="/host/tournaments/new" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Host a tournament</Link></div>
-              <div><Link href="/umpire" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Court QR for umpires</Link></div>
-              <div><Link href="/host/verify" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Verify your venue</Link></div>
-              <div><Link href="/host/verify" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Transparent pricing</Link></div>
+            <div className="space-y-1 sm:space-y-2 pt-0.5 text-xs sm:text-[15px]">
+              <div><Link href="/host/tournaments/new" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Host a tournament</Link></div>
+              <div><Link href="/umpire" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Court QR for umpires</Link></div>
+              <div><Link href="/host/verify" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Verify your venue</Link></div>
+              <div><Link href="/host/verify" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Transparent pricing</Link></div>
             </div>
           </div>
 
@@ -398,19 +398,19 @@ export function Footer() {
           {/* Mobile: 2-column links row (col-span-2)                    */}
           {/* Desktop: Standard Column 4 (lg:col-span-1)                 */}
           {/* ---------------------------------------------------------- */}
-          <div className="col-span-2 lg:col-span-1 pt-1 lg:pt-8 pb-1 lg:pb-5 lg:px-6 xl:px-8 space-y-2 sm:space-y-3">
+          <div className="col-span-2 lg:col-span-1 pt-1 lg:pt-5 pb-1 lg:pb-3 lg:px-6 xl:px-8 space-y-2">
             <Link
               href="/#how"
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-[#DE9D35] transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white hover:text-hotpink transition-colors"
             >
               <span>GELAVU</span>
-              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35]" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-hotpink" />
             </Link>
-            <div className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-1.5 sm:gap-y-2.5 pt-0.5 text-xs sm:text-[15px]">
-              <div><Link href="/#how" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">About</Link></div>
-              <div><Link href="/winners" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Champions</Link></div>
-              <div><Link href="/#contact" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Help & support</Link></div>
-              <div><Link href="/#fairplay" className="text-gray-300 hover:text-white transition-colors block py-0.5 font-medium">Fair play code</Link></div>
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-1 sm:gap-y-2 pt-0.5 text-xs sm:text-[15px]">
+              <div><Link href="/#how" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">About</Link></div>
+              <div><Link href="/winners" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Champions</Link></div>
+              <div><Link href="/#contact" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Help & support</Link></div>
+              <div><Link href="/#fairplay" className="text-white/80 hover:text-white transition-colors block py-0.5 font-medium">Fair play code</Link></div>
             </div>
           </div>
 
@@ -419,25 +419,25 @@ export function Footer() {
           {/* Mobile: Full-width spacious newsletter strip (col-span-2)  */}
           {/* Desktop: Standard Column 5 (lg:col-span-1)                 */}
           {/* ---------------------------------------------------------- */}
-          <div className="col-span-2 lg:col-span-1 pt-2 lg:pt-8 pb-1 lg:pb-5 lg:pl-10 space-y-2 sm:space-y-3">
+          <div className="col-span-2 lg:col-span-1 pt-2 lg:pt-5 pb-1 lg:pb-3 lg:pl-10 space-y-2">
             <div className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-black uppercase tracking-wider text-white">
-              <Trophy className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#DE9D35] shrink-0" />
+              <Trophy className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-hotpink shrink-0" />
               <span>STAY IN THE GAME</span>
             </div>
-            <p className="text-xs sm:text-sm text-gray-300 leading-snug sm:leading-relaxed font-normal max-w-md">
+            <p className="text-xs sm:text-sm text-white/80 leading-snug sm:leading-relaxed font-normal max-w-md">
               New tournaments, draws and winners near you.
             </p>
 
             {/* Newsletter Subscription Input - Full Width & Comfortable on Mobile */}
             <form onSubmit={handleSubscribe} className="pt-0.5 max-w-md lg:max-w-none">
               {subscribed ? (
-                <div className="flex items-center gap-2 p-2.5 rounded-full bg-[#91B979]/10 border border-[#91B979]/60 text-xs sm:text-sm text-[#91B979] font-bold">
+                <div className="flex items-center gap-2 p-2.5 rounded-full bg-[#FF685B]/10 border border-[#FF685B]/60 text-xs sm:text-sm text-[#FF685B] font-bold">
                   <Check className="h-4 w-4 shrink-0" />
                   <span>You&apos;re in! Check your inbox soon.</span>
                 </div>
               ) : (
-                <div className="relative flex items-center rounded-full border border-[#313747]/60 bg-[#121622] pl-3.5 sm:pl-4 pr-1 sm:pr-1.5 py-1 sm:py-1.5 focus-within:border-[#DE9D35]/80 transition-all shadow-inner">
-                  <Mail className="h-4 w-4 text-gray-400 shrink-0 mr-2 sm:mr-2.5" />
+                <div className="relative flex items-center rounded-full border border-[#14212D]/60 bg-navy pl-3.5 sm:pl-4 pr-1 sm:pr-1.5 py-1 sm:py-1.5 focus-within:border-[#FF685B]/80 transition-all shadow-inner">
+                  <Mail className="h-4 w-4 text-white/70 shrink-0 mr-2 sm:mr-2.5" />
                   <input
                     type="email"
                     required
@@ -445,12 +445,12 @@ export function Footer() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
                     aria-label="Your email"
-                    className="w-full bg-transparent text-xs sm:text-sm text-white placeholder:text-gray-400 outline-none pr-2 font-normal min-w-0"
+                    className="w-full bg-transparent text-xs sm:text-sm text-white placeholder:text-white/70 outline-none pr-2 font-normal min-w-0"
                   />
                   <button
                     type="submit"
                     aria-label="Subscribe"
-                    className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 shrink-0 rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-95 text-[#0A0D14] font-black text-xs transition cursor-pointer shadow-md"
+                    className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 shrink-0 rounded-full bg-hotpink hover:bg-hotpink active:scale-95 text-navy font-black text-xs transition cursor-pointer shadow-md"
                   >
                     <span>Join</span>
                     <ArrowRight className="h-3.5 w-3.5 stroke-[2.8]" />
@@ -463,22 +463,22 @@ export function Footer() {
         </div>
 
         {/* ============================================================ */}
-        {/* 3. GIANT NEON LOGO WATERMARK                                 */}
-        {/* Sits snug under grid on mobile with full visible headroom    */}
+        {/* 3. SLEEK WATERMARK LOGO                                      */}
+        {/* Compact, modern footprint proportionate to layout            */}
         {/* ============================================================ */}
-        <div className="relative pt-3 sm:pt-4 lg:pt-6 select-none pointer-events-none overflow-visible">
+        <div className="relative pt-2 sm:pt-3 lg:pt-3 select-none pointer-events-none overflow-visible">
           
           {/* Atmospheric Ambient Glow Overlay */}
-          <div className="absolute left-[24%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[340px] rounded-full bg-white/[0.04] blur-[120px] pointer-events-none" />
+          <div className="absolute left-[24%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[180px] rounded-full bg-white/[0.04] blur-[80px] pointer-events-none" />
 
           {/* Authentic GELAVU Brand Logo Vector with Original Color Palette */}
           {/* Letters in White, V in Red, Crown Circle in Yellow */}
-          <div className="relative z-0 w-full flex items-center justify-center translate-y-0 sm:translate-y-2 lg:translate-y-6">
+          <div className="relative z-0 w-full flex items-center justify-center translate-y-0 sm:translate-y-1">
             <svg
               viewBox="20 54 914 271"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-[66%] sm:w-[80%] lg:w-full h-auto max-h-[70px] sm:max-h-[130px] lg:max-h-[260px] overflow-visible"
+              className="w-[45%] sm:w-[52%] lg:w-[58%] max-w-[500px] h-auto max-h-[45px] sm:max-h-[80px] lg:max-h-[125px] overflow-visible"
               aria-label="Gelavu Logo"
             >
               {/* Letters A & L - Solid White */}
@@ -522,7 +522,7 @@ export function Footer() {
         {/* ============================================================ */}
         {/* 4. BOTTOM LEGAL & LOVE STRIP                                 */}
         {/* ============================================================ */}
-        <div className="relative z-10 pt-2 sm:pt-4 pb-5 sm:pb-6 flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-6 text-xs sm:text-sm text-gray-400 font-normal text-center md:text-left">
+        <div className="relative z-10 pt-2 sm:pt-3 pb-3 sm:pb-4 flex flex-col md:flex-row items-center justify-between gap-2.5 sm:gap-4 text-xs sm:text-sm text-white/70 font-normal text-center md:text-left">
           <div suppressHydrationWarning>
             © {new Date().getFullYear()} Gelavu Sports Technologies. All rights reserved.
           </div>
@@ -533,7 +533,7 @@ export function Footer() {
             <Link href="/#terms" className="hover:text-white transition-colors">Refund policy</Link>
           </div>
 
-          <div className="flex items-center justify-center gap-2 font-semibold text-gray-200">
+          <div className="flex items-center justify-center gap-2 font-semibold text-white/90">
             <CrossedRacquetsBadge className="h-4 w-4" />
             <span>Built for the love of the game.</span>
           </div>

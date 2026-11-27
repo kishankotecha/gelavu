@@ -49,19 +49,19 @@ export function HeroFeatured({ t }: { t: FeaturedData }) {
           </h1>
 
           {/* Subline: Date • Venue • Prize Pool */}
-          <div className="mt-3.5 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-xs sm:text-sm font-medium text-gray-300">
+          <div className="mt-3.5 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-xs sm:text-sm font-medium text-white/80">
             <span className="flex items-center gap-1.5">
-              <CalendarDays className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              <CalendarDays className="h-4 w-4 text-white/70" aria-hidden="true" />
               {t.dateLabel}
             </span>
-            <span className="text-gray-500">•</span>
+            <span className="text-white/60">•</span>
             <span className="flex items-center gap-1.5">
-              <MapPin className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              <MapPin className="h-4 w-4 text-white/70" aria-hidden="true" />
               {t.venueLabel}
             </span>
             {t.prizeLabel && (
               <>
-                <span className="text-gray-500">•</span>
+                <span className="text-white/60">•</span>
                 <span>Prize pool {t.prizeLabel}</span>
               </>
             )}

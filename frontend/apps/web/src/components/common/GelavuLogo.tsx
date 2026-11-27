@@ -18,7 +18,7 @@ const SIZES = {
 };
 
 const BADGE_STYLES: Record<string, string> = {
-  HOST: "bg-[#1B2336] text-gray-300 border-gray-700",
+  HOST: "bg-[#14212D] text-white/80 border-white/10",
   ADMIN: "bg-rose-950/60 text-rose-300 border-rose-800/80",
   UMPIRE: "bg-emerald-950/60 text-lime border-emerald-800/80",
 };
@@ -32,7 +32,7 @@ export function GelavuLogo({
   logoClassName = "",
 }: GelavuLogoProps) {
   const isDark = variant === "dark";
-  const letterColor = isDark ? "#FFFFFF" : "#0B1220";
+  const letterColor = isDark ? "#FFFFFF" : "#14212D";
 
   const logoSvg = (
     <div className={`relative flex items-center gap-2.5 shrink-0 ${className}`}>
@@ -81,7 +81,7 @@ export function GelavuLogo({
       {badge && (
         <span
           className={`rounded-md px-2 py-0.5 text-[10px] font-black uppercase tracking-wider border shadow-2xs ${
-            BADGE_STYLES[badge] || "bg-gray-800 text-gray-300 border-gray-700"
+            BADGE_STYLES[badge] || "bg-navy text-white/80 border-white/10"
           }`}
         >
           {badge}

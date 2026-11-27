@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
 @import "../styles/tokens.css";
 
 @font-face {
@@ -22,13 +23,20 @@
   --color-muted: rgb(var(--muted));
   --color-live: rgb(var(--live));
 
-  /* Sunroom Palette (User Selected) */
-  --color-apricot: #DE9D35;
-  --color-marigold: #F3D15A;
-  --color-garden: #91B979;
-  --color-poppy: #D96F55;
-  --color-midnight: #313747;
-  --color-bg-dark: #0A0D14;
+  /* Premium Brand Palette: Navy (#14212D), Cream (#F4EDE0), Coral (#FF685B) */
+  --color-apricot: #FF685B;
+  --color-marigold: #FF685B;
+  --color-garden: #FF685B;
+  --color-poppy: #FF685B;
+  --color-midnight: #14212D;
+  --color-bg-dark: #14212D;
+
+  --color-navy: #14212D;
+  --color-cream: #F4EDE0;
+  --color-coral: #FF685B;
+  --color-hotpink: #FF685B;
+  --color-cta: #FF685B;
+  --color-brand: #14212D;
 
   --font-sans: var(--font-sans), var(--font-jakarta), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: var(--font-rogenz), 'Rogenz', Impact, sans-serif;
@@ -81,18 +89,44 @@
   font-family: var(--font-sans), var(--font-jakarta), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Custom Scrollbar for Bracket and Tables */
+@layer components {
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background-color: var(--color-coral);
+    color: #14212D;
+    font-weight: 800;
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgb(255 104 91 / 0.28);
+  }
+  .btn-cta:hover {
+    background-color: color-mix(in srgb, var(--color-coral) 88%, black);
+    color: #fff;
+  }
+  .btn-cta:active {
+    transform: scale(0.98);
+  }
+  .btn-cta:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(17, 24, 39, 0.7);
+  background: #14212D;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(75, 85, 99, 0.8);
+  background: #FF685B;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(107, 114, 128, 1);
+  background: #ff857a;
 }

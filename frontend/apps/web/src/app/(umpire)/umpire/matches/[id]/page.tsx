@@ -50,7 +50,7 @@ export default function UmpireMatchScoringConsolePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B101B] text-white flex flex-col justify-between p-4 sm:p-6 select-none max-w-md mx-auto">
+    <div className="min-h-screen bg-[#14212D] text-white flex flex-col justify-between p-4 sm:p-6 select-none max-w-md mx-auto">
       {/* Top Header */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">

@@ -120,20 +120,20 @@ function OnboardingContent() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-5rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-[#0A0D14] overflow-hidden">
+    <div className="relative min-h-[calc(100vh-5rem)] flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-navy overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#DE9D35]/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-[#F3D15A]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -top-40 -left-40 w-96 h-96 rounded-full bg-hotpink/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-hotpink/10 blur-3xl" />
 
       {/* Floating Pristine High-Contrast White Card */}
-      <div className="relative w-full max-w-2xl rounded-[28px] sm:rounded-[32px] bg-white text-[#0B101B] shadow-2xl p-6 sm:p-9 border border-white/20 transition-all">
+      <div className="relative w-full max-w-2xl rounded-[28px] sm:rounded-[32px] bg-white text-navy shadow-2xl p-6 sm:p-9 border border-white/20 transition-all">
         
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <GelavuLogo variant="light" size="md" href="/" />
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DE9D35]/15 border border-[#DE9D35]/30 text-[#9E6514] text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 text-[#DE9D35]" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-hotpink/15 border border-[#FF685B]/30 text-[#9E6514] text-[10px] sm:text-[11px] font-black uppercase tracking-wider">
+              <Sparkles className="w-3 h-3 text-hotpink" />
               STEP 2 OF 2 · COMPLETE YOUR PROFILE
             </span>
           </div>
@@ -141,7 +141,7 @@ function OnboardingContent() {
           <h1 className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight mt-1">
             Set up your Gelavu account
           </h1>
-          <p className="mt-1 text-xs sm:text-sm text-gray-500 font-medium leading-relaxed">
+          <p className="mt-1 text-xs sm:text-sm text-white/60 font-medium leading-relaxed">
             You can switch between Play and Host mode anytime from the top bar.
           </p>
         </div>
@@ -154,22 +154,22 @@ function OnboardingContent() {
               onClick={() => setActiveMode("PLAY")}
               className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 activeMode === "PLAY"
-                  ? "border-[#0B101B] bg-[#0B101B] text-white shadow-xl ring-2 ring-black/10"
-                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-[#0B101B]"
+                  ? "border-[#14212D] bg-navy text-white shadow-xl ring-2 ring-black/10"
+                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-navy"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div
                   className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
                     activeMode === "PLAY"
-                      ? "bg-white/10 text-[#F3D15A]"
+                      ? "bg-white/10 text-hotpink"
                       : "bg-gray-200/60 text-gray-600"
                   }`}
                 >
                   <Trophy className="w-5 h-5" />
                 </div>
                 {activeMode === "PLAY" && (
-                  <span className="w-5 h-5 rounded-full bg-[#F3D15A] text-[#0B101B] flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-full bg-hotpink text-navy flex items-center justify-center">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </span>
                 )}
@@ -178,7 +178,7 @@ function OnboardingContent() {
                 <strong className="block text-sm sm:text-base font-black">Play Mode</strong>
                 <small
                   className={`text-[11px] block mt-0.5 leading-snug font-medium ${
-                    activeMode === "PLAY" ? "text-gray-300" : "text-gray-500"
+                    activeMode === "PLAY" ? "text-white/80" : "text-white/60"
                   }`}
                 >
                   Enter tournaments &amp; track rank
@@ -191,22 +191,22 @@ function OnboardingContent() {
               onClick={() => setActiveMode("HOST")}
               className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 activeMode === "HOST"
-                  ? "border-[#0B101B] bg-[#0B101B] text-white shadow-xl ring-2 ring-black/10"
-                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-[#0B101B]"
+                  ? "border-[#14212D] bg-navy text-white shadow-xl ring-2 ring-black/10"
+                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100 text-navy"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div
                   className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
                     activeMode === "HOST"
-                      ? "bg-white/10 text-[#F3D15A]"
+                      ? "bg-white/10 text-hotpink"
                       : "bg-gray-200/60 text-gray-600"
                   }`}
                 >
                   <CalendarPlus className="w-5 h-5" />
                 </div>
                 {activeMode === "HOST" && (
-                  <span className="w-5 h-5 rounded-full bg-[#F3D15A] text-[#0B101B] flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-full bg-hotpink text-navy flex items-center justify-center">
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </span>
                 )}
@@ -215,7 +215,7 @@ function OnboardingContent() {
                 <strong className="block text-sm sm:text-base font-black">Host Mode</strong>
                 <small
                   className={`text-[11px] block mt-0.5 leading-snug font-medium ${
-                    activeMode === "HOST" ? "text-gray-300" : "text-gray-500"
+                    activeMode === "HOST" ? "text-white/80" : "text-white/60"
                   }`}
                 >
                   Create events, draws &amp; courts
@@ -235,7 +235,7 @@ function OnboardingContent() {
                 name={name || "Player"}
                 url={avatarUrl}
                 size="lg"
-                className="border-2 border-[#DE9D35] shadow-sm group-hover:scale-105 transition-transform"
+                className="border-2 border-[#FF685B] shadow-sm group-hover:scale-105 transition-transform"
               />
               <button
                 type="button"
@@ -243,25 +243,25 @@ function OnboardingContent() {
                   e.stopPropagation();
                   setIsAvatarModalOpen(true);
                 }}
-                className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#0B101B] text-[#F3D15A] shadow-md border border-white hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-navy text-hotpink shadow-md border border-white hover:scale-110 active:scale-95 transition-transform cursor-pointer"
                 aria-label="Change Avatar"
               >
                 <Camera className="w-3 h-3" />
               </button>
             </div>
             <div className="min-w-0 flex-1">
-              <span className="block text-xs font-black text-[#0B101B]">
+              <span className="block text-xs font-black text-navy">
                 Profile Photo &amp; Crazy Sticker
               </span>
-              <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+              <p className="text-[11px] text-white/60 mt-0.5 leading-snug">
                 Take a selfie, upload from device, or pick a crazy sports sticker.
               </p>
               <button
                 type="button"
                 onClick={() => setIsAvatarModalOpen(true)}
-                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9E6514] hover:text-[#0B101B] mt-1 cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#9E6514] hover:text-navy mt-1 cursor-pointer"
               >
-                <Smile className="w-3 h-3 text-[#DE9D35]" />
+                <Smile className="w-3 h-3 text-hotpink" />
                 <span>Customize Avatar ➜</span>
               </button>
             </div>
@@ -270,24 +270,24 @@ function OnboardingContent() {
           {/* 2. Full Name & Home City */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                 Full Name *
               </label>
-              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
-                <UserIcon className="w-4 h-4 text-gray-400 mr-2 shrink-0" />
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#14212D] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                <UserIcon className="w-4 h-4 text-white/70 mr-2 shrink-0" />
                 <input
                   type="text"
                   placeholder="e.g. Rohan Kumar"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] placeholder:text-gray-400 outline-none"
+                  className="w-full bg-transparent text-sm font-semibold text-navy placeholder:text-white/70 outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                 Home City *
               </label>
               <CustomDropdown
@@ -307,13 +307,13 @@ function OnboardingContent() {
               <div className="rounded-2xl border border-gray-200 bg-gray-50/60 p-4 sm:p-5 space-y-3.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
                   <div>
-                    <label className="text-xs font-black uppercase tracking-wider text-[#0B101B] flex items-center gap-1.5">
+                    <label className="text-xs font-black uppercase tracking-wider text-navy flex items-center gap-1.5">
                       <span>Playing Level &amp; Skill Rating</span>
-                      <span className="text-[10px] font-bold text-[#DE9D35] bg-[#DE9D35]/10 px-2 py-0.5 rounded-full border border-[#DE9D35]/20">
+                      <span className="text-[10px] font-bold text-hotpink bg-hotpink/10 px-2 py-0.5 rounded-full border border-[#FF685B]/20">
                         Playo Algorithm
                       </span>
                     </label>
-                    <p className="text-[11px] text-gray-500 font-medium">
+                    <p className="text-[11px] text-white/60 font-medium">
                       Select your starting skill tier. Post-match peer ratings will calibrate your rating.
                     </p>
                   </div>
@@ -340,7 +340,7 @@ function OnboardingContent() {
                         onClick={() => handleSelectTier(tier)}
                         className={`px-3 py-3 rounded-xl text-center transition-all cursor-pointer border flex items-center justify-center ${
                           isSelected
-                            ? "bg-[#0B101B] text-[#F3D15A] border-[#0B101B] shadow-sm ring-2 ring-black/10 font-black"
+                            ? "bg-navy text-hotpink border-[#14212D] shadow-sm ring-2 ring-black/10 font-black"
                             : "bg-white border-gray-200 text-gray-700 hover:bg-gray-100 hover:border-gray-300 font-bold"
                         }`}
                       >
@@ -359,10 +359,10 @@ function OnboardingContent() {
                     style={{ backgroundColor: currentTier.indicatorColor }}
                   />
                   <div>
-                    <strong className="text-[#0B101B] font-bold block">
+                    <strong className="text-navy font-bold block">
                       {currentTier.label} ({currentTier.summary})
                     </strong>
-                    <span className="text-gray-500 leading-snug block mt-0.5">
+                    <span className="text-white/60 leading-snug block mt-0.5">
                       {currentTier.description}
                     </span>
                   </div>
@@ -373,11 +373,11 @@ function OnboardingContent() {
                   <button
                     type="button"
                     onClick={() => setShowFormulaDetails((v) => !v)}
-                    className="inline-flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-[#0B101B] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-[11px] font-bold text-white/60 hover:text-navy transition-colors cursor-pointer"
                   >
-                    <Info className="w-3.5 h-3.5 text-[#DE9D35]" />
+                    <Info className="w-3.5 h-3.5 text-hotpink" />
                     <span>How Playo calculates your rating</span>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="text-[10px] text-white/70">
                       {showFormulaDetails ? "(Hide)" : "(90% recent weightage)"}
                     </span>
                   </button>
@@ -385,9 +385,9 @@ function OnboardingContent() {
                   {showFormulaDetails && (
                     <div className="mt-2.5 p-3.5 rounded-xl bg-white border border-gray-200 text-[11px] text-gray-600 space-y-2 animate-in fade-in duration-150">
                       <div className="flex items-start gap-2">
-                        <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <ShieldCheck className="w-4 h-4 text-hotpink shrink-0 mt-0.5" />
                         <div>
-                          <strong className="text-[#0B101B] block">Two-Tier Weighted Average</strong>
+                          <strong className="text-navy block">Two-Tier Weighted Average</strong>
                           <span>
                             <strong>90% Weightage:</strong> Your self-rating combined with post-match anonymous peer ratings from your <strong>last 25 tournament &amp; practice games</strong>.
                           </span>
@@ -398,9 +398,9 @@ function OnboardingContent() {
                       </div>
 
                       <div className="flex items-start gap-2 pt-1 border-t border-gray-100">
-                        <Flame className="w-4 h-4 text-[#DE9D35] shrink-0 mt-0.5" />
+                        <Flame className="w-4 h-4 text-hotpink shrink-0 mt-0.5" />
                         <div>
-                          <strong className="text-[#0B101B] block">Smart Deduplication &amp; Carryover</strong>
+                          <strong className="text-navy block">Smart Deduplication &amp; Carryover</strong>
                           <span>
                             If the same partner or opponent rates you multiple times, their newest rating replaces their old one. Unrated matches carry forward your previous valid rating.
                           </span>
@@ -414,7 +414,7 @@ function OnboardingContent() {
 
               {/* Preferred Categories */}
               <div>
-                <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                   Preferred Categories
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -427,8 +427,8 @@ function OnboardingContent() {
                         onClick={() => toggleCategory(cat)}
                         className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer border ${
                           active
-                            ? "border-[#0B101B] bg-[#0B101B] text-[#F3D15A] shadow-xs"
-                            : "border-gray-200 bg-gray-50 text-gray-600 hover:text-[#0B101B] hover:border-gray-300"
+                            ? "border-[#14212D] bg-navy text-hotpink shadow-xs"
+                            : "border-gray-200 bg-gray-50 text-gray-600 hover:text-navy hover:border-gray-300"
                         }`}
                       >
                         {active ? "✓ " : "+ "}
@@ -442,21 +442,21 @@ function OnboardingContent() {
             </div>
           ) : (
             <div>
-              <label className="block text-xs font-bold text-[#0B101B] mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-navy mb-1.5 uppercase tracking-wider">
                 Club / Organization Name *
               </label>
-              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#0B101B] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
-                <Building2 className="w-4 h-4 text-gray-400 mr-2 shrink-0" />
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50/80 px-3.5 py-2.5 focus-within:border-[#14212D] focus-within:bg-white focus-within:ring-2 focus-within:ring-black/10 transition-all">
+                <Building2 className="w-4 h-4 text-white/70 mr-2 shrink-0" />
                 <input
                   type="text"
                   placeholder="e.g. Apex Badminton Academy"
                   value={organizationName}
                   onChange={(e) => setOrganizationName(e.target.value)}
                   required
-                  className="w-full bg-transparent text-sm font-semibold text-[#0B101B] placeholder:text-gray-400 outline-none"
+                  className="w-full bg-transparent text-sm font-semibold text-navy placeholder:text-white/70 outline-none"
                 />
               </div>
-              <p className="text-[11px] text-gray-500 mt-1.5">
+              <p className="text-[11px] text-white/60 mt-1.5">
                 You can complete host verification and bank account details later from your Host Dashboard.
               </p>
             </div>
@@ -466,7 +466,7 @@ function OnboardingContent() {
           <button
             type="submit"
             disabled={isSaving}
-            className="w-full rounded-full bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-[0.99] disabled:opacity-50 text-[#0A0D14] py-3.5 px-6 text-sm sm:text-base font-black transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg hover:shadow-xl mt-3 group"
+            className="btn-cta w-full py-3.5 px-6 text-sm sm:text-base font-black flex items-center justify-center gap-2.5 cursor-pointer mt-3 group"
           >
             <span>
               {isSaving
@@ -497,7 +497,7 @@ export default function OnboardingPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center text-xs font-semibold text-gray-400 bg-[#0A0D14]">
+        <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center text-xs font-semibold text-white/70 bg-navy">
           Loading onboarding...
         </div>
       }

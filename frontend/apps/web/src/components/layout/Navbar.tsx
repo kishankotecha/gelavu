@@ -80,6 +80,8 @@ export function Navbar() {
   }, []);
 
   const [activeTab, setActiveTab] = useState<number>(() => getRouteIndex(pathname));
+  const [hoveredTab, setHoveredTab] = useState<number | null>(null);
+  const highlightedTab = hoveredTab !== null ? hoveredTab : activeTab;
   const [prevRoutePath, setPrevRoutePath] = useState(pathname);
 
   // Sync activeTab during render when pathname changes
@@ -131,6 +133,7 @@ export function Navbar() {
 
   // When mouse leaves the nav bar, always return to the active tab
   const handleMouseLeave = useCallback(() => {
+    setHoveredTab(null);
     if (activeTab !== -1) {
       movePill(activeTab);
     } else {
@@ -178,44 +181,35 @@ export function Navbar() {
       {/* ========================================================= */}
       {/* Full-Width Solid Navbar (Matches Reference Screenshot)   */}
       {/* ========================================================= */}
-      <header className="sticky top-0 z-50 w-full border-b border-black/40 bg-[#070F1E] text-white">
+      <header className="sticky top-0 z-50 w-full border-b border-navy/40 bg-navy text-white">
         <div className="w-full h-16 sm:h-[68px] px-4 sm:px-8 lg:px-12 flex items-center justify-between">
           
           {/* 1. LEFT: Brand Logo + Clean Nav Links (Desktop Only) */}
           <div className="hidden lg:flex items-center gap-8 lg:gap-12 h-full">
             <GelavuLogo variant="dark" size="lg" href="/" />
 
-            {/* Desktop Nav Links - Sliding Crystal Glass Background Pill with Karnataka Accent */}
+            {/* Desktop Nav Links - Solid Coral Pill matching Image Reference */}
             <nav
               ref={navRef}
               aria-label="Main Navigation"
               onMouseLeave={handleMouseLeave}
               className="relative hidden lg:flex items-center gap-1.5 py-1"
             >
-              {/* Sliding Glass Background Pill */}
+              {/* Sliding active pill indicator - Solid Coral Pill */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden"
+                className="pointer-events-none absolute rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] bg-coral shadow-[0_2px_8px_rgba(255,104,91,0.35)]"
                 style={{
                   transform: `translate3d(${pillStyle.left}px, ${pillStyle.top}px, 0)`,
                   width: `${pillStyle.width}px`,
                   height: `${pillStyle.height}px`,
                   opacity: pillStyle.opacity,
                 }}
-              >
-                {/* Layer 1: Frosted Crystal Glass Base */}
-                <div className="absolute inset-0 rounded-full bg-white/[0.08] backdrop-blur-xl border border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.3)]" />
-
-                {/* Layer 2: Radiant Karnataka Flag Gradient (Gold Yellow -> Warm Saffron -> Crimson Red) with screen blend to eliminate muddy tint */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FACC15]/35 via-[#FB923C]/25 to-[#EF4444]/35 mix-blend-screen" />
-
-                {/* Layer 3: Top Specular Glass Reflection */}
-                <div className="absolute inset-x-3 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
-              </div>
+              />
 
               {/* Navigation Links */}
               {navTabs.map((tab, idx) => {
-                const active = activeTab === idx;
+                const isPillUnder = highlightedTab === idx;
                 return (
                   <Link
                     key={tab.label}
@@ -223,16 +217,20 @@ export function Navbar() {
                       tabRefs.current[idx] = el;
                     }}
                     href={tab.href}
-                    onMouseEnter={() => movePill(idx)}
+                    onMouseEnter={() => {
+                      setHoveredTab(idx);
+                      movePill(idx);
+                    }}
                     onClick={() => {
+                      setHoveredTab(null);
                       setActiveTab(idx);
                       movePill(idx);
                     }}
-                    className="relative z-10 px-5 py-2 rounded-full text-sm font-semibold tracking-tight transition-colors duration-150 select-none cursor-pointer flex items-center justify-center"
+                    className="relative z-10 px-5 h-9 rounded-full text-sm font-semibold tracking-normal transition-colors duration-150 select-none cursor-pointer flex items-center justify-center"
                   >
                     <span
-                      className={`transition-colors duration-150 ${
-                        active ? "text-white font-bold" : "text-white/85 hover:text-white"
+                      className={`inline-flex items-center justify-center leading-none transition-colors duration-150 ${
+                        isPillUnder ? "text-white font-bold" : "text-white/80 hover:text-white"
                       }`}
                     >
                       {tab.label}
@@ -250,7 +248,7 @@ export function Navbar() {
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="Search tournaments"
-              className="grid h-9 w-9 place-items-center rounded-full text-white hover:text-[#FACC15] hover:bg-white/10 transition active:scale-95 cursor-pointer"
+              className="grid h-9 w-9 place-items-center rounded-full text-white hover:text-hotpink hover:bg-white/10 transition active:scale-95 cursor-pointer"
               title="Search tournaments (⌘K)"
             >
               <Search className="h-4 w-4" />
@@ -270,7 +268,7 @@ export function Navbar() {
                     setJoinMode("login");
                     setJoinOpen(true);
                   }}
-                  className="text-sm font-semibold text-white hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#FACC15] hover:via-[#FB923C] hover:to-[#EF4444] transition-all duration-200 cursor-pointer py-1"
+                  className="text-sm font-semibold text-white hover:text-hotpink transition-all duration-200 cursor-pointer py-1"
                 >
                   Log in
                 </button>
@@ -282,7 +280,7 @@ export function Navbar() {
                     setJoinMode("join");
                     setJoinOpen(true);
                   }}
-                  className="rounded-md bg-[#DE9D35] hover:bg-[#c98b2c] active:scale-95 text-[#0A0D14] font-black text-xs uppercase tracking-wider px-4 py-2 transition-all shadow-sm cursor-pointer"
+                  className="btn-cta rounded-md text-xs uppercase tracking-wider px-4 py-2 active:scale-95 cursor-pointer"
                 >
                   GET STARTED
                 </button>

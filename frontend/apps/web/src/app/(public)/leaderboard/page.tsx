@@ -16,7 +16,7 @@ export default function LeaderboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F6F5F0] text-[#0B1220] pb-20">
+    <div className="min-h-screen bg-[#F6F5F0] text-[#14212D] pb-20">
       <div className="container mx-auto px-4 sm:px-6 py-8 max-w-5xl space-y-10 font-sans">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-line">
@@ -52,7 +52,7 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Player of the Month Showcase Card */}
-      <div className="rounded-3xl bg-[#0B101B] p-6 sm:p-10 text-white shadow-lift border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="rounded-3xl bg-navy p-6 sm:p-10 text-white shadow-lift border border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex items-center gap-6">
           <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-3xl bg-cover bg-center border-2 border-[#E6B84F]/60 shadow-xl overflow-hidden" style={{ backgroundImage: "url(/images/athletes/arjun-mehta.jpg)" }}>
             <span className="absolute -bottom-2 -right-2 grid h-8 w-8 place-items-center rounded-full bg-[#E6B84F] text-ink text-sm font-bold shadow-md">
@@ -67,7 +67,7 @@ export default function LeaderboardPage() {
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1">
               Arjun Mehta
             </h2>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-white/70 mt-0.5">
               Bengaluru • Game Theory Indiranagar • Seed 1
             </p>
           </div>
@@ -77,15 +77,15 @@ export default function LeaderboardPage() {
         <div className="grid grid-cols-3 gap-3 w-full md:w-auto text-center shrink-0">
           <div className="bg-white/5 rounded-2xl px-4 py-3 border border-white/5">
             <strong className="block text-xl font-black text-lime">89%</strong>
-            <small className="text-[11px] text-gray-400">Win rate</small>
+            <small className="text-[11px] text-white/70">Win rate</small>
           </div>
           <div className="bg-white/5 rounded-2xl px-4 py-3 border border-white/5">
             <strong className="block text-xl font-black text-white">4</strong>
-            <small className="text-[11px] text-gray-400">Titles</small>
+            <small className="text-[11px] text-white/70">Titles</small>
           </div>
           <div className="bg-white/5 rounded-2xl px-4 py-3 border border-white/5">
-            <strong className="block text-xl font-black text-emerald-400">12</strong>
-            <small className="text-[11px] text-gray-400">Win streak</small>
+            <strong className="block text-xl font-black text-hotpink">12</strong>
+            <small className="text-[11px] text-white/70">Win streak</small>
           </div>
         </div>
       </div>
@@ -112,11 +112,11 @@ export default function LeaderboardPage() {
               {/* Rank Column */}
               <div className="col-span-1 text-center font-mono font-black text-sm">
                 {p.rank === "01" ? (
-                  <span className="text-amber-500 font-extrabold">🥇</span>
+                  <span className="text-hotpink font-extrabold">🥇</span>
                 ) : p.rank === "02" ? (
-                  <span className="text-gray-400 font-extrabold">🥈</span>
+                  <span className="text-white/70 font-extrabold">🥈</span>
                 ) : p.rank === "03" ? (
-                  <span className="text-amber-700 font-extrabold">🥉</span>
+                  <span className="text-hotpink font-extrabold">🥉</span>
                 ) : (
                   <span className="text-muted">{p.rank}</span>
                 )}
@@ -142,7 +142,7 @@ export default function LeaderboardPage() {
               </div>
 
               {/* Win Rate */}
-              <div className="col-span-3 sm:col-span-2 text-center text-xs font-bold text-emerald-600">
+              <div className="col-span-3 sm:col-span-2 text-center text-xs font-bold text-hotpink">
                 {p.winRate}
               </div>
 

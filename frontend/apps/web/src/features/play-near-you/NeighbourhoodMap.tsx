@@ -4,7 +4,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Plus, Minus, RotateCcw, Compass } from "lucide-react";
 import type { NearbyTournament } from "@/types/nearby";
 
-// Real GPS coordinates for Bengaluru tournament venues
+// Real GPS coordinates for tournament venues across Indian states and cities
 interface GeoArea {
   name: string;
   lat: number;
@@ -12,46 +12,73 @@ interface GeoArea {
 }
 
 const GEO_AREAS: Record<string, GeoArea> = {
-  Indiranagar: {
-    name: "Indiranagar",
-    lat: 12.9784,
-    lng: 77.6408,
-  },
-  Koramangala: {
-    name: "Koramangala",
-    lat: 12.9352,
-    lng: 77.6245,
-  },
-  "HSR Layout": {
-    name: "HSR Layout",
-    lat: 12.9121,
-    lng: 77.6446,
-  },
-  Sarjapur: {
-    name: "Sarjapur",
-    lat: 12.8988,
-    lng: 77.6824,
-  },
-  Whitefield: {
-    name: "Whitefield",
-    lat: 12.9698,
-    lng: 77.7499,
-  },
+  // Karnataka (Bengaluru)
+  Indiranagar: { name: "Indiranagar", lat: 12.9784, lng: 77.6408 },
+  Koramangala: { name: "Koramangala", lat: 12.9352, lng: 77.6245 },
+  "HSR Layout": { name: "HSR Layout", lat: 12.9121, lng: 77.6446 },
+  Sarjapur: { name: "Sarjapur", lat: 12.8988, lng: 77.6824 },
+  Whitefield: { name: "Whitefield", lat: 12.9698, lng: 77.7499 },
+
+  // Maharashtra (Mumbai)
+  Bandra: { name: "Bandra", lat: 19.0596, lng: 72.8295 },
+  Andheri: { name: "Andheri", lat: 19.1136, lng: 72.8697 },
+  Dadar: { name: "Dadar", lat: 19.0178, lng: 72.8478 },
+  Thane: { name: "Thane", lat: 19.2183, lng: 72.9781 },
+  Vashi: { name: "Vashi", lat: 19.0771, lng: 72.9986 },
+
+  // Delhi NCR (Delhi)
+  "Siri Fort": { name: "Siri Fort", lat: 28.5526, lng: 77.2188 },
+  Saket: { name: "Saket", lat: 28.5244, lng: 77.2066 },
+  Dwarka: { name: "Dwarka", lat: 28.5921, lng: 77.0460 },
+  Noida: { name: "Noida", lat: 28.5700, lng: 77.3271 },
+  Gurugram: { name: "Gurugram", lat: 28.4595, lng: 77.0266 },
+
+  // Telangana (Hyderabad)
+  Gachibowli: { name: "Gachibowli", lat: 17.4401, lng: 78.3489 },
+  "Jubilee Hills": { name: "Jubilee Hills", lat: 17.4325, lng: 78.4073 },
+  Madhapur: { name: "Madhapur", lat: 17.4483, lng: 78.3915 },
+  Kondapur: { name: "Kondapur", lat: 17.4682, lng: 78.3585 },
+  Kukatpally: { name: "Kukatpally", lat: 17.4947, lng: 78.3996 },
+
+  // Tamil Nadu (Chennai)
+  Nungambakkam: { name: "Nungambakkam", lat: 13.0604, lng: 80.2430 },
+  Adyar: { name: "Adyar", lat: 13.0012, lng: 80.2565 },
+  "Anna Nagar": { name: "Anna Nagar", lat: 13.0850, lng: 80.2101 },
+  Velachery: { name: "Velachery", lat: 12.9815, lng: 80.2180 },
+
+  // Maharashtra (Pune)
+  Shivajinagar: { name: "Shivajinagar", lat: 18.5308, lng: 73.8475 },
+  Kothrud: { name: "Kothrud", lat: 18.5074, lng: 73.8077 },
+  Baner: { name: "Baner", lat: 18.5590, lng: 73.7868 },
+  "Viman Nagar": { name: "Viman Nagar", lat: 18.5679, lng: 73.9143 },
 };
 
 const DEFAULT_CENTER = { lat: 12.942, lng: 77.672 };
 const DEFAULT_ZOOM = 12;
 
 // Standard Web Mercator projection
-function projectMercator(lat: number, lng: number, zoom: number, centerLat: number, centerLng: number, w: number, h: number) {
+function projectMercator(
+  lat: number,
+  lng: number,
+  zoom: number,
+  centerLat: number,
+  centerLng: number,
+  w: number,
+  h: number
+) {
   const scale = 256 * Math.pow(2, zoom);
   const x = ((lng + 180) / 360) * scale;
   const latRad = (lat * Math.PI) / 180;
-  const y = ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * scale;
+  const y =
+    ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) *
+    scale;
 
   const centerX = ((centerLng + 180) / 360) * scale;
   const centerLatRad = (centerLat * Math.PI) / 180;
-  const centerY = ((1 - Math.log(Math.tan(centerLatRad) + 1 / Math.cos(centerLatRad)) / Math.PI) / 2) * scale;
+  const centerY =
+    ((1 - Math.log(Math.tan(centerLatRad) + 1 / Math.cos(centerLatRad)) / Math.PI) /
+      2) *
+    scale;
 
   return {
     x: w / 2 + (x - centerX),
@@ -63,15 +90,42 @@ interface Props {
   tournaments: NearbyTournament[];
   selectedId: string;
   onSelect: (id: string) => void;
+  className?: string;
+  city?: string;
 }
 
-export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
+export function NeighbourhoodMap({
+  tournaments,
+  selectedId,
+  onSelect,
+  className,
+  city,
+}: Props) {
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ w: 520, h: 430 });
+
+  // Dynamically calculate the geographic center of the current tournaments' city/state
+  const cityCenter = useMemo(() => {
+    const validCoords = tournaments
+      .map((t) => GEO_AREAS[t.area])
+      .filter((g): g is GeoArea => Boolean(g));
+    if (validCoords.length === 0) return DEFAULT_CENTER;
+    const avgLat =
+      validCoords.reduce((sum, g) => sum + g.lat, 0) / validCoords.length;
+    const avgLng =
+      validCoords.reduce((sum, g) => sum + g.lng, 0) / validCoords.length;
+    return { lat: avgLat, lng: avgLng };
+  }, [tournaments]);
+
+  // Reset panOffset and zoom when switching cities/tournaments
+  useEffect(() => {
+    setPanOffset({ x: 0, y: 0 });
+    setZoom(DEFAULT_ZOOM);
+  }, [tournaments]);
 
   // Dynamically track container size for responsive pin alignment
   useEffect(() => {
@@ -105,12 +159,12 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
         timer = setTimeout(() => {
           const stepThreshold = 45;
           if (Math.abs(wheelDelta) >= stepThreshold) {
-            const steps = Math.sign(wheelDelta) * Math.min(Math.floor(Math.abs(wheelDelta) / stepThreshold), 2);
+            const steps =
+              Math.sign(wheelDelta) *
+              Math.min(Math.floor(Math.abs(wheelDelta) / stepThreshold), 2);
             if (steps < 0) {
-              // Scroll UP -> Zoom IN
               setZoom((z) => Math.min(z + Math.abs(steps), 15));
             } else if (steps > 0) {
-              // Scroll DOWN -> Zoom OUT
               setZoom((z) => Math.max(z - steps, 10));
             }
           }
@@ -130,23 +184,25 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
   // Group tournaments by area
   const groups = useMemo(() => {
     const map = new Map<string, NearbyTournament[]>();
-    tournaments.forEach((t) => map.set(t.area, [...(map.get(t.area) ?? []), t]));
+    tournaments.forEach((t) =>
+      map.set(t.area, [...(map.get(t.area) ?? []), t])
+    );
     return [...map.entries()].filter(([area]) => GEO_AREAS[area]);
   }, [tournaments]);
 
   const selectedArea = tournaments.find((t) => t.id === selectedId)?.area;
 
-  // Center smoothly on selected area
+  // Center smoothly on selected area within the active city/state
   const activeCenter = useMemo(() => {
     if (selectedArea && GEO_AREAS[selectedArea]) {
       const g = GEO_AREAS[selectedArea];
       return {
-        lat: DEFAULT_CENTER.lat * 0.4 + g.lat * 0.6,
-        lng: DEFAULT_CENTER.lng * 0.4 + g.lng * 0.6,
+        lat: cityCenter.lat * 0.3 + g.lat * 0.7,
+        lng: cityCenter.lng * 0.3 + g.lng * 0.7,
       };
     }
-    return DEFAULT_CENTER;
-  }, [selectedArea]);
+    return cityCenter;
+  }, [selectedArea, cityCenter]);
 
   // Drag handlers for smooth map panning
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -174,14 +230,21 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
   // Compute visible OpenStreetMap tiles at current zoom and viewport
   const tiles = useMemo(() => {
     const scale = Math.pow(2, zoom);
-    const tileCenterX = ((activeCenter.lng + 180) / 360) * scale - panOffset.x / 256;
+    const tileCenterX =
+      ((activeCenter.lng + 180) / 360) * scale - panOffset.x / 256;
     const centerLatRad = (activeCenter.lat * Math.PI) / 180;
-    const tileCenterY = ((1 - Math.log(Math.tan(centerLatRad) + 1 / Math.cos(centerLatRad)) / Math.PI) / 2) * scale - panOffset.y / 256;
+    const tileCenterY =
+      ((1 -
+        Math.log(Math.tan(centerLatRad) + 1 / Math.cos(centerLatRad)) /
+          Math.PI) /
+        2) *
+        scale -
+      panOffset.y / 256;
 
-    const minX = Math.floor(tileCenterX - (dimensions.w / 2) / 256) - 1;
-    const maxX = Math.ceil(tileCenterX + (dimensions.w / 2) / 256) + 1;
-    const minY = Math.floor(tileCenterY - (dimensions.h / 2) / 256) - 1;
-    const maxY = Math.ceil(tileCenterY + (dimensions.h / 2) / 256) + 1;
+    const minX = Math.floor(tileCenterX - dimensions.w / 2 / 256) - 1;
+    const maxX = Math.ceil(tileCenterX + dimensions.w / 2 / 256) + 1;
+    const minY = Math.floor(tileCenterY - dimensions.h / 2 / 256) - 1;
+    const maxY = Math.ceil(tileCenterY + dimensions.h / 2 / 256) + 1;
 
     const result = [];
     for (let x = minX; x <= maxX; x++) {
@@ -189,8 +252,8 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
         result.push({
           key: `${zoom}-${x}-${y}`,
           url: `https://tile.openstreetmap.org/${zoom}/${x}/${y}.png`,
-          left: (dimensions.w / 2) + (x - tileCenterX) * 256,
-          top: (dimensions.h / 2) + (y - tileCenterY) * 256,
+          left: dimensions.w / 2 + (x - tileCenterX) * 256,
+          top: dimensions.h / 2 + (y - tileCenterY) * 256,
         });
       }
     }
@@ -210,12 +273,15 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       onDoubleClick={() => setZoom((z) => Math.min(z + 1, 15))}
-      className={`relative h-full min-h-[460px] w-full overflow-hidden rounded-3xl border border-white/10 bg-[#121622] shadow-2xl select-none ${
+      className={`relative h-full w-full overflow-hidden select-none ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
+      } ${
+        className ||
+        "min-h-[460px] rounded-3xl border border-white/10 bg-navy shadow-2xl"
       }`}
     >
       {/* ============================================================ */}
-      {/* REAL STREET MAP TILES (Dark Cartography Mode - No Watermark) */}
+      {/* REAL STREET MAP TILES (Dark Cartography Mode - OpenStreetMap)*/}
       {/* ============================================================ */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {tiles.map((tile) => (
@@ -247,7 +313,15 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
         const geo = GEO_AREAS[area];
         if (!geo) return null;
 
-        const pt = projectMercator(geo.lat, geo.lng, zoom, activeCenter.lat, activeCenter.lng, dimensions.w, dimensions.h);
+        const pt = projectMercator(
+          geo.lat,
+          geo.lng,
+          zoom,
+          activeCenter.lat,
+          activeCenter.lng,
+          dimensions.w,
+          dimensions.h
+        );
         const pinX = pt.x + panOffset.x;
         const pinY = pt.y + panOffset.y;
         const on = area === selectedArea;
@@ -257,7 +331,9 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
             key={area}
             type="button"
             aria-pressed={on}
-            aria-label={`${area}: ${items.length} ${items.length === 1 ? "tournament" : "tournaments"}`}
+            aria-label={`${area}: ${items.length} ${
+              items.length === 1 ? "tournament" : "tournaments"
+            }`}
             onClick={(e) => {
               e.stopPropagation();
               const i = items.findIndex((t) => t.id === selectedId);
@@ -274,13 +350,13 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
               {on && (
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full bg-[#DE9D35]/80 motion-safe:animate-ping"
+                  className="absolute inset-0 rounded-full bg-coral/80 motion-safe:animate-ping"
                 />
               )}
               <span
-                className={`relative grid h-10 w-10 place-items-center rounded-full text-xs font-black transition duration-200 shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-[#DE9D35] ${
+                className={`relative grid h-10 w-10 place-items-center rounded-full text-xs font-black transition duration-200 shadow-lg group-focus-visible:ring-2 group-focus-visible:ring-coral ${
                   on
-                    ? "scale-115 bg-[#DE9D35] text-white ring-2 ring-[#DE9D35] shadow-[0_0_24px_rgba(255,87,34,0.6)]"
+                    ? "scale-115 bg-coral text-navy ring-2 ring-white shadow-[0_0_24px_rgba(255,104,91,0.6)]"
                     : "border-2 border-white/20 bg-[#121929] text-white hover:bg-[#1C263D] group-hover:-translate-y-0.5 group-hover:scale-105"
                 }`}
               >
@@ -291,8 +367,8 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
             <span
               className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold shadow-md whitespace-nowrap transition-colors ${
                 on
-                  ? "bg-[#DE9D35] text-white ring-1 ring-white/20"
-                  : "bg-[#121622]/95 text-slate-200 border border-white/15 backdrop-blur-md"
+                  ? "bg-coral text-navy font-black ring-1 ring-white/20"
+                  : "bg-navy/95 text-slate-200 border border-white/15 backdrop-blur-md"
               }`}
             >
               {area}
@@ -305,13 +381,13 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       {/* MAP CONTROLS & ATTRIBUTION                                   */}
       {/* ============================================================ */}
       {/* Top Left Status Badge */}
-      <div className="absolute top-3 left-3 z-30 flex items-center gap-2 rounded-full bg-[#121622]/90 px-3 py-1.5 border border-white/15 shadow-md backdrop-blur-md text-xs font-bold text-white">
-        <span className="h-2 w-2 rounded-full bg-[#F3D15A] motion-safe:animate-pulse" />
-        <span>Bengaluru Arenas</span>
+      <div className="absolute top-3 left-3 z-30 flex items-center gap-2 rounded-full bg-navy/90 px-3 py-1.5 border border-white/15 shadow-md backdrop-blur-md text-xs font-bold text-white">
+        <span className="h-2 w-2 rounded-full bg-coral motion-safe:animate-pulse" />
+        <span>{city || "Bengaluru"} Arenas</span>
       </div>
 
       {/* Top Right Zoom & Recenter Controls */}
-      <div className="absolute right-3 top-3 z-30 flex flex-col items-center gap-1 rounded-xl bg-[#121622]/90 p-1 border border-white/15 shadow-md backdrop-blur-md">
+      <div className="absolute right-3 top-3 z-30 flex flex-col items-center gap-1 rounded-xl bg-navy/90 p-1 border border-white/15 shadow-md backdrop-blur-md">
         <button
           type="button"
           title="Zoom In (or scroll wheel up)"
@@ -341,8 +417,8 @@ export function NeighbourhoodMap({ tournaments, selectedId, onSelect }: Props) {
       </div>
 
       {/* Bottom Left Footnote */}
-      <div className="absolute bottom-2.5 left-3.5 z-20 flex items-center gap-2 text-[10px] text-slate-400 bg-[#121622]/85 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/10">
-        <Compass className="w-3 h-3 text-[#F3D15A]" />
+      <div className="absolute bottom-2.5 left-3.5 z-20 flex items-center gap-2 text-[10px] text-slate-400 bg-navy/85 px-2.5 py-1 rounded-md backdrop-blur-md border border-white/10">
+        <Compass className="w-3 h-3 text-coral" />
         <span>Scroll to Zoom · Drag to Pan · © OpenStreetMap</span>
       </div>
     </div>

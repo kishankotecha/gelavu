@@ -53,17 +53,17 @@ export default function PartnerDrawPage({
       {/* Main Container */}
       <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-8 space-y-6">
         {/* Host Draw Notice Banner */}
-        <div className="rounded-2xl border border-amber-300 bg-amber-50/80 p-4.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+        <div className="rounded-2xl border border-hotpink/30 bg-hotpink/10/80 p-4.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
           <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-amber-900">
-              <Sparkles className="w-4 h-4 text-amber-600" />
+            <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-navy">
+              <Sparkles className="w-4 h-4 text-hotpink" />
               <span>Host-Conducted Random Team Draw</span>
             </div>
-            <p className="text-xs text-amber-900/80 leading-relaxed">
+            <p className="text-xs text-navy/80 leading-relaxed">
               Teams in this category are randomly formed by the tournament host before the bracket is published.
             </p>
           </div>
-          <span className="shrink-0 text-[11px] font-bold text-amber-800 bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-full">
+          <span className="shrink-0 text-[11px] font-bold text-navy bg-hotpink/15 border border-hotpink/30 px-2.5 py-1 rounded-full">
             Solo Entry Verified
           </span>
         </div>

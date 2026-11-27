@@ -346,17 +346,17 @@ function RegisterContent({ slug }: { slug: string }) {
 
           {/* Host Random Draw Notice */}
           {category === "BLIND_DRAW_DOUBLES" && (
-            <div className="rounded-2xl border border-amber-300 bg-amber-50/80 p-5 space-y-2.5">
+            <div className="rounded-2xl border border-hotpink/30 bg-hotpink/10/80 p-5 space-y-2.5">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                <h3 className="text-xs font-black uppercase tracking-wider text-amber-900">
+                <Sparkles className="w-4 h-4 text-hotpink" />
+                <h3 className="text-xs font-black uppercase tracking-wider text-navy">
                   Host Random Team Draw (Solo Entry)
                 </h3>
               </div>
-              <p className="text-xs text-amber-900/90 leading-relaxed">
+              <p className="text-xs text-navy/90 leading-relaxed">
                 You are registering as a <strong>solo participant</strong>. No partner is required at checkout.
               </p>
-              <p className="text-xs text-amber-900/80 leading-relaxed">
+              <p className="text-xs text-navy/80 leading-relaxed">
                 When registrations close, the <strong>Tournament Host</strong> will spin the official Picker Wheel to pair solo players into balanced teams for the knockout draw.
               </p>
             </div>

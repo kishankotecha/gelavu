@@ -48,7 +48,7 @@ export function UserMenu({
       >
         <Avatar name={name} url={avatarUrl} size="sm" className="ring-1 ring-white/20" />
         <ChevronDown
-          className={`h-3.5 w-3.5 text-gray-400 transition-transform duration-200 ${
+          className={`h-3.5 w-3.5 text-white/70 transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -58,11 +58,11 @@ export function UserMenu({
       {open && (
         <div
           role="menu"
-          className="absolute right-0 top-full z-50 mt-2 w-52 animate-fade-up overflow-hidden rounded-xl border border-white/15 bg-[#0E1526] p-1.5 shadow-2xl text-white"
+          className="absolute right-0 top-full z-50 mt-2 w-52 animate-fade-up overflow-hidden rounded-xl border border-white/15 bg-[#14212D] p-1.5 shadow-2xl text-white"
         >
           <div className="px-3 py-2 border-b border-white/10 mb-1">
             <p className="truncate text-xs font-bold text-white">{name}</p>
-            <p className="text-[10px] text-gray-400">Player account</p>
+            <p className="text-[10px] text-white/70">Player account</p>
           </div>
 
           <div className="space-y-0.5">
@@ -74,9 +74,9 @@ export function UserMenu({
                   href={item.href}
                   onClick={() => setOpen(false)}
                   role="menuitem"
-                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-gray-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-white/80 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                 >
-                  <Icon className="h-4 w-4 text-gray-400" />
+                  <Icon className="h-4 w-4 text-white/70" />
                   <span>{item.label}</span>
                 </Link>
               );
@@ -90,7 +90,7 @@ export function UserMenu({
                   onLogout();
                 }}
                 role="menuitem"
-                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors cursor-pointer"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-hotpink hover:bg-hotpink/10 hover:text-rose-300 transition-colors cursor-pointer"
               >
                 <LogOut className="h-4 w-4" />
                 <span>Log out</span>

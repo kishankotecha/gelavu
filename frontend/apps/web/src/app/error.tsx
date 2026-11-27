@@ -18,11 +18,11 @@ export default function ErrorBoundary({
 
   return (
     <div className="container mx-auto flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
-      <div className="rounded-full bg-rose-500/10 p-4 text-rose-500 mb-4 border border-rose-500/20">
+      <div className="rounded-full bg-hotpink/10 p-4 text-rose-500 mb-4 border border-hotpink/30">
         <AlertTriangle className="h-10 w-10" />
       </div>
       <h2 className="text-2xl font-black text-white">Something went wrong</h2>
-      <p className="mt-2 text-sm text-gray-400 max-w-md">
+      <p className="mt-2 text-sm text-white/70 max-w-md">
         An error occurred while loading this court view or tournament data.
       </p>
       <div className="mt-6 flex gap-3">

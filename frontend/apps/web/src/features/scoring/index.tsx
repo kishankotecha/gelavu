@@ -14,7 +14,7 @@ export function PointButtons({
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 text-center">{label}</span>
+      <span className="text-[10px] font-bold uppercase tracking-wider text-white/70 text-center">{label}</span>
       <div className="flex gap-2">
         <Button onClick={onAddPoint} variant="primary" size="lg" className="flex-1 text-2xl font-black h-14">
           +1
@@ -41,8 +41,8 @@ export function ScoreSheet({
   setNumber?: number;
 }) {
   return (
-    <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 text-center">
-      <span className="text-xs font-mono text-emerald-400 font-bold uppercase">Set {setNumber}</span>
+    <div className="rounded-2xl border border-white/10 bg-gray-900 p-6 text-center">
+      <span className="text-xs font-mono text-hotpink font-bold uppercase">Set {setNumber}</span>
       <div className="grid grid-cols-2 gap-4 mt-4 items-center">
         <div>
           <h4 className="text-base font-bold text-white truncate">{team1Name}</h4>
@@ -65,15 +65,15 @@ export function GameSummary({
   winner?: string;
 }) {
   return (
-    <div className="rounded-xl bg-gray-950 p-4 border border-gray-800 text-xs">
+    <div className="rounded-xl bg-gray-950 p-4 border border-white/10 text-xs">
       <p className="font-bold text-white mb-2">Game Summary</p>
       {scores.map((s) => (
-        <div key={s.set} className="flex justify-between text-gray-400 py-1 border-b border-gray-900">
+        <div key={s.set} className="flex justify-between text-white/70 py-1 border-b border-gray-900">
           <span>Set {s.set}</span>
           <span className="font-mono text-white font-semibold">{s.t1} - {s.t2}</span>
         </div>
       ))}
-      {winner && <p className="mt-2 text-emerald-400 font-bold">Winner: {winner}</p>}
+      {winner && <p className="mt-2 text-hotpink font-bold">Winner: {winner}</p>}
     </div>
   );
 }

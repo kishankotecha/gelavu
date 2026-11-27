@@ -29,16 +29,16 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   return (
-    <div className="flex min-h-screen bg-[#0A0D14] text-white font-sans antialiased">
+    <div className="flex min-h-screen bg-navy text-white font-sans antialiased">
       {/* Admin Sidebar */}
-      <aside className="w-64 border-r border-gray-800 bg-[#0E1524] p-5 shrink-0 hidden md:flex flex-col justify-between min-h-screen">
+      <aside className="w-64 border-r border-white/10 bg-navy p-5 shrink-0 hidden md:flex flex-col justify-between min-h-screen">
         <div className="space-y-8">
           {/* Logo with ADMIN Badge */}
           <GelavuLogo variant="dark" badge="ADMIN" href="/admin" />
 
           {/* Navigation Items */}
           <nav className="space-y-1.5">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-500 px-3 block mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60 px-3 block mb-2">
               Super admin
             </span>
             {ADMIN_NAV.map((item) => {
@@ -51,11 +51,11 @@ export default function AdminLayout({
                   href={item.href}
                   className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-rose-500/12 text-rose-200 border border-rose-500/25"
-                      : "text-gray-400 hover:bg-white/5 hover:text-gray-100"
+                      ? "bg-rose-500/12 text-rose-200 border border-hotpink/30"
+                      : "text-white/70 hover:bg-white/5 hover:text-white"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? "text-rose-400" : "text-gray-500"}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? "text-hotpink" : "text-white/60"}`} />
                   <span>{item.title}</span>
                 </Link>
               );
@@ -64,10 +64,10 @@ export default function AdminLayout({
         </div>
 
         {/* Back to Public App */}
-        <div className="pt-4 border-t border-gray-800/80">
+        <div className="pt-4 border-t border-white/10/80">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-xs font-bold text-white/70 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Gelavu</span>
@@ -78,9 +78,9 @@ export default function AdminLayout({
       {/* Main Admin Content */}
       <div className="flex-1 overflow-x-auto min-w-0">
         {/* Mobile Header */}
-        <header className="md:hidden flex items-center justify-between p-4 border-b border-gray-800 bg-[#0E1524]">
+        <header className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-navy">
           <GelavuLogo variant="dark" badge="ADMIN" href="/admin" size="sm" />
-          <Link href="/" className="text-xs text-gray-400 hover:text-white">
+          <Link href="/" className="text-xs text-white/70 hover:text-white">
             Exit
           </Link>
         </header>

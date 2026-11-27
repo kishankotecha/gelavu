@@ -51,13 +51,13 @@ export default async function HostTournamentOverviewPage({
 
   return (
     <HostPageShell className="max-w-5xl">
-      <Link href="/host" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#1D4A38] mb-2 font-medium">
+      <Link href="/host" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#14212D] mb-2 font-medium">
         <ArrowLeft className="w-3.5 h-3.5" /> Back to dashboard
       </Link>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <DashboardEyebrow className="text-[#1D4A38]">Tournament workspace</DashboardEyebrow>
+          <DashboardEyebrow className="text-[#14212D]">Tournament workspace</DashboardEyebrow>
           <DashboardTitle className="mt-1.5">{tournament?.title}</DashboardTitle>
           <DashboardLead className="text-xs sm:text-sm">
             Status: {tournament?.status} · ID {id}
@@ -77,10 +77,10 @@ export default async function HostTournamentOverviewPage({
           <div className="mt-2 flex items-baseline gap-2">
             <DashboardStatValue>48 / 64</DashboardStatValue>
           </div>
-          <span className="text-xs font-bold text-[#1D4A38] mt-2 block">75% Capacity</span>
+          <span className="text-xs font-bold text-[#14212D] mt-2 block">75% Capacity</span>
         </div>
 
-        <div className="rounded-2xl bg-[#1D4A38] p-5 text-white shadow-sm border border-[#16392B]">
+        <div className="rounded-2xl bg-[#14212D] p-5 text-white shadow-sm border border-[#16392B]">
           <span className="text-xs font-semibold text-[#E8EFEA]/80">Prize Pool</span>
           <div className="mt-2">
             <DashboardStatValue inverted className="text-white">₹50,000</DashboardStatValue>
@@ -93,7 +93,7 @@ export default async function HostTournamentOverviewPage({
           <div className="mt-2 flex items-baseline gap-2">
             <DashboardStatValue>12 / 16</DashboardStatValue>
           </div>
-          <span className="text-xs font-bold text-[#1D4A38] mt-2 block">Semi-finals in progress</span>
+          <span className="text-xs font-bold text-[#14212D] mt-2 block">Semi-finals in progress</span>
         </div>
       </div>
 
@@ -104,21 +104,21 @@ export default async function HostTournamentOverviewPage({
             <Link
               key={c.href}
               href={c.href}
-              className="p-6 rounded-2xl border border-[#E2E6DD] bg-white hover:border-[#1D4A38] hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
+              className="p-6 rounded-2xl border border-[#E2E6DD] bg-white hover:border-[#14212D] hover:shadow-md transition-all flex flex-col justify-between group cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-[#E8EFEA] text-[#1D4A38] group-hover:bg-[#1D4A38] group-hover:text-white transition-colors">
+                  <div className="p-3 rounded-xl bg-[#E8EFEA] text-[#14212D] group-hover:bg-[#14212D] group-hover:text-white transition-colors">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="text-xs font-bold text-[#1D4A38] bg-[#E8EFEA] px-2.5 py-1 rounded-full border border-[#CAD7CE]">
+                  <span className="text-xs font-bold text-[#14212D] bg-[#E8EFEA] px-2.5 py-1 rounded-full border border-[#CAD7CE]">
                     {c.badge}
                   </span>
                 </div>
-                <h3 className="font-rogenz text-lg font-bold tracking-wide text-[#0B1220] group-hover:text-[#1D4A38] transition-colors">{c.title}</h3>
+                <h3 className="font-rogenz text-lg font-bold tracking-wide text-[#14212D] group-hover:text-[#14212D] transition-colors">{c.title}</h3>
                 <p className="text-sm text-slate-600 mt-1 leading-relaxed">{c.desc}</p>
               </div>
-              <div className="mt-6 text-xs font-bold text-[#1D4A38] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              <div className="mt-6 text-xs font-bold text-[#14212D] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                 Manage Section →
               </div>
             </Link>

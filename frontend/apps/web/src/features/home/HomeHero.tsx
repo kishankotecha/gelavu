@@ -14,7 +14,7 @@ export function HomeHero({ city, stats, spotlight }: Props) {
     <section aria-labelledby="home-title" className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
       <div>
         <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-ink/80">
-          <MapPin className="h-3.5 w-3.5 text-emerald-600" aria-hidden="true" />
+          <MapPin className="h-3.5 w-3.5 text-hotpink" aria-hidden="true" />
           Badminton tournaments in {city}
         </p>
 
@@ -117,7 +117,7 @@ export function HomeHero({ city, stats, spotlight }: Props) {
               </span>
             </span>
             {spotlight.slotsLabel && (
-              <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-800">
+              <span className="shrink-0 rounded-full bg-hotpink/10 px-2.5 py-1 text-[11px] font-bold text-navy">
                 {spotlight.slotsLabel}
               </span>
             )}

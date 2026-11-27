@@ -117,16 +117,16 @@ function RocketBirdieSvg({ className = "w-full h-full" }: { className?: string }
       </defs>
       <circle cx="50" cy="50" r="48" fill="url(#rocketGlow)" />
       {/* Jet Thruster Flames */}
-      <path d="M42 80 Q50 96 50 98 Q50 96 58 80 Z" fill="#FACC15" />
-      <path d="M45 80 Q50 90 50 92 Q50 90 55 80 Z" fill="#EF4444" />
+      <path d="M42 80 Q50 96 50 98 Q50 96 58 80 Z" fill="#FF685B" />
+      <path d="M45 80 Q50 90 50 92 Q50 90 55 80 Z" fill="#FF685B" />
       {/* Shuttle Feathers / Rocket Cone */}
       <path d="M30 65 L20 30 L50 20 L80 30 L70 65 Z" fill="#F8FAFC" />
       <line x1="38" y1="28" x2="42" y2="65" stroke="#CBD5E1" strokeWidth="2" />
       <line x1="50" y1="20" x2="50" y2="65" stroke="#CBD5E1" strokeWidth="2" />
       <line x1="62" y1="28" x2="58" y2="65" stroke="#CBD5E1" strokeWidth="2" />
       {/* Cork Head (with face) */}
-      <ellipse cx="50" cy="68" rx="16" ry="12" fill="#DE9D35" />
-      <ellipse cx="50" cy="67" rx="14" ry="10" fill="#F3D15A" />
+      <ellipse cx="50" cy="68" rx="16" ry="12" fill="#FF685B" />
+      <ellipse cx="50" cy="67" rx="14" ry="10" fill="#FF685B" />
       {/* Aviator Sunglasses */}
       <rect x="36" y="62" width="12" height="9" rx="3" fill="#0F172A" />
       <rect x="52" y="62" width="12" height="9" rx="3" fill="#0F172A" />
@@ -159,8 +159,8 @@ function SmashMonarchSvg({ className = "w-full h-full" }: { className?: string }
       {/* Face */}
       <ellipse cx="50" cy="56" rx="22" ry="20" fill="#FBBF24" />
       {/* Golden Crown */}
-      <path d="M32 34 L38 22 L45 28 L50 18 L55 28 L62 22 L68 34 Z" fill="#FEE08B" stroke="#B45309" strokeWidth="1.5" />
-      <circle cx="50" cy="19" r="2.5" fill="#EF4444" />
+      <path d="M32 34 L38 22 L45 28 L50 18 L55 28 L62 22 L68 34 Z" fill="#FEE08B" stroke="#FF685B" strokeWidth="1.5" />
+      <circle cx="50" cy="19" r="2.5" fill="#FF685B" />
       <circle cx="38" cy="23" r="2" fill="#3B82F6" />
       <circle cx="62" cy="23" r="2" fill="#10B981" />
       {/* Crown base */}
@@ -174,9 +174,9 @@ function SmashMonarchSvg({ className = "w-full h-full" }: { className?: string }
       <circle cx="58" cy="51" r="1.5" fill="#FFF" />
       {/* Golden Tooth Smile */}
       <path d="M42 66 Q50 73 58 66" stroke="#78350F" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-      <rect x="49" y="66" width="3.5" height="3.5" fill="#FEE08B" stroke="#B45309" strokeWidth="0.8" />
+      <rect x="49" y="66" width="3.5" height="3.5" fill="#FEE08B" stroke="#FF685B" strokeWidth="0.8" />
       {/* Gold Medal around neck */}
-      <circle cx="50" cy="84" r="8" fill="#FACC15" stroke="#B45309" strokeWidth="1.5" />
+      <circle cx="50" cy="84" r="8" fill="#FF685B" stroke="#FF685B" strokeWidth="1.5" />
       <text x="50" y="87" textAnchor="middle" fontSize="7" fontWeight="900" fill="#78350F">#1</text>
       <line x1="42" y1="76" x2="48" y2="81" stroke="#DC2626" strokeWidth="2" />
       <line x1="58" y1="76" x2="52" y2="81" stroke="#DC2626" strokeWidth="2" />
@@ -237,12 +237,12 @@ function ThunderBoltSvg({ className = "w-full h-full" }: { className?: string })
       </defs>
       <circle cx="50" cy="50" r="48" fill="url(#thunderGlow)" />
       {/* Electric Spiky Hair */}
-      <polygon points="50,12 56,26 66,16 68,30 80,24 74,38 84,40 72,50 50,30 28,50 16,40 26,38 20,24 32,30 34,16 44,26" fill="#FACC15" />
+      <polygon points="50,12 56,26 66,16 68,30 80,24 74,38 84,40 72,50 50,30 28,50 16,40 26,38 20,24 32,30 34,16 44,26" fill="#FF685B" />
       {/* Face */}
       <ellipse cx="50" cy="56" rx="24" ry="24" fill="#FEF08A" />
       {/* Blue Headband */}
       <rect x="26" y="44" width="48" height="9" rx="3" fill="#0284C7" />
-      <polygon points="50,45 46,51 54,51" fill="#FACC15" />
+      <polygon points="50,45 46,51 54,51" fill="#FF685B" />
       {/* Electric Eyes */}
       <ellipse cx="40" cy="56" rx="4.5" ry="5.5" fill="#0369A1" />
       <circle cx="41" cy="55" r="2.2" fill="#FFFFFF" />
@@ -251,13 +251,13 @@ function ThunderBoltSvg({ className = "w-full h-full" }: { className?: string })
       <circle cx="59" cy="55" r="2.2" fill="#FFFFFF" />
       <polygon points="60,54 59,57 62,56" fill="#38BDF8" />
       {/* Lightning Cheeks */}
-      <path d="M28 62 L32 65 L30 68 L35 70" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" fill="none" />
-      <path d="M72 62 L68 65 L70 68 L65 70" stroke="#FACC15" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M28 62 L32 65 L30 68 L35 70" stroke="#FF685B" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M72 62 L68 65 L70 68 L65 70" stroke="#FF685B" strokeWidth="2" strokeLinecap="round" fill="none" />
       {/* Confident Smile */}
       <path d="M43 68 Q50 74 57 68" stroke="#1E293B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
       {/* Lightning Sparks in background */}
-      <polygon points="18,18 14,26 19,25 15,34 23,24 18,24" fill="#FACC15" />
-      <polygon points="84,65 80,72 85,71 82,80 89,71 85,71" fill="#FACC15" />
+      <polygon points="18,18 14,26 19,25 15,34 23,24 18,24" fill="#FF685B" />
+      <polygon points="84,65 80,72 85,71 82,80 89,71 85,71" fill="#FF685B" />
     </svg>
   );
 }
@@ -278,7 +278,7 @@ function AvoSmashSvg({ className = "w-full h-full" }: { className?: string }) {
       {/* Light Green Flesh */}
       <path d="M50 20 C40 20 35 32 33 50 C31 69 38 82 50 82 C62 82 69 69 67 50 C65 32 60 20 50 20 Z" fill="#D9F99D" />
       {/* Sweatband */}
-      <rect x="34" y="32" width="32" height="7" rx="3" fill="#EF4444" />
+      <rect x="34" y="32" width="32" height="7" rx="3" fill="#FF685B" />
       <line x1="34" y1="35" x2="66" y2="35" stroke="#FFF" strokeWidth="1.5" />
       {/* Crazy Big Eyes */}
       <circle cx="43" cy="45" r="6" fill="#FFFFFF" stroke="#166534" strokeWidth="1.5" />
@@ -376,7 +376,7 @@ function FeatherFurySvg({ className = "w-full h-full" }: { className?: string })
     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       <defs>
         <radialGradient id="roosterGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FB923C" />
+          <stop offset="0%" stopColor="#FF685B" />
           <stop offset="100%" stopColor="#991B1B" />
         </radialGradient>
       </defs>
@@ -393,7 +393,7 @@ function FeatherFurySvg({ className = "w-full h-full" }: { className?: string })
       <circle cx="61" cy="46" r="3.5" fill="#DC2626" />
       <circle cx="61" cy="46" r="1.5" fill="#18181B" />
       {/* Screaming Orange Beak */}
-      <polygon points="50,48 38,58 62,58" fill="#F59E0B" stroke="#B45309" strokeWidth="1.5" />
+      <polygon points="50,48 38,58 62,58" fill="#F59E0B" stroke="#FF685B" strokeWidth="1.5" />
       <polygon points="50,66 42,58 58,58" fill="#D97706" />
       {/* Wattle */}
       <path d="M46 66 C42 74 54 78 50 84 C46 76 44 70 46 66 Z" fill="#DC2626" />
@@ -418,9 +418,9 @@ function PizzaSlicerSvg({ className = "w-full h-full" }: { className?: string })
       {/* Crust */}
       <path d="M20 30 Q50 18 80 30 L76 36 Q50 25 24 36 Z" fill="#D97706" />
       {/* Pizza Slice Body */}
-      <polygon points="22,34 78,34 50,86" fill="#FACC15" />
+      <polygon points="22,34 78,34 50,86" fill="#FF685B" />
       {/* Tomato Sauce Edge */}
-      <polygon points="24,35 76,35 50,84" fill="#EF4444" opacity="0.3" />
+      <polygon points="24,35 76,35 50,84" fill="#FF685B" opacity="0.3" />
       {/* Sweatband */}
       <rect x="30" y="40" width="40" height="7" rx="2" fill="#2563EB" />
       {/* Pepperoni Slices */}
@@ -478,8 +478,8 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "Smash Beast",
     trait: "Power Smasher",
     tagline: "Crushes 400 km/h jump smashes with pure tiger fury",
-    bgGradient: "from-amber-500 via-orange-600 to-red-600",
-    borderColor: "border-amber-400/40",
+    bgGradient: "from-hotpink to-navy",
+    borderColor: "border-hotpink/30",
     accentColor: "#FF8F00",
     emoji: "🐯",
     SvgComponent: SmashBeastSvg,
@@ -500,8 +500,8 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "Rocket Birdie",
     trait: "Supersonic Shuttle",
     tagline: "Propelled by twin jet thrusters and zero fear",
-    bgGradient: "from-yellow-400 via-orange-500 to-red-500",
-    borderColor: "border-yellow-400/40",
+    bgGradient: "from-hotpink to-navy",
+    borderColor: "border-hotpink/30",
     accentColor: "#F59E0B",
     emoji: "🚀",
     SvgComponent: RocketBirdieSvg,
@@ -511,9 +511,9 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "Smash Monarch",
     trait: "Court Royalty",
     tagline: "King of Indiranagar courts with a golden crown",
-    bgGradient: "from-yellow-300 via-amber-500 to-amber-700",
-    borderColor: "border-yellow-300/40",
-    accentColor: "#FACC15",
+    bgGradient: "from-hotpink to-navy",
+    borderColor: "border-hotpink/30",
+    accentColor: "#FF685B",
     emoji: "👑",
     SvgComponent: SmashMonarchSvg,
   },
@@ -566,7 +566,7 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "T-Rex Smasher",
     trait: "Prehistoric Power",
     tagline: "Arms may be tiny, but the smashes rattle the stadium roof",
-    bgGradient: "from-lime-500 via-yellow-600 to-lime-800",
+    bgGradient: "from-hotpink to-navy",
     borderColor: "border-lime-500/40",
     accentColor: "#65A30D",
     emoji: "🦖",
@@ -577,8 +577,8 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "Feather Fury",
     trait: "Match Point Screamer",
     tagline: "Zero chill, intense stare down across the net",
-    bgGradient: "from-orange-500 via-red-600 to-amber-900",
-    borderColor: "border-orange-500/40",
+    bgGradient: "from-hotpink to-navy",
+    borderColor: "border-hotpink/30",
     accentColor: "#EA580C",
     emoji: "🐓",
     SvgComponent: FeatherFurySvg,
@@ -588,8 +588,8 @@ export const STICKER_AVATARS: StickerAvatar[] = [
     name: "Pizza Slicer",
     trait: "Drop Shot Maestro",
     tagline: "Slices the birdie like fresh mozzarella over the net tape",
-    bgGradient: "from-yellow-400 via-orange-500 to-red-600",
-    borderColor: "border-yellow-400/40",
+    bgGradient: "from-hotpink to-navy",
+    borderColor: "border-hotpink/30",
     accentColor: "#FBBF24",
     emoji: "🍕",
     SvgComponent: PizzaSlicerSvg,

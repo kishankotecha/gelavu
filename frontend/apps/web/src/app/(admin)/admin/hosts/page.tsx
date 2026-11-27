@@ -17,14 +17,14 @@ export default function AdminHostsPage() {
 
   return (
     <AdminPageShell>
-      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-200 mb-2">
+      <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white/90 mb-2">
         <ArrowLeft className="w-3.5 h-3.5" /> Back to overview
       </Link>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <DashboardTitle tone="dark" className="flex items-center gap-2.5">
-            <ShieldCheck className="w-7 h-7 text-emerald-400 shrink-0" />
+            <ShieldCheck className="w-7 h-7 text-hotpink shrink-0" />
             Host verifications
           </DashboardTitle>
           <DashboardLead tone="dark">
@@ -33,8 +33,8 @@ export default function AdminHostsPage() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/60 shadow-xl">
-        <div className="grid grid-cols-12 gap-4 px-6 py-3.5 bg-gray-950/80 border-b border-gray-800 text-xs font-bold text-gray-400 uppercase tracking-wider">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-navy/80 shadow-xl">
+        <div className="grid grid-cols-12 gap-4 px-6 py-3.5 bg-navy border-b border-white/10 text-xs font-bold text-white/70 uppercase tracking-wider">
           <div className="col-span-4">Organizer Name</div>
           <div className="col-span-3">Contact Person</div>
           <div className="col-span-2 text-center">Status</div>
@@ -46,14 +46,14 @@ export default function AdminHostsPage() {
             <div key={h.id} className="grid grid-cols-12 gap-4 px-6 py-4 items-center">
               <div className="col-span-4">
                 <p className="font-bold text-white text-sm">{h.name}</p>
-                <p className="text-xs text-gray-500">{h.city} • {h.tournaments} Events</p>
+                <p className="text-xs text-white/60">{h.city} • {h.tournaments} Events</p>
               </div>
-              <div className="col-span-3 text-xs text-gray-300">{h.contact}</div>
+              <div className="col-span-3 text-xs text-white/80">{h.contact}</div>
               <div className="col-span-2 text-center">
                 <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
                   h.status === "VERIFIED"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                    : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    ? "bg-hotpink/10 text-hotpink border-hotpink/30"
+                    : "bg-hotpink/100/10 text-hotpink border-hotpink/30"
                 }`}>
                   {h.status}
                 </span>

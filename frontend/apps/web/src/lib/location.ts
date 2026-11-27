@@ -150,6 +150,17 @@ export async function detectCityByIP(): Promise<string | null> {
 export function getStoredCity(): string {
   if (typeof window === "undefined") return "Bengaluru";
   try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramCity = urlParams.get("city");
+    if (paramCity) {
+      const match = CITIES.find(
+        (c) =>
+          c.name.toLowerCase() === paramCity.toLowerCase() ||
+          c.id.toLowerCase() === paramCity.toLowerCase() ||
+          c.state.toLowerCase() === paramCity.toLowerCase()
+      );
+      if (match) return match.name;
+    }
     return localStorage.getItem(STORAGE_KEY) || "Bengaluru";
   } catch {
     return "Bengaluru";

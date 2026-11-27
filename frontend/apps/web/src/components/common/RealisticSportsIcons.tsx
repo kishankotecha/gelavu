@@ -186,7 +186,7 @@ export function RealisticShuttlecock({ className = "", size = 40 }: IconProps) {
       />
       {/* Official Gold/Green Ribbon Tape on Cork Base */}
       <rect x="18" y="34" width="12" height="2.5" fill="#15803D" />
-      <rect x="18" y="34.8" width="12" height="0.8" fill="#FACC15" />
+      <rect x="18" y="34.8" width="12" height="0.8" fill="#FF685B" />
     </svg>
   );
 }
@@ -214,7 +214,7 @@ export function RealisticGoldMedal({ className = "", size = 44 }: IconProps) {
         </linearGradient>
         <linearGradient id="medalRibbonRight" x1="32" y1="4" x2="24" y2="24" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#DC2626" />
-          <stop offset="50%" stopColor="#EF4444" />
+          <stop offset="50%" stopColor="#FF685B" />
           <stop offset="100%" stopColor="#B91C1C" />
         </linearGradient>
         <linearGradient id="medalGold" x1="16" y1="18" x2="32" y2="42" gradientUnits="userSpaceOnUse">
@@ -230,13 +230,13 @@ export function RealisticGoldMedal({ className = "", size = 44 }: IconProps) {
       <path d="M17 4L22 24L26 24L21 4H17Z" fill="url(#medalRibbonLeft)" />
       <path d="M31 4L26 24L22 24L27 4H31Z" fill="url(#medalRibbonRight)" />
       {/* Center Gold Stripe */}
-      <path d="M23 4L23.5 24L24.5 24L25 4H23Z" fill="#FACC15" />
+      <path d="M23 4L23.5 24L24.5 24L25 4H23Z" fill="#FF685B" />
 
       {/* Ribbon Loop Ring */}
       <ellipse cx="24" cy="22" rx="3.5" ry="1.5" fill="none" stroke="#D97706" strokeWidth="1.5" />
 
       {/* Heavy Gold Medallion Outer Rim */}
-      <circle cx="24" cy="33" r="13" fill="url(#medalGold)" stroke="#B45309" strokeWidth="1" />
+      <circle cx="24" cy="33" r="13" fill="url(#medalGold)" stroke="#FF685B" strokeWidth="1" />
       {/* Inner Recessed Bevel */}
       <circle cx="24" cy="33" r="10.5" fill="#D97706" fillOpacity="0.25" stroke="#FFF4D0" strokeWidth="0.8" />
 
@@ -287,7 +287,7 @@ export function RealisticVerifiedShield({ className = "", size = 36 }: IconProps
         </linearGradient>
         <linearGradient id="goldCheck" x1="12" y1="14" x2="24" y2="22" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#FFF9E5" />
-          <stop offset="50%" stopColor="#FACC15" />
+          <stop offset="50%" stopColor="#FF685B" />
           <stop offset="100%" stopColor="#CA8A04" />
         </linearGradient>
       </defs>
@@ -381,7 +381,7 @@ export function RealisticBadmintonRadar({ className = "", size = 48 }: IconProps
       <line x1="32" y1="32" x2="46" y2="18" stroke="#6EE7B7" strokeWidth="1.5" strokeLinecap="round" />
 
       {/* Tournament Targets (Pings) */}
-      <circle cx="43" cy="22" r="2" fill="#FACC15" className="animate-ping" />
+      <circle cx="43" cy="22" r="2" fill="#FF685B" className="animate-ping" />
       <circle cx="43" cy="22" r="2.5" fill="#FDE047" stroke="#854D0E" strokeWidth="0.5" />
       <circle cx="21" cy="24" r="1.8" fill="#34D399" />
       <circle cx="25" cy="42" r="2" fill="#34D399" />
@@ -394,7 +394,7 @@ export function RealisticBadmintonRadar({ className = "", size = 48 }: IconProps
         stroke="#78350F"
         strokeWidth="0.8"
       />
-      <circle cx="32" cy="25" r="2.2" fill="#FFFBEB" stroke="#B45309" strokeWidth="0.6" />
+      <circle cx="32" cy="25" r="2.2" fill="#FFFBEB" stroke="#FF685B" strokeWidth="0.6" />
     </svg>
   );
 }
@@ -459,7 +459,7 @@ export function RealisticVIPPassLanyard({ className = "", size = 48 }: IconProps
       <rect x="15" y="24" width="34" height="38" rx="3.5" fill="#FFFFFF" fillOpacity="0.15" stroke="#CBD5E1" strokeWidth="0.8" />
 
       {/* High-Gloss VIP Credential Card Body */}
-      <rect x="17" y="26" width="30" height="34" rx="2.5" fill="url(#cardGoldGrad)" stroke="#DE9D35" strokeWidth="0.8" />
+      <rect x="17" y="26" width="30" height="34" rx="2.5" fill="url(#cardGoldGrad)" stroke="#FF685B" strokeWidth="0.8" />
 
       {/* Card Header: Gold Foil Crest */}
       <rect x="20" y="29" width="10" height="3" rx="0.8" fill="#F59E0B" />
@@ -478,7 +478,7 @@ export function RealisticVIPPassLanyard({ className = "", size = 48 }: IconProps
       <rect x="39" y="45" width="1" height="1" fill="#FFFFFF" />
 
       {/* Barcode Strip along bottom */}
-      <g fill="#DE9D35" opacity="0.8">
+      <g fill="#FF685B" opacity="0.8">
         <rect x="20" y="52" width="1" height="4" />
         <rect x="22" y="52" width="1.5" height="4" />
         <rect x="25" y="52" width="0.8" height="4" />
@@ -511,12 +511,12 @@ export function RealisticBadmintonRacket({ className = "", size = 48 }: IconProp
       <defs>
         <linearGradient id="racketFrame" x1="16" y1="4" x2="48" y2="34" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#F5D061" />
-          <stop offset="30%" stopColor="#DE9D35" />
+          <stop offset="30%" stopColor="#FF685B" />
           <stop offset="70%" stopColor="#1E3A2B" />
-          <stop offset="100%" stopColor="#0B1220" />
+          <stop offset="100%" stopColor="#14212D" />
         </linearGradient>
         <linearGradient id="shaftGrad" x1="30" y1="36" x2="34" y2="48" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#DE9D35" />
+          <stop offset="0%" stopColor="#FF685B" />
           <stop offset="50%" stopColor="#F5D061" />
           <stop offset="100%" stopColor="#64748B" />
         </linearGradient>
@@ -538,8 +538,8 @@ export function RealisticBadmintonRacket({ className = "", size = 48 }: IconProp
 
         <line x1="24" y1="12" x2="40" y2="12" />
         <line x1="22" y1="16" x2="42" y2="16" />
-        <line x1="21" y1="20" x2="43" y2="20" stroke="#DE9D35" strokeWidth="1" strokeOpacity="0.9" />
-        <line x1="22" y1="24" x2="42" y2="24" stroke="#DE9D35" strokeWidth="1" strokeOpacity="0.9" />
+        <line x1="21" y1="20" x2="43" y2="20" stroke="#FF685B" strokeWidth="1" strokeOpacity="0.9" />
+        <line x1="22" y1="24" x2="42" y2="24" stroke="#FF685B" strokeWidth="1" strokeOpacity="0.9" />
         <line x1="24" y1="28" x2="40" y2="28" />
       </g>
 
@@ -566,7 +566,7 @@ export function RealisticBadmintonRacket({ className = "", size = 48 }: IconProp
       />
 
       {/* Reinforced Isometric T-Joint Collar */}
-      <path d="M29 33.5C29 33.5 30 36.5 32 36.5C34 36.5 35 33.5 35 33.5H29Z" fill="#DE9D35" stroke="#78350F" strokeWidth="0.5" />
+      <path d="M29 33.5C29 33.5 30 36.5 32 36.5C34 36.5 35 33.5 35 33.5H29Z" fill="#FF685B" stroke="#78350F" strokeWidth="0.5" />
 
       {/* High-Flex Carbon Shaft */}
       <line x1="32" y1="36.5" x2="32" y2="48" stroke="url(#shaftGrad)" strokeWidth="2.5" strokeLinecap="round" />
@@ -579,7 +579,7 @@ export function RealisticBadmintonRacket({ className = "", size = 48 }: IconProp
       <line x1="30" y1="56.5" x2="34" y2="58" stroke="#64748B" strokeWidth="0.8" />
 
       {/* Handle Butt Cap */}
-      <rect x="29" y="59.5" width="6" height="2" rx="0.8" fill="#DE9D35" stroke="#78350F" strokeWidth="0.4" />
+      <rect x="29" y="59.5" width="6" height="2" rx="0.8" fill="#FF685B" stroke="#78350F" strokeWidth="0.4" />
     </svg>
   );
 }
@@ -607,7 +607,7 @@ export function RealisticMensDoublesIcon({ className = "", size = 40 }: IconProp
         </linearGradient>
         <linearGradient id="mdRacketR" x1="42" y1="6" x2="16" y2="42" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#F5D061" />
-          <stop offset="50%" stopColor="#DE9D35" />
+          <stop offset="50%" stopColor="#FF685B" />
           <stop offset="100%" stopColor="#8C5C05" />
         </linearGradient>
         <radialGradient id="doublesAura" cx="50%" cy="50%" r="50%">
@@ -668,7 +668,7 @@ export function RealisticMensSinglesIcon({ className = "", size = 40 }: IconProp
           <stop offset="0%" stopColor="#FFF9E5" />
           <stop offset="30%" stopColor="#F5CD58" />
           <stop offset="70%" stopColor="#E5A625" />
-          <stop offset="100%" stopColor="#B45309" />
+          <stop offset="100%" stopColor="#FF685B" />
         </linearGradient>
       </defs>
 
@@ -720,7 +720,7 @@ export function RealisticWomensSinglesIcon({ className = "", size = 40 }: IconPr
         <linearGradient id="wsGoldRim" x1="12" y1="4" x2="36" y2="44" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#FDE68A" />
           <stop offset="50%" stopColor="#F59E0B" />
-          <stop offset="100%" stopColor="#B45309" />
+          <stop offset="100%" stopColor="#FF685B" />
         </linearGradient>
       </defs>
 
@@ -824,18 +824,18 @@ export function RealisticRandomWheelIcon({ className = "", size = 40 }: IconProp
       </defs>
 
       {/* Outer Metal Wheel Frame */}
-      <circle cx="24" cy="24" r="20" fill="#0B1220" stroke="url(#wheelRimGold)" strokeWidth="2.5" />
-      <circle cx="24" cy="24" r="17" fill="#1E293B" stroke="#DE9D35" strokeWidth="0.6" />
+      <circle cx="24" cy="24" r="20" fill="#14212D" stroke="url(#wheelRimGold)" strokeWidth="2.5" />
+      <circle cx="24" cy="24" r="17" fill="#1E293B" stroke="#FF685B" strokeWidth="0.6" />
 
       {/* 8 Precision Slices */}
       <path d="M24 24L24 7A17 17 0 0 1 36 12Z" fill="#10B981" />
-      <path d="M24 24L36 12A17 17 0 0 1 41 24Z" fill="#DE9D35" />
+      <path d="M24 24L36 12A17 17 0 0 1 41 24Z" fill="#FF685B" />
       <path d="M24 24L41 24A17 17 0 0 1 36 36Z" fill="#059669" />
       <path d="M24 24L36 36A17 17 0 0 1 24 41Z" fill="#F59E0B" />
       <path d="M24 24L24 41A17 17 0 0 1 12 36Z" fill="#047857" />
       <path d="M24 24L12 36A17 17 0 0 1 7 24Z" fill="#D97706" />
       <path d="M24 24L7 24A17 17 0 0 1 12 12Z" fill="#065F46" />
-      <path d="M24 24L12 12A17 17 0 0 1 24 7Z" fill="#B45309" />
+      <path d="M24 24L12 12A17 17 0 0 1 24 7Z" fill="#FF685B" />
 
       {/* Separator Spokes */}
       <circle cx="24" cy="24" r="17" fill="none" stroke="#FFFFFF" strokeWidth="0.6" strokeOpacity="0.4" />

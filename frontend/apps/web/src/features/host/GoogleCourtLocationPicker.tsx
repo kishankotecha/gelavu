@@ -163,7 +163,7 @@ export function GoogleCourtLocationPicker({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <label htmlFor={inputId} className="text-xs font-bold uppercase tracking-wider text-[#475569] flex items-center gap-1.5">
-          <MapPin className="w-4 h-4 text-[#1D4A38]" />
+          <MapPin className="w-4 h-4 text-[#14212D]" />
           <span>Badminton Court / Arena (Google Maps Search)</span>
         </label>
         <button
@@ -174,7 +174,7 @@ export function GoogleCourtLocationPicker({
               setQuery("");
             }
           }}
-          className="text-[11px] font-bold text-[#1D4A38] hover:underline transition-colors cursor-pointer"
+          className="text-[11px] font-bold text-[#14212D] hover:underline transition-colors cursor-pointer"
         >
           {isCustomMode ? "← Search Google Maps Venues" : "+ Enter Custom Court Location"}
         </button>
@@ -195,7 +195,7 @@ export function GoogleCourtLocationPicker({
               }}
               onFocus={() => setIsOpen(true)}
               placeholder="Search verified badminton courts (e.g. Play9, SmashBounce, CSE Yelahanka)..."
-              className="w-full h-12 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] pl-10 pr-4 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-[#1D4A38] focus:outline-none focus:ring-1 focus:ring-[#1D4A38] transition-colors"
+              className="w-full h-12 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] pl-10 pr-4 text-sm text-[#1E293B] placeholder:text-[#94A3B8] focus:border-[#14212D] focus:outline-none focus:ring-1 focus:ring-[#14212D] transition-colors"
             />
           </div>
 
@@ -210,7 +210,7 @@ export function GoogleCourtLocationPicker({
               <div className="absolute left-0 right-0 top-full mt-2 z-30 max-h-80 overflow-y-auto rounded-2xl border border-[#D5D9CE] bg-white shadow-xl divide-y divide-[#EEF0E8]">
                 <div className="px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-[#64748B] bg-[#F9FAF6] flex items-center justify-between">
                   <span>Verified Google Maps Badminton Arenas in Bengaluru</span>
-                  <span className="text-[10px] text-[#1D4A38] font-bold">{filteredVenues.length} available</span>
+                  <span className="text-[10px] text-[#14212D] font-bold">{filteredVenues.length} available</span>
                 </div>
 
                 {filteredVenues.length > 0 ? (
@@ -222,23 +222,23 @@ export function GoogleCourtLocationPicker({
                         type="button"
                         onClick={() => handleChoose(v)}
                         className={`w-full text-left p-3.5 transition-colors flex items-start gap-3 hover:bg-[#F5F6F0] cursor-pointer ${
-                          isSelected ? "bg-[#E8EFEA] border-l-2 border-[#1D4A38]" : ""
+                          isSelected ? "bg-[#E8EFEA] border-l-2 border-[#14212D]" : ""
                         }`}
                       >
-                        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#E8EFEA] text-[#1D4A38] mt-0.5">
+                        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#E8EFEA] text-[#14212D] mt-0.5">
                           <Building2 className="w-4 h-4" />
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="font-bold text-[#1E293B] text-sm truncate">{v.name}</span>
-                            <span className="flex items-center gap-1 text-[11px] text-amber-600 font-bold shrink-0">
-                              <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                            <span className="flex items-center gap-1 text-[11px] text-hotpink font-bold shrink-0">
+                              <Star className="w-3 h-3 fill-hotpink text-hotpink" />
                               {v.rating} ({v.reviewsCount})
                             </span>
                           </div>
                           <p className="text-xs text-[#64748B] truncate mt-0.5">{v.address}</p>
                           <div className="flex flex-wrap gap-2 mt-1 text-[10px]">
-                            <span className="rounded-md bg-[#F0F2EB] border border-[#E2E6DD] px-2 py-0.5 text-[#1D4A38] font-semibold">
+                            <span className="rounded-md bg-[#F0F2EB] border border-[#E2E6DD] px-2 py-0.5 text-[#14212D] font-semibold">
                               {v.courtsCount} courts · {v.courtType}
                             </span>
                             <span className="rounded-md bg-[#F0F2EB] border border-[#E2E6DD] px-2 py-0.5 text-[#64748B]">
@@ -246,7 +246,7 @@ export function GoogleCourtLocationPicker({
                             </span>
                           </div>
                         </div>
-                        {isSelected && <Check className="w-4 h-4 text-[#1D4A38] shrink-0 self-center" />}
+                        {isSelected && <Check className="w-4 h-4 text-[#14212D] shrink-0 self-center" />}
                       </button>
                     );
                   })
@@ -259,7 +259,7 @@ export function GoogleCourtLocationPicker({
                         setIsCustomMode(true);
                         setIsOpen(false);
                       }}
-                      className="mt-2 text-xs font-bold text-[#1D4A38] underline cursor-pointer"
+                      className="mt-2 text-xs font-bold text-[#14212D] underline cursor-pointer"
                     >
                       Enter custom venue details manually
                     </button>
@@ -275,17 +275,17 @@ export function GoogleCourtLocationPicker({
               <div className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-[#E8EFEA] border border-[#C5D5CA] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#1D4A38]">
+                    <span className="rounded-full bg-[#E8EFEA] border border-[#C5D5CA] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#14212D]">
                       Google Maps Verified
                     </span>
-                    <span className="flex items-center gap-1 text-xs font-bold text-amber-600">
-                      <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
+                    <span className="flex items-center gap-1 text-xs font-bold text-hotpink">
+                      <Star className="w-3 h-3 fill-hotpink text-hotpink" />
                       {selectedVenue.rating} ({selectedVenue.reviewsCount} reviews)
                     </span>
                   </div>
                   <h4 className="text-base font-black text-[#1E293B]">{selectedVenue.name}</h4>
                   <p className="text-xs text-[#475569] flex items-center gap-1.5">
-                    <Navigation className="w-3.5 h-3.5 text-[#1D4A38] shrink-0" />
+                    <Navigation className="w-3.5 h-3.5 text-[#14212D] shrink-0" />
                     <span>{selectedVenue.address}</span>
                   </p>
                   <div className="flex flex-wrap gap-2 pt-1 text-xs">
@@ -309,7 +309,7 @@ export function GoogleCourtLocationPicker({
                     className="inline-flex items-center gap-1.5 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3.5 py-2 text-xs font-bold text-[#1E293B] hover:bg-[#EEF1EB] transition-colors"
                   >
                     <span>View on Google Maps</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[#1D4A38]" />
+                    <ExternalLink className="w-3.5 h-3.5 text-[#14212D]" />
                   </a>
                   <button
                     type="button"
@@ -338,7 +338,7 @@ export function GoogleCourtLocationPicker({
               value={customVenueName}
               onChange={(e) => onCustomVenueNameChange(e.target.value)}
               placeholder="e.g. Prestige Greenwoods Badminton Court"
-              className="mt-1 w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
+              className="mt-1 w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#14212D] focus:outline-none"
               required
             />
           </div>
@@ -350,7 +350,7 @@ export function GoogleCourtLocationPicker({
               value={customAddress}
               onChange={(e) => onCustomAddressChange(e.target.value)}
               placeholder="e.g. Clubhouse Block B, Outer Ring Road, Bellandur, Bengaluru"
-              className="mt-1 w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#1D4A38] focus:outline-none"
+              className="mt-1 w-full h-10 rounded-xl border border-[#D5D9CE] bg-[#F9FAF6] px-3 text-sm text-[#1E293B] focus:border-[#14212D] focus:outline-none"
               required
             />
           </div>

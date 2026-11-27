@@ -9,7 +9,7 @@ const START = 6;
 const END = 24;
 const SPAN = END - START;
 const TICKS = [6, 9, 12, 15, 18, 21];
-const LANE_H = 48;
+const LANE_H = 38;
 const pct = (h: number) => ((h - START) / SPAN) * 100;
 const tick = (h: number) => `${h % 12 || 12} ${h < 12 ? "AM" : "PM"}`;
 
@@ -59,35 +59,35 @@ export function WeekendTimeline({ tournaments, selectedId, onSelect, weekend }: 
   return (
     <section
       aria-labelledby="plan-title"
-      className="rounded-3xl border border-white/10 bg-[#0E1524] p-5 sm:p-7 shadow-2xl text-white transition-all duration-200 hover:border-white/20"
+      className="rounded-3xl border border-white/15 bg-[#0F1722] p-4 sm:p-5 shadow-xl text-white transition-all duration-200 hover:border-white/20"
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
         <div>
-          <h3 id="plan-title" className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-cyan-400" />
+          <h3 id="plan-title" className="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-coral" />
             <span>Weekend Match Schedule Matrix</span>
           </h3>
-          <p className="mt-1 text-xs text-slate-400">
-            Timeline spans 6:00 AM to Midnight. Click any match block to view venue location and match ticket above.
+          <p className="mt-0.5 text-xs text-slate-400">
+            Timeline spans 6:00 AM to Midnight. Click any match block to view venue location above.
           </p>
         </div>
-        <span className="self-start sm:self-center rounded-full bg-cyan-500/15 border border-cyan-500/30 px-3 py-1 text-xs font-black uppercase tracking-wider text-cyan-300">
+        <span className="self-start sm:self-center rounded-full bg-coral/15 border border-coral/30 px-3 py-0.5 text-xs font-black uppercase tracking-wider text-coral">
           {weekend.rangeLabel}
         </span>
       </div>
 
       {/* Timeline Matrix */}
-      <div className="mt-5 overflow-x-auto">
-        <div className="min-w-[640px]">
+      <div className="mt-3.5 overflow-x-auto">
+        <div className="min-w-[600px]">
           {/* Time scale ruler */}
-          <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-x-4">
+          <div className="grid grid-cols-[90px_1fr] sm:grid-cols-[110px_1fr] gap-x-3">
             <span />
-            <div className="relative h-6" aria-hidden="true">
+            <div className="relative h-5" aria-hidden="true">
               {TICKS.map((h) => (
                 <span
                   key={h}
-                  className="absolute -translate-x-1/2 text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider"
+                  className="absolute -translate-x-1/2 text-[10px] font-bold text-slate-400 uppercase tracking-wider"
                   style={{ left: `${pct(h)}%` }}
                 >
                   {tick(h)}
@@ -103,11 +103,11 @@ export function WeekendTimeline({ tournaments, selectedId, onSelect, weekend }: 
             return (
               <div
                 key={day.key}
-                className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-x-4 border-t border-white/10 py-3.5 items-start"
+                className="grid grid-cols-[90px_1fr] sm:grid-cols-[110px_1fr] gap-x-3 border-t border-white/10 py-2.5 items-start"
               >
-                <div className="space-y-0.5 pt-1">
-                  <p className="text-sm font-extrabold text-white">{day.name}</p>
-                  <p className="text-[11px] font-semibold text-slate-300 bg-white/5 px-2 py-0.5 rounded-md border border-white/10 inline-block">
+                <div className="space-y-0.5 pt-0.5">
+                  <p className="text-xs sm:text-sm font-extrabold text-white">{day.name}</p>
+                  <p className="text-[10px] font-semibold text-slate-300 bg-white/5 px-2 py-0.2 rounded border border-white/10 inline-block">
                     {day.label}
                   </p>
                 </div>
@@ -141,19 +141,19 @@ export function WeekendTimeline({ tournaments, selectedId, onSelect, weekend }: 
                           left: `${pct(t.startHour)}%`,
                           width: `${((t.endHour - t.startHour) / SPAN) * 100}%`,
                           top: (lane.get(t.id) ?? 0) * LANE_H,
-                          height: LANE_H - 6,
+                          height: LANE_H - 4,
                         }}
-                        className={`absolute flex flex-col justify-center overflow-hidden rounded-xl px-3 text-left transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5722] cursor-pointer shadow-md ${
+                        className={`absolute flex flex-col justify-center overflow-hidden rounded-lg px-2.5 text-left transition duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral cursor-pointer shadow-sm ${
                           on
-                            ? "bg-[#FF5722] text-white ring-2 ring-[#FF5722] shadow-[0_0_20px_rgba(255,87,34,0.4)] scale-[1.01] z-10"
-                            : "border border-white/15 bg-white/5 text-slate-200 hover:-translate-y-0.5 hover:border-cyan-400/50 hover:bg-white/10 hover:text-white"
+                            ? "bg-coral text-navy ring-1 ring-coral shadow-[0_0_15px_rgba(255,104,91,0.35)] scale-[1.01] z-10 font-bold"
+                            : "border border-white/15 bg-white/5 text-slate-200 hover:border-coral/50 hover:bg-white/10 hover:text-white"
                         }`}
                       >
-                        <span className="truncate text-xs font-black flex items-center gap-1.5">
-                          {on && <span className="h-1.5 w-1.5 rounded-full bg-white shrink-0" />}
+                        <span className="truncate text-[11px] font-black flex items-center gap-1 leading-tight">
+                          {on && <span className="h-1.5 w-1.5 rounded-full bg-navy shrink-0" />}
                           {t.series}
                         </span>
-                        <span className={`truncate text-[10px] ${on ? "text-white/80 font-bold" : "text-slate-400"}`}>
+                        <span className={`truncate text-[9px] leading-tight ${on ? "text-navy/80 font-bold" : "text-slate-400"}`}>
                           {t.area} · {formatHour(t.startHour)} – {formatHour(t.endHour)}
                         </span>
                       </button>
@@ -169,17 +169,17 @@ export function WeekendTimeline({ tournaments, selectedId, onSelect, weekend }: 
       {/* Smart Concierge Insight */}
       {tip && (
         <div
-          className="mt-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 p-3.5 sm:p-4 flex items-start gap-3 text-xs sm:text-sm text-slate-300 shadow-md"
+          className="mt-3 rounded-xl bg-coral/10 border border-coral/30 p-2.5 sm:p-3 flex items-start gap-2.5 text-xs text-slate-300 shadow-sm"
           aria-live="polite"
         >
-          <span className="p-1.5 rounded-xl bg-amber-500/20 text-amber-400 shrink-0 mt-0.5">
-            <Sparkles className="w-4 h-4" />
+          <span className="p-1 rounded-lg bg-coral/20 text-coral shrink-0 mt-0.5">
+            <Sparkles className="w-3.5 h-3.5" />
           </span>
           <div className="space-y-0.5">
-            <strong className="block text-xs uppercase tracking-wider text-amber-400 font-black">
+            <strong className="block text-[10px] uppercase tracking-wider text-coral font-black">
               Weekend Match Tip
             </strong>
-            <p className="text-slate-300 leading-relaxed">{tip}</p>
+            <p className="text-slate-300 leading-snug">{tip}</p>
           </div>
         </div>
       )}

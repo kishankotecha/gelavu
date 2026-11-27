@@ -101,12 +101,12 @@ export default async function PublicBracketPage({
 
           {/* Finals */}
           <div className="flex-1 space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 text-center py-2 bg-amber-950/40 rounded-lg border border-amber-500/30 flex items-center justify-center gap-1.5">
-              <Trophy className="w-3.5 h-3.5 text-amber-400" /> Grand Finals
+            <h3 className="text-xs font-bold uppercase tracking-wider text-hotpink text-center py-2 bg-hotpink/40 rounded-lg border border-hotpink/30 flex items-center justify-center gap-1.5">
+              <Trophy className="w-3.5 h-3.5 text-hotpink" /> Grand Finals
             </h3>
             {finals.map((m) => (
-              <div key={m.id} className="rounded-xl border border-amber-500/30 bg-gray-900/80 p-4 space-y-3">
-                <div className="flex items-center justify-between text-xs text-amber-400 font-semibold">
+              <div key={m.id} className="rounded-xl border border-hotpink/30 bg-gray-900/80 p-4 space-y-3">
+                <div className="flex items-center justify-between text-xs text-hotpink font-semibold">
                   <span>Centre Court</span>
                   <span>{m.scheduledTime}</span>
                 </div>

@@ -67,7 +67,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
       price: 1200,
       fee: 40,
       left: "4 slots left",
-      leftColor: "text-amber-600",
+      leftColor: "text-hotpink",
     },
     {
       id: "xd_open",
@@ -76,7 +76,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
       price: 1200,
       fee: 40,
       left: "6 slots left",
-      leftColor: "text-amber-600",
+      leftColor: "text-hotpink",
     },
     {
       id: "ms_open",
@@ -173,10 +173,8 @@ export default function TournamentDetailPage({ params }: PageProps) {
           {/* Left Column (approx 63%) */}
           <div className="lg:col-span-7 space-y-6">
             {/* Hero Card */}
-            <div className="relative rounded-3xl bg-gradient-to-br from-[#2D2A57] via-[#1E1B3D] to-[#111024] p-7 sm:p-9 text-white shadow-xl overflow-hidden">
-              <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
-
-              <div className="inline-flex items-center gap-1 rounded-full bg-[#D4FF00] px-3 py-1 text-[11px] font-black tracking-wider text-black uppercase mb-4 shadow-sm">
+            <div className="relative rounded-3xl bg-navy p-7 sm:p-9 text-white shadow-xl overflow-hidden">
+              <div className="inline-flex items-center gap-1 rounded-full bg-coral px-3 py-1 text-[11px] font-black tracking-wider text-navy uppercase mb-4 shadow-sm">
                 REGISTRATION OPEN
               </div>
 
@@ -212,7 +210,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
               </div>
               <div className="rounded-2xl border border-gray-200/90 bg-white p-4 shadow-xs">
                 <span className="text-[11px] font-semibold text-gray-500 block">Partners Wanted</span>
-                <span className="text-lg font-black text-amber-600 mt-1 block">{partnerCandidates.length} Seeking</span>
+                <span className="text-lg font-black text-hotpink mt-1 block">{partnerCandidates.length} Seeking</span>
               </div>
             </div>
 
@@ -235,10 +233,10 @@ export default function TournamentDetailPage({ params }: PageProps) {
 
             {/* PARTNER POOL (Seeking Pair) Section */}
             {(activeTab === "Overview" || activeTab === "BYOP Partner Pool") && (
-              <div className="rounded-3xl border border-amber-500/30 bg-amber-500/5 p-6 space-y-4">
+              <div className="rounded-3xl border border-hotpink/30 bg-hotpink/5 p-6 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <Users className="w-5 h-5 text-amber-600" />
+                    <Users className="w-5 h-5 text-hotpink" />
                     <div>
                       <h2 className="text-sm font-black text-gray-900">
                         BYOP Partner Pool: Players Seeking a Pair ({partnerCandidates.length})
@@ -252,7 +250,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
                     href={`/tournaments/${slug}/register?category=BLIND_DRAW_DOUBLES`}
                     className="inline-flex items-center gap-1 rounded-full bg-white border border-gray-300 px-3 py-1 text-xs font-bold text-gray-800 hover:border-black transition shrink-0"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <Sparkles className="w-3.5 h-3.5 text-hotpink" />
                     Prefer Host Random Draw? 🎯
                   </Link>
                 </div>
@@ -277,7 +275,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
                           <div className="space-y-1">
                             <div className="flex flex-wrap items-center gap-2">
                               <span className="text-sm font-bold text-gray-900">{cand.name}</span>
-                              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-800">
+                              <span className="inline-flex items-center gap-1 rounded-full bg-hotpink/10 px-2 py-0.5 text-[10px] font-bold text-navy">
                                 <Trophy className="w-2.5 h-2.5" /> Rank #{cand.circuitRank}
                               </span>
                               <span className="text-[11px] text-gray-500 font-mono">
@@ -335,13 +333,13 @@ export default function TournamentDetailPage({ params }: PageProps) {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-2 pt-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-200/70 px-3.5 py-2 text-xs font-bold text-gray-800">
+                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-hotpink/30 px-3.5 py-2 text-xs font-bold text-gray-800">
                     🏆 1st ₹60,000
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-gray-200 px-3.5 py-2 text-xs font-bold text-gray-800">
                     🥈 2nd ₹30,000
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-amber-300/40 px-3.5 py-2 text-xs font-bold text-gray-800">
+                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-[#FAF9F5] border border-hotpink/30 px-3.5 py-2 text-xs font-bold text-gray-800">
                     🥉 3rd ₹15,000
                   </span>
                 </div>
@@ -436,8 +434,8 @@ export default function TournamentDetailPage({ params }: PageProps) {
               {/* Card Header & Slot Held Timer */}
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-black text-gray-900">Quick Entry</h3>
-                <div className="flex items-center gap-1 rounded-full bg-[#FEF3C7] border border-amber-300/60 px-3 py-1 text-[11px] font-bold text-amber-800">
-                  <Clock className="w-3.5 h-3.5 text-amber-600" />
+                <div className="flex items-center gap-1 rounded-full bg-[#FEF3C7] border border-hotpink/30 px-3 py-1 text-[11px] font-bold text-navy">
+                  <Clock className="w-3.5 h-3.5 text-hotpink" />
                   <span>Slot held {formatTimer(timeLeft)}</span>
                 </div>
               </div>
@@ -472,7 +470,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
                   <button
                     type="button"
                     onClick={() => setActiveTab("Partner Pool (Seeking Pair)")}
-                    className="text-[11px] font-bold text-amber-600 hover:underline cursor-pointer"
+                    className="text-[11px] font-bold text-hotpink hover:underline cursor-pointer"
                   >
                     Browse {partnerCandidates.length} seeking pair →
                   </button>
@@ -518,7 +516,7 @@ export default function TournamentDetailPage({ params }: PageProps) {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-xl bg-amber-50 border border-amber-200/80 p-2.5 text-[11px] text-amber-800 leading-relaxed">
+                  <div className="rounded-xl bg-hotpink/10 border border-hotpink/30 p-2.5 text-[11px] text-navy leading-relaxed">
                     🎲 <strong>Host Random Draw:</strong> Solo entry. The Tournament Host spins the official Picker Wheel to form randomized, balanced teams before Round 1.
                   </div>
                 )}

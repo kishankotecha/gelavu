@@ -93,22 +93,22 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={t.id}
             role="status"
-            className="pointer-events-auto bg-[#0B101B]/95 text-white border border-slate-700/80 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md rounded-2xl p-3.5 flex items-start gap-3 transition-all duration-300 animate-in slide-in-from-top-3 fade-in zoom-in-95"
+            className="pointer-events-auto bg-navy/95 text-white border border-slate-700/80 shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-md rounded-2xl p-3.5 flex items-start gap-3 transition-all duration-300 animate-in slide-in-from-top-3 fade-in zoom-in-95"
           >
             {/* Visual Icon Badge */}
             <div className="shrink-0 mt-0.5">
               {t.variant === "success" && (
-                <div className="w-7 h-7 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-hotpink/10 border border-hotpink/30 text-hotpink flex items-center justify-center">
                   <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                 </div>
               )}
               {t.variant === "error" && (
-                <div className="w-7 h-7 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-rose-500/15 border border-hotpink/30 text-hotpink flex items-center justify-center">
                   <AlertCircle className="w-4 h-4 stroke-[2.5]" />
                 </div>
               )}
               {t.variant === "info" && (
-                <div className="w-7 h-7 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-hotpink/100/15 border border-hotpink/30 text-hotpink flex items-center justify-center">
                   <Info className="w-4 h-4 stroke-[2.5]" />
                 </div>
               )}
@@ -136,7 +136,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                     t.onAction?.();
                     removeToast(t.id);
                   }}
-                  className="mt-2 text-[10px] font-black uppercase tracking-wider text-amber-400 hover:text-amber-300 bg-amber-400/10 border border-amber-400/30 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                  className="mt-2 text-[10px] font-black uppercase tracking-wider text-hotpink hover:text-hotpink bg-hotpink/10 border border-hotpink/30 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                 >
                   {t.actionLabel}
                 </button>

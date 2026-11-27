@@ -83,11 +83,11 @@ const PLAYO_SKILL_TIERS: Array<{
     summary: "Good control & court coverage",
     description: "Sharp clears, drop shots, smashes. Understands front-and-back doubles rotation.",
     brandColor: "#16A34A",
-    solidPill: "bg-emerald-600 text-white border-emerald-700",
+    solidPill: "bg-hotpink text-white border-emerald-700",
     activeCardBg: "bg-emerald-50 border-emerald-600 ring-2 ring-emerald-500/30",
     activeBorder: "border-emerald-600",
     activeTextColor: "text-emerald-800",
-    pillColor: "bg-emerald-600",
+    pillColor: "bg-hotpink",
   },
   {
     id: "Advanced",
@@ -95,11 +95,11 @@ const PLAYO_SKILL_TIERS: Array<{
     summary: "High pace & tactical power",
     description: "Fast reflex drives, steep attacking smashes, tactical net play, high court stamina.",
     brandColor: "#EA580C",
-    solidPill: "bg-orange-600 text-white border-orange-700",
-    activeCardBg: "bg-orange-50 border-orange-600 ring-2 ring-orange-500/30",
-    activeBorder: "border-orange-600",
-    activeTextColor: "text-orange-800",
-    pillColor: "bg-orange-600",
+    solidPill: "bg-hotpink text-white border-hotpink/30",
+    activeCardBg: "bg-hotpink border-hotpink/30 ring-2 ring-orange-500/30",
+    activeBorder: "border-hotpink/30",
+    activeTextColor: "text-hotpink",
+    pillColor: "bg-hotpink",
   },
   {
     id: "Professional",
@@ -116,7 +116,7 @@ const PLAYO_SKILL_TIERS: Array<{
 ];
 
 const PLAYO_BADGES = [
-  { id: "smash", label: "Smash Specialist", icon: Flame, color: "text-amber-700 bg-amber-50 border-amber-200" },
+  { id: "smash", label: "Smash Specialist", icon: Flame, color: "text-hotpink bg-hotpink/10 border-hotpink/40" },
   { id: "defense", label: "Iron Defense", icon: ShieldCheck, color: "text-emerald-700 bg-emerald-50 border-emerald-200" },
   { id: "net", label: "Net Controller", icon: Sparkles, color: "text-blue-700 bg-blue-50 border-blue-200" },
   { id: "sportsman", label: "True Sportsman", icon: Heart, color: "text-rose-700 bg-rose-50 border-rose-200" },
@@ -211,15 +211,15 @@ export function PlayoPostMatchRatingModal({
         {/* Header */}
         <div className="px-6 py-4 border-b border-[#EEF0E8] bg-[#FAFBF7] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#E8EFEA] text-[#1D4A38] flex items-center justify-center border border-[#CAD7CE]">
-              <Award className="w-5 h-5 text-[#1D4A38]" />
+            <div className="w-10 h-10 rounded-2xl bg-[#E8EFEA] text-[#14212D] flex items-center justify-center border border-[#CAD7CE]">
+              <Award className="w-5 h-5 text-[#14212D]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-black uppercase tracking-wider text-[#1D4A38]">
+                <span className="text-sm font-black uppercase tracking-wider text-[#14212D]">
                   Playo Peer Rating Flow
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E8EFEA] text-[#1D4A38] border border-[#CAD7CE]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E8EFEA] text-[#14212D] border border-[#CAD7CE]">
                   Post-Match Review
                 </span>
               </div>
@@ -258,7 +258,7 @@ export function PlayoPostMatchRatingModal({
                 onClick={() => setActivePlayerIndex(idx)}
                 className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? "bg-[#1D4A38] text-white shadow-xs"
+                    ? "bg-navy text-white shadow-xs"
                     : "bg-white text-[#475569] hover:text-[#1E293B] border border-[#E2E6DD]"
                 }`}
               >
@@ -268,9 +268,9 @@ export function PlayoPostMatchRatingModal({
                     pReview?.skillTier === "Professional"
                       ? "bg-purple-600"
                       : pReview?.skillTier === "Advanced"
-                      ? "bg-orange-600"
+                      ? "bg-hotpink"
                       : pReview?.skillTier === "Intermediate"
-                      ? "bg-emerald-600"
+                      ? "bg-hotpink"
                       : pReview?.skillTier === "Amateur"
                       ? "bg-teal-600"
                       : "bg-sky-600"
@@ -288,7 +288,7 @@ export function PlayoPostMatchRatingModal({
           {/* Active Player Card Header */}
           <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-[#FAFBF7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#1D4A38] text-white flex items-center justify-center font-black text-lg">
+              <div className="w-12 h-12 rounded-2xl bg-navy text-white flex items-center justify-center font-black text-lg">
                 {activePlayer.name.slice(0, 2).toUpperCase()}
               </div>
               <div>
@@ -309,9 +309,9 @@ export function PlayoPostMatchRatingModal({
                   currentReview.skillTier === "Professional"
                     ? "bg-purple-600 border border-purple-700"
                     : currentReview.skillTier === "Advanced"
-                    ? "bg-orange-600 border border-orange-700"
+                    ? "bg-hotpink border border-hotpink/30"
                     : currentReview.skillTier === "Intermediate"
-                    ? "bg-emerald-600 border border-emerald-700"
+                    ? "bg-hotpink border border-emerald-700"
                     : currentReview.skillTier === "Amateur"
                     ? "bg-teal-600 border border-teal-700"
                     : "bg-sky-600 border border-sky-700"
@@ -326,7 +326,7 @@ export function PlayoPostMatchRatingModal({
           <div className="p-4 rounded-2xl border border-[#E2E6DD] bg-[#FAFBF7] space-y-2.5">
             <div className="flex items-center justify-between text-xs">
               <span className="font-bold text-[#1E293B] flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+                <span className="w-2.5 h-2.5 rounded-full bg-hotpink" />
                 Playo User Rating Graph (Peer Feedback Distribution)
               </span>
               <span className="text-[10px] text-[#64748B] font-semibold">Live Playpal Aggregation</span>
@@ -336,8 +336,8 @@ export function PlayoPostMatchRatingModal({
             <div className="h-3.5 w-full rounded-full overflow-hidden flex bg-slate-200 shadow-inner">
               <div style={{ width: "5%" }} className="bg-sky-500 h-full transition-all" title="Beginner: 5%" />
               <div style={{ width: "15%" }} className="bg-teal-500 h-full transition-all" title="Amateur: 15%" />
-              <div style={{ width: "60%" }} className="bg-emerald-600 h-full transition-all" title="Intermediate: 60%" />
-              <div style={{ width: "20%" }} className="bg-orange-500 h-full transition-all" title="Advanced: 20%" />
+              <div style={{ width: "60%" }} className="bg-hotpink h-full transition-all" title="Intermediate: 60%" />
+              <div style={{ width: "20%" }} className="bg-hotpink h-full transition-all" title="Advanced: 20%" />
               <div style={{ width: "0%" }} className="bg-purple-600 h-full transition-all" title="Professional: 0%" />
             </div>
 
@@ -345,8 +345,8 @@ export function PlayoPostMatchRatingModal({
             <div className="flex flex-wrap items-center justify-between text-[10px] font-bold text-[#64748B] pt-0.5 gap-2">
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-sky-500" /> Beginner (5%)</span>
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-teal-500" /> Amateur (15%)</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-600" /> Intermediate (60%)</span>
-              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-orange-500" /> Advanced (20%)</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-hotpink" /> Intermediate (60%)</span>
+              <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-hotpink" /> Advanced (20%)</span>
               <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-purple-600" /> Pro (0%)</span>
             </div>
           </div>
@@ -354,7 +354,7 @@ export function PlayoPostMatchRatingModal({
           {/* STEP 1: Skill Level Assessment (Playo 5-Tier Standard) */}
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-black uppercase tracking-wider text-[#1D4A38] flex items-center gap-1.5">
+              <label className="text-xs font-black uppercase tracking-wider text-[#14212D] flex items-center gap-1.5">
                 <Award className="w-4 h-4" /> 1. How would you rate their play level today?
               </label>
               <p className="text-xs text-[#64748B]">
@@ -383,7 +383,7 @@ export function PlayoPostMatchRatingModal({
                         >
                           {tier.label}
                         </span>
-                        {isSelected && <CheckCircle2 className="w-4 h-4 text-[#1D4A38]" />}
+                        {isSelected && <CheckCircle2 className="w-4 h-4 text-[#14212D]" />}
                       </div>
                       <p className={`text-[11px] font-bold mb-1.5 leading-tight ${isSelected ? tier.activeTextColor : "text-[#1E293B]"}`}>
                         {tier.summary}
@@ -399,7 +399,7 @@ export function PlayoPostMatchRatingModal({
           {/* STEP 2: Punctuality & Reliability */}
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-black uppercase tracking-wider text-[#1D4A38] flex items-center gap-1.5">
+              <label className="text-xs font-black uppercase tracking-wider text-[#14212D] flex items-center gap-1.5">
                 <Clock className="w-4 h-4" /> 2. Punctuality &amp; Match Readiness
               </label>
               <p className="text-xs text-[#64748B]">
@@ -421,7 +421,7 @@ export function PlayoPostMatchRatingModal({
                   label: "5–10 Mins Late",
                   desc: "Arrived late but notified host/partner",
                   icon: Clock,
-                  color: "text-amber-700 bg-amber-50 border-amber-200",
+                  color: "text-hotpink bg-hotpink/10 border-hotpink/40",
                 },
                 {
                   id: "NO_SHOW",
@@ -444,7 +444,7 @@ export function PlayoPostMatchRatingModal({
                     }
                     className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3 ${
                       isSelected
-                        ? "border-[#1D4A38] bg-[#E8EFEA] ring-2 ring-[#1D4A38]/20"
+                        ? "border-[#14212D] bg-[#E8EFEA] ring-2 ring-[#14212D]/20"
                         : "border-[#E2E6DD] bg-[#FAFBF7] hover:bg-white"
                     }`}
                   >
@@ -454,7 +454,7 @@ export function PlayoPostMatchRatingModal({
                     <div>
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-black text-[#1E293B]">{punc.label}</span>
-                        {isSelected && <Check className="w-3.5 h-3.5 text-[#1D4A38]" />}
+                        {isSelected && <Check className="w-3.5 h-3.5 text-[#14212D]" />}
                       </div>
                       <p className="text-[10px] text-[#64748B] mt-0.5">{punc.desc}</p>
                     </div>
@@ -467,7 +467,7 @@ export function PlayoPostMatchRatingModal({
           {/* STEP 3: Playpal Compliment Badges */}
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-black uppercase tracking-wider text-[#1D4A38] flex items-center gap-1.5">
+              <label className="text-xs font-black uppercase tracking-wider text-[#14212D] flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4" /> 3. Compliment Badges (Tap to Award)
               </label>
               <p className="text-xs text-[#64748B]">
@@ -486,7 +486,7 @@ export function PlayoPostMatchRatingModal({
                     onClick={() => handleToggleBadge(badge.label)}
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
                       isAwarded
-                        ? "border-[#1D4A38] bg-[#E8EFEA] ring-1 ring-[#1D4A38]"
+                        ? "border-[#14212D] bg-[#E8EFEA] ring-1 ring-[#14212D]"
                         : "border-[#E2E6DD] bg-[#FAFBF7] hover:bg-white"
                     }`}
                   >
@@ -497,7 +497,7 @@ export function PlayoPostMatchRatingModal({
                       <span className="text-xs font-bold text-[#1E293B]">{badge.label}</span>
                     </div>
                     {isAwarded ? (
-                      <span className="text-[10px] font-black text-[#1D4A38] bg-white px-2 py-0.5 rounded-full border border-[#CAD7CE]">
+                      <span className="text-[10px] font-black text-[#14212D] bg-white px-2 py-0.5 rounded-full border border-[#CAD7CE]">
                         ✓ Awarded
                       </span>
                     ) : (
@@ -532,7 +532,7 @@ export function PlayoPostMatchRatingModal({
                     }
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       currentReview.courtDemeanor === demeanor.id
-                        ? "bg-[#1D4A38] text-white shadow-xs"
+                        ? "bg-navy text-white shadow-xs"
                         : "bg-[#F5F6F0] text-[#64748B] hover:text-[#1E293B] border border-[#E2E6DD]"
                     }`}
                   >
@@ -563,7 +563,7 @@ export function PlayoPostMatchRatingModal({
                     }
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       currentReview.playAgain === opt.id
-                        ? "bg-[#1D4A38] text-white shadow-xs"
+                        ? "bg-navy text-white shadow-xs"
                         : "bg-[#F5F6F0] text-[#64748B] hover:text-[#1E293B] border border-[#E2E6DD]"
                     }`}
                   >
@@ -595,7 +595,7 @@ export function PlayoPostMatchRatingModal({
             <button
               type="button"
               onClick={handleFinalSubmit}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#1D4A38] hover:bg-[#16392B] text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-navy hover:bg-[#16392B] text-white text-xs font-black uppercase tracking-wider transition-all shadow-sm cursor-pointer"
             >
               <Check className="w-4 h-4" />
               <span>Submit Playo Peer Reviews</span>

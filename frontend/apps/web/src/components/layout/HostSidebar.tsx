@@ -61,7 +61,7 @@ export function HostSidebar() {
             onClick={onItemClick}
             className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all ${
               isActive
-                ? "bg-[#F3D15A] text-[#0B101B] font-semibold shadow-sm shadow-amber-400/15"
+                ? "bg-hotpink text-navy font-semibold shadow-sm shadow-hotpink/20"
                 : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
             }`}
           >
@@ -89,8 +89,8 @@ export function HostSidebar() {
           Verified host
         </span>
         <span className="text-xs font-bold text-white block">Apex Badminton Academy</span>
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-400 pt-0.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-hotpink pt-0.5">
+          <ShieldCheck className="w-3.5 h-3.5 text-hotpink shrink-0" />
           <span>UPI escrow active</span>
         </div>
       </div>
@@ -111,7 +111,7 @@ export function HostSidebar() {
       {/* ============================================================ */}
       {/* 1. MOBILE TOP NAVIGATION BAR (Visible on screens < md)         */}
       {/* ============================================================ */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-[#0B101B] text-white border-b border-slate-800 sticky top-0 z-40 select-none">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-navy text-white border-b border-slate-800 sticky top-0 z-40 select-none">
         <GelavuLogo variant="dark" badge="HOST" href="/host" />
 
         <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ export function HostSidebar() {
 
         {/* Drawer Panel: Positioned on the RIGHT, sliding in/out right-to-left */}
         <div
-          className={`absolute top-0 right-0 bottom-0 w-72 sm:w-80 max-w-[85vw] bg-[#0B101B]/98 text-white p-5 sm:p-6 flex flex-col justify-between z-50 shadow-[-10px_0_40px_rgba(0,0,0,0.7)] border-l border-slate-800 backdrop-blur-xl transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`absolute top-0 right-0 bottom-0 w-72 sm:w-80 max-w-[85vw] bg-navy/98 text-white p-5 sm:p-6 flex flex-col justify-between z-50 shadow-[-10px_0_40px_rgba(0,0,0,0.7)] border-l border-slate-800 backdrop-blur-xl transform transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -179,7 +179,7 @@ export function HostSidebar() {
       {/* ============================================================ */}
       {/* 3. DESKTOP PERMANENT SIDEBAR (Visible on md and up)           */}
       {/* ============================================================ */}
-      <aside className="hidden md:flex flex-col justify-between w-60 lg:w-64 bg-[#0B101B] text-white shrink-0 min-h-screen p-5 lg:p-6 border-r border-slate-800/80 select-none">
+      <aside className="hidden md:flex flex-col justify-between w-60 lg:w-64 bg-navy text-white shrink-0 min-h-screen p-5 lg:p-6 border-r border-slate-800/80 select-none">
         <div className="space-y-7">
           <div className="flex items-center justify-between px-1">
             <GelavuLogo variant="dark" badge="HOST" href="/host" />

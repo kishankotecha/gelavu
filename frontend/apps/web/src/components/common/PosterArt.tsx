@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import type { PosterTheme } from "@/types/tournament";
 
 const THEMES: Record<PosterTheme, string> = {
-  violet: "from-[#4B3FD6] via-[#2D2A7E] to-[#0E1226]",
-  emerald: "from-[#0EA877] via-[#0B6B5A] to-[#08241F]",
-  amber: "from-[#F59E0B] via-[#E8590C] to-[#B91C4C]",
-  sky: "from-[#2E9BEA] via-[#1B5FB3] to-[#0B1F45]",
-  rose: "from-[#E54B8A] via-[#A2278F] to-[#2A0F3F]",
+  violet: "bg-navy",
+  emerald: "bg-navy",
+  amber: "bg-coral",
+  sky: "bg-navy",
+  rose: "bg-coral",
 };
 
 export function Shuttlecock({ className = "" }: { className?: string }) {
@@ -30,7 +30,7 @@ function CourtLines({ className = "" }: { className?: string }) {
 
 export function PosterArt({ theme, className = "", children }: { theme: PosterTheme; className?: string; children?: ReactNode }) {
   return (
-    <div className={`relative isolate flex flex-col overflow-hidden bg-gradient-to-br text-white ${THEMES[theme]} ${className}`}>
+    <div className={`relative isolate flex flex-col overflow-hidden text-white ${THEMES[theme]} ${className}`}>
       <CourtLines className="pointer-events-none absolute -right-6 -top-4 -z-10 h-40 w-64 text-white/10" />
       <Shuttlecock className="pointer-events-none absolute -bottom-3 right-3 -z-10 h-24 w-24 rotate-[28deg] text-white/15" />
       {children}

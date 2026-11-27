@@ -4,12 +4,12 @@ import type { Athlete, MiniCourt } from "./engine";
 export const COLORS = {
   lime: "#C8F135",
   coral: "#FF6B5E",
-  gold: "#F3D15A",
-  ink: "#0A0D14",
+  gold: "#FF685B",
+  ink: "#14212D",
   courtGreen: "#155E4E",
   courtLine: "rgba(255, 255, 255, 0.92)",
   netTape: "#F8FAFC",
-  netTapeYellow: "#FACC15",
+  netTapeYellow: "#FF685B",
   woodBorder: "#1E1813",
 };
 
@@ -42,19 +42,19 @@ const PLAYER_STYLE: AthleteStyle = {
   skinShadow: "#D49C6D",
   hair: "#1E293B",
   headband: "#FFFFFF",
-  jerseyTop: "#91B979",
+  jerseyTop: "#FF685B",
   jerseyBottom: "#65A30D",
   jerseyStripe: "#0F172A",
   jerseyNumber: "1",
   shorts: "#0F172A",
-  shortsStripe: "#F3D15A",
+  shortsStripe: "#FF685B",
   socks: "#FFFFFF",
-  sockStripe: "#91B979",
+  sockStripe: "#FF685B",
   shoes: "#FFFFFF",
-  shoeAccent: "#91B979",
+  shoeAccent: "#FF685B",
   sole: "#D97706", // Gum rubber
   wristband: "#FFFFFF",
-  racketFrame: "#F3D15A",
+  racketFrame: "#FF685B",
   racketStrings: "rgba(255, 255, 255, 0.65)",
   racketGrip: "#FFFFFF",
 };
@@ -65,19 +65,19 @@ const RIVAL_STYLE: AthleteStyle = {
   skinShadow: "#BC8156",
   hair: "#0F172A",
   headband: "#DC2626",
-  jerseyTop: "#EF4444",
+  jerseyTop: "#FF685B",
   jerseyBottom: "#991B1B",
   jerseyStripe: "#18181B",
   jerseyNumber: "7",
   shorts: "#18181B",
-  shortsStripe: "#EF4444",
+  shortsStripe: "#FF685B",
   socks: "#18181B",
-  sockStripe: "#EF4444",
+  sockStripe: "#FF685B",
   shoes: "#0F172A",
-  shoeAccent: "#EF4444",
+  shoeAccent: "#FF685B",
   sole: "#D97706",
   wristband: "#DC2626",
-  racketFrame: "#EF4444",
+  racketFrame: "#FF685B",
   racketStrings: "rgba(248, 113, 113, 0.75)",
   racketGrip: "#18181B",
 };
@@ -237,7 +237,7 @@ function drawBackground(ctx: CanvasRenderingContext2D, g: MiniCourt, time: numbe
 
   // Animated LED Ribbon Banner Text
   const textOffset = (time * 45) % (W + 300);
-  ctx.fillStyle = "#F3D15A";
+  ctx.fillStyle = "#FF685B";
   ctx.font = "900 12px Inter, system-ui, sans-serif";
   ctx.textAlign = "left";
   ctx.letterSpacing = "2px";
@@ -793,7 +793,7 @@ function drawShuttle(ctx: CanvasRenderingContext2D, g: MiniCourt, fx: Fx) {
   }
 
   // Red binding tape line around feather base (Official Yonex spec)
-  ctx.fillStyle = "#EF4444";
+  ctx.fillStyle = "#FF685B";
   ctx.fillRect(-6, -4.5, 2.5, 9);
 
   // Natural Rounded Cork Head
